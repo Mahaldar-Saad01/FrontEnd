@@ -1,0 +1,151 @@
+/* style.css (Updated with new CRUD component styles) */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%); /* Blue to Purple */
+    --success-gradient: linear-gradient(135deg, #198754 0%, #20c997 100%); /* Green success gradient */
+    --selected-bg: #f1f3f9;
+    --sidebar-width: 250px;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+}
+
+/* 1. SIDEBAR & LAYOUT (Unchanged structure) */
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -250px; /* Hidden by default on mobile */
+    transition: margin 0.25s ease-out;
+    width: var(--sidebar-width);
+    z-index: 1000;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 1.5rem 1rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+}
+
+#sidebar-wrapper .list-group-item {
+    border: none;
+    border-radius: 0;
+}
+
+#sidebar-wrapper .list-group-item.active {
+    background-color: var(--selected-bg) !important;
+    color: #0d6efd; /* Selected text blue */
+    font-weight: 600;
+    border-right: 4px solid #0d6efd; /* Accent border */
+}
+
+#sidebar-wrapper .list-group-item:not(.active):hover {
+    background-color: #e9ecef !important;
+}
+
+/* Simple mobile collapse logic */
+@media (max-width: 768px) {
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+}
+
+/* Desktop Sidebar behavior */
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -250px;
+    }
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+
+/* 2. REUSABLE COMPONENTS & ڈیزائن accents */
+
+/* Welcome Banner (Matches design logic) */
+.welcome-banner {
+    background: var(--primary-gradient);
+    border-radius: 15px;
+}
+.bg-success-gradient { background: var(--success-gradient) !important; }
+
+/* Stat Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1) !important;
+}
+
+.shadow-sm {
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* Utility classes */
+.fs-7 { font-size: 0.85rem; }
+.avatar, .avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #4a5568;
+}
+.avatar-small {
+    width: 32px;
+    height: 32px;
+}
+
+
+/* 3. NEW CRUD-SPECIFIC STYLING */
+
+/* Unified Table styling for project/user lists */
+.crud-table thead {
+    background-color: #fcfcfc;
+}
+.crud-table th, .crud-table td {
+    padding: 1rem 0.75rem;
+}
+.crud-table th { font-weight: 600; text-transform: uppercase; color: #6c757d; }
+
+/* Filter styling */
+.search-filter-area {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #fcfcfc;
+}
+
+/* Project Progress utility */
+.progress { height: 8px; border-radius: 4px; }
+.progress-val { font-size: 0.75rem; color: #4a5568; font-weight: 500; }
+
+/* Enhanced Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+.status-badge.bg-success { background-color: #e6f7e9 !important; color: #198754; }
+.status-badge.bg-warning { background-color: #fff8e1 !important; color: #fd7e14; }
+.status-badge.bg-secondary { background-color: #f0f3f6 !important; color: #6c757d; }
+.status-badge.bg-danger { background-color: #ffeef0 !important; color: #dc3545; }
