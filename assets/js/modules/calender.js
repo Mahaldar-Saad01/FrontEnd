@@ -1,5 +1,5 @@
 // Calendar Module Initializer
-window.PageModules['calender'] = function() {
+window.PageModules['calendar'] = function() {
     const monthYearEl = document.getElementById("calendar-month-year");
     const daysGrid = document.getElementById("calendar-days-grid");
     const agendaEl = document.getElementById("calendar-events-agenda");
@@ -86,11 +86,23 @@ window.PageModules['calender'] = function() {
 
             dayEvents.forEach(ev => {
                 const dot = document.createElement("div");
+
                 dot.className = `calendar-event-dot event-${ev.category}`;
-                dot.textContent = ev.title;
+
+                dot.innerHTML = `
+                <span class="calendar-event-title">
+                ${ev.title}
+                </span>
+
+                <span class="calendar-event-time">
+                ${ev.time}
+                 </span>
+                `;
+
                 dot.title = `${ev.time} - ${ev.title}`;
+
                 eventsContainer.appendChild(dot);
-            });
+ });
 
             cell.appendChild(eventsContainer);
 
@@ -116,7 +128,7 @@ window.PageModules['calender'] = function() {
             cell.innerHTML = `<span class="day-number">${day}</span>`;
             daysGrid.appendChild(cell);
         }
-
+        
         renderAgenda();
     };
 
