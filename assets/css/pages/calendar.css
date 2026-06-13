@@ -1,0 +1,120 @@
+/* Calendar Page Stylesheet */
+
+.calendar-cell {
+    background-color: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 80px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.calendar-cell:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.calendar-cell.inactive-month {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.calendar-cell.today {
+    background-color: rgba(99, 102, 241, 0.08);
+    border-color: var(--primary-accent);
+}
+
+.calendar-cell.today .day-number {
+    background-color: var(--primary-accent);
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.day-number {
+    font-size: 0.875rem;
+    font-weight: 500;
+    align-self: flex-start;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.calendar-events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.calendar-event-dot {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 500;
+    max-width: 100%;
+}
+
+/* Categories Colors */
+.event-sprint {
+    background-color: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+}
+
+.event-client {
+    background-color: rgba(6, 182, 212, 0.15);
+    color: #67e8f9;
+}
+
+.event-review {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #fde047;
+}
+
+.event-social {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+}
+
+/* Agenda list items */
+.agenda-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    border-left: 4px solid var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.agenda-card:hover {
+    transform: translateX(4px);
+}
+
+.agenda-card.cat-sprint {
+    border-left-color: var(--primary-accent);
+}
+
+.agenda-card.cat-client {
+    border-left-color: var(--color-info);
+}
+
+.agenda-card.cat-review {
+    border-left-color: var(--color-warning);
+}
+
+.agenda-card.cat-social {
+    border-left-color: var(--color-success);
+}

@@ -1,0 +1,58 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">Team Analytics & Reports</h4>
+            <p class="text-secondary small mb-0">Generate sprint velocity logs and team workload data</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Export controls -->
+        <div class="col-lg-4 col-md-12">
+            <div class="card-custom p-4 d-flex flex-column h-100">
+                <h5 class="fw-bold text-white mb-3"><i class="fa-solid fa-file-export text-primary me-2"></i>Report Builder</h5>
+                <form id="report-generator-form">
+                    <div class="mb-3">
+                        <label for="report-type" class="form-label-custom">Select Report</label>
+                        <select class="form-select form-select-custom" id="report-type" required>
+                            <option value="projects" selected>Sprint Projects Burndown</option>
+                            <option value="workload">Team Capacity Allocation</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="report-format" class="form-label-custom">Format</label>
+                        <select class="form-select form-select-custom" id="report-format" required>
+                            <option value="PDF" selected>Portable Document Format (.pdf)</option>
+                            <option value="CSV">Comma Separated Values (.csv)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2" id="export-report-btn">
+                        <i class="fa-solid fa-download me-2"></i>Export Dataset
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Preview Table -->
+        <div class="col-lg-8 col-md-12">
+            <div class="card-custom p-4 d-flex flex-column h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-white mb-0" id="report-preview-title">Report Data Preview</h5>
+                    <span class="badge bg-secondary font-size-xs py-1 px-2">Manager Access</span>
+                </div>
+                <div class="table-custom-container flex-grow-1 overflow-auto">
+                    <table class="table-custom">
+                        <thead id="report-preview-head">
+                            <!-- Injected table headers -->
+                        </thead>
+                        <tbody id="report-preview-body">
+                            <!-- Injected table rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

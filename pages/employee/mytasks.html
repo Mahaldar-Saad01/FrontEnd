@@ -1,0 +1,57 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">My Tasks Checklist</h4>
+            <p class="text-secondary small mb-0">Track and update the status of your assigned deliverables</p>
+        </div>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="card-custom p-3 mb-4">
+        <div class="row g-3">
+            <div class="col-md-4 col-sm-12">
+                <div class="input-group align-items-center px-2 py-1 rounded-pill" style="background-color: var(--bg-main); border: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-magnifying-glass text-muted me-2"></i>
+                    <input type="text" id="mytask-search-input" class="form-control bg-transparent border-0 text-white shadow-none p-0" placeholder="Search my tasks...">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <select class="form-select form-select-custom" id="myfilter-priority">
+                    <option value="all">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <select class="form-select form-select-custom" id="myfilter-status">
+                    <option value="all">All Statuses</option>
+                    <option value="todo">To Do</option>
+                    <option value="progress">In Progress</option>
+                    <option value="review">In Review</option>
+                    <option value="done">Completed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Table -->
+    <div class="table-custom-container">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Project</th>
+                    <th>Department</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th class="text-end">Update Status</th>
+                </tr>
+            </thead>
+            <tbody id="mytasks-table-body">
+                <!-- Dynamically injected rows -->
+            </tbody>
+        </table>
+    </div>
+</div>

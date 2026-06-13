@@ -1,0 +1,182 @@
+/* General Utility & Overrides */
+
+
+/* Color Palette mapped from WorkHub Dashboard */
+:root {
+    --primary-accent: #6366f1; /* The vibrant indigo/purple from the overview button & graph */
+    --bg-main: #0f121b; /* Outer dark dashboard background */
+    --bg-panel: #1a1d29; /* Inner panel/card background */
+    --bg-input: #11141f; /* Darker background for search and inputs */
+    --border-color: #2d3343; /* Subtle dark borders */
+    --text-primary: #ffffff;
+    --text-secondary: #8b949e;
+}
+
+/* Base override for the entire chat container */
+#main-chat-container {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+}
+
+/* -----------------------------------------
+   1. Overriding Bootstrap Backgrounds
+----------------------------------------- */
+#main-chat-container .bg-white, 
+#main-chat-container .bg-light,
+#main-chat-container .bg-chat-bg {
+    background-color: var(--bg-panel) !important;
+}
+
+/* Make the actual chat message area slightly darker for depth */
+#main-chat-container .active-chat-area .flex-grow-1.overflow-auto {
+    background-color: var(--bg-main) !important;
+}
+
+/* -----------------------------------------
+   2. Overriding Text Colors
+----------------------------------------- */
+#main-chat-container h4, 
+#main-chat-container h5, 
+#main-chat-container h6, 
+#main-chat-container span:not(.badge):not(.text-muted), 
+#main-chat-container div,
+#main-chat-container p {
+    color: var(--text-primary) !important;
+}
+
+#main-chat-container .text-muted, 
+#main-chat-container .text-white-50 {
+    color: var(--text-secondary) !important;
+}
+
+/* -----------------------------------------
+   3. Overriding Borders
+----------------------------------------- */
+#main-chat-container .border-end, 
+#main-chat-container .border-bottom, 
+#main-chat-container .border-top,
+#main-chat-container .border {
+    border-color: var(--border-color) !important;
+}
+
+/* -----------------------------------------
+   4. Inputs, Search & Buttons
+----------------------------------------- */
+.custom-search .input-group-text, 
+.custom-search .form-control,
+.active-chat-area .input-group,
+.active-chat-area .form-control {
+    background-color: var(--bg-input) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.custom-search .input-group-text, 
+.custom-search .form-control {
+    border-radius: 20px;
+}
+.custom-search .input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-left: 15px;
+}
+.custom-search .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.custom-search .form-control:focus, 
+.active-chat-area input:focus {
+    box-shadow: none;
+    background-color: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Transparent Icon Buttons */
+#main-chat-container .btn-light {
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+}
+#main-chat-container .btn-light:hover {
+    background-color: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+}
+
+/* -----------------------------------------
+   5. Chat List & Message Bubbles
+----------------------------------------- */
+.chat-item { 
+    transition: background-color 0.2s ease; 
+}
+.chat-item:hover { 
+    background-color: var(--bg-input) !important; 
+}
+.chat-item.bg-light { 
+    background-color: var(--bg-input) !important; 
+    border-left: 3px solid var(--primary-accent); 
+    border-radius: 0 8px 8px 0 !important;
+}
+
+.message-bubble {
+    max-width: 75%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border: none !important;
+}
+.message-bubble.received {
+    background-color: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border-top-left-radius: 4px !important;
+}
+.message-bubble.sent {
+    background-color: var(--primary-accent) !important;
+    color: #ffffff !important;
+    border-top-right-radius: 4px !important;
+}
+
+/* -----------------------------------------
+   6. Calendar & Plans
+----------------------------------------- */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.calendar-grid > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    margin: auto;
+}
+.calendar-grid .bg-primary {
+    background-color: var(--primary-accent) !important;
+}
+
+.plan-item.bg-dark {
+    background-color: var(--bg-input) !important;
+    border: 1px solid var(--primary-accent) !important;
+}
+.plan-item.border-light {
+    border-color: var(--border-color) !important;
+}
+.plan-item .form-check-input {
+    width: 1.25em;
+    height: 1.25em;
+    cursor: pointer;
+    background-color: var(--bg-main) !important;
+    border-color: var(--text-secondary) !important;
+}
+.plan-item .form-check-input:checked {
+    background-color: var(--primary-accent) !important;
+    border-color: var(--primary-accent) !important;
+}
+
+/* -----------------------------------------
+   7. Utilities
+----------------------------------------- */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.cursor-pointer { cursor: pointer; }
+.avatar-sm { width: 35px; height: 35px; object-fit: cover; }
+.avatar-md { width: 45px; height: 45px; object-fit: cover; }
