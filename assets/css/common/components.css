@@ -1,0 +1,188 @@
+/* Components Stylesheet */
+
+/* Premium Cards */
+.card-custom {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s var(--transition-curve), border-color 0.2s var(--transition-curve), box-shadow 0.2s var(--transition-curve);
+}
+
+.card-custom:hover {
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+}
+
+.glass-card {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+/* Custom Buttons */
+.btn-primary-custom {
+    background-color: var(--primary-accent) !important;
+    border-color: var(--primary-accent) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: background-color 0.2s var(--transition-curve), box-shadow 0.2s var(--transition-curve) !important;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.btn-secondary-custom {
+    background-color: var(--bg-input) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+}
+
+.btn-secondary-custom:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+}
+
+/* Badges & Labels */
+.badge-custom {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 600;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-priority-high {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--color-danger);
+}
+
+.badge-priority-medium {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: var(--color-warning);
+}
+
+.badge-priority-low {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--color-success);
+}
+
+.badge-status-todo {
+    background-color: rgba(107, 114, 128, 0.15);
+    color: var(--text-secondary);
+}
+
+.badge-status-progress {
+    background-color: rgba(6, 182, 212, 0.15);
+    color: var(--color-info);
+}
+
+.badge-status-review {
+    background-color: rgba(99, 102, 241, 0.15);
+    color: var(--primary-accent);
+}
+
+.badge-status-done {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--color-success);
+}
+
+/* Custom Table Styling */
+.table-custom-container {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.table-custom {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-primary);
+    border-collapse: collapse;
+}
+
+.table-custom th {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.5rem;
+    text-align: left;
+}
+
+.table-custom td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    font-size: 0.875rem;
+}
+
+.table-custom tr:last-child td {
+    border-bottom: none;
+}
+
+.table-custom tr {
+    transition: background-color 0.15s ease;
+}
+
+.table-custom tr:hover {
+    background-color: rgba(255, 255, 255, 0.015);
+}
+
+/* Modals Override */
+.modal-content-custom {
+    background-color: var(--bg-panel) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 20px !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.modal-header-custom {
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 1.5rem !important;
+}
+
+.modal-footer-custom {
+    border-top: 1px solid var(--border-color) !important;
+    padding: 1.25rem 1.5rem !important;
+}
+
+/* Avatar list utility */
+.avatar-group {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-group .avatar-group-item {
+    margin-left: -8px;
+    border: 2px solid var(--bg-panel);
+    transition: transform 0.2s ease;
+}
+
+.avatar-group .avatar-group-item:first-child {
+    margin-left: 0;
+}
+
+.avatar-group .avatar-group-item:hover {
+    transform: translateY(-4px);
+    z-index: 10;
+}

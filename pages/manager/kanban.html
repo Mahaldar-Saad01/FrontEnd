@@ -1,0 +1,64 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">Sprint Kanban Board</h4>
+            <p class="text-secondary small mb-0">Drag and drop cards between status boards to track work items</p>
+        </div>
+    </div>
+
+    <!-- Kanban Grid -->
+    <div class="row flex-grow-1 g-3 align-items-stretch" style="min-height: 480px;">
+        <!-- Column 1: To Do -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-white mb-0"><i class="fa-regular fa-circle text-secondary me-2"></i>To Do</h6>
+                    <span class="badge bg-secondary rounded-pill font-size-xs" id="count-todo">0</span>
+                </div>
+                <div class="kanban-column flex-grow-1 d-flex flex-column gap-3 overflow-auto hide-scrollbar" id="column-todo" data-status="todo" style="min-height: 200px; padding-bottom: 2rem;">
+                    <!-- Cards -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 2: In Progress -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-spinner text-info me-2"></i>In Progress</h6>
+                    <span class="badge bg-info rounded-pill font-size-xs text-dark" id="count-progress">0</span>
+                </div>
+                <div class="kanban-column flex-grow-1 d-flex flex-column gap-3 overflow-auto hide-scrollbar" id="column-progress" data-status="progress" style="min-height: 200px; padding-bottom: 2rem;">
+                    <!-- Cards -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 3: In Review -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-eye text-warning me-2"></i>In Review</h6>
+                    <span class="badge bg-warning rounded-pill font-size-xs text-dark" id="count-review">0</span>
+                </div>
+                <div class="kanban-column flex-grow-1 d-flex flex-column gap-3 overflow-auto hide-scrollbar" id="column-review" data-status="review" style="min-height: 200px; padding-bottom: 2rem;">
+                    <!-- Cards -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 4: Completed -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-circle-check text-success me-2"></i>Completed</h6>
+                    <span class="badge bg-success rounded-pill font-size-xs" id="count-done">0</span>
+                </div>
+                <div class="kanban-column flex-grow-1 d-flex flex-column gap-3 overflow-auto hide-scrollbar" id="column-done" data-status="done" style="min-height: 200px; padding-bottom: 2rem;">
+                    <!-- Cards -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

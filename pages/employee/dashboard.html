@@ -1,0 +1,91 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">My Workspace</h4>
+            <p class="text-secondary small mb-0">Track your tasks, assigned projects, and logged hours</p>
+        </div>
+        <div class="text-secondary small fw-semibold">
+            <span class="badge bg-primary py-1.5 px-3 font-size-xs"><i class="fa-solid fa-laptop me-1.5"></i>Employee Console</span>
+        </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="row g-4 mb-4">
+        <!-- Card 1 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">My Projects</span>
+                    <h3 class="stat-number mb-0" id="emp-stat-projects">2</h3>
+                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-circle-check me-1"></i>Active</span>
+                </div>
+                <div class="stat-icon text-primary bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+            </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Assigned Tasks</span>
+                    <h3 class="stat-number mb-0" id="emp-stat-tasks">3</h3>
+                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-spinner me-1"></i>2 in progress</span>
+                </div>
+                <div class="stat-icon text-success bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+            </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Completed Tasks</span>
+                    <h3 class="stat-number mb-0" id="emp-stat-completed">1</h3>
+                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-circle-check me-1"></i>Good progress</span>
+                </div>
+                <div class="stat-icon text-info bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Hours Logged</span>
+                    <h3 class="stat-number mb-0" id="emp-stat-hours">38</h3>
+                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-clock me-1"></i>This week</span>
+                </div>
+                <div class="stat-icon text-warning bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-business-time"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts row -->
+    <div class="row g-4 flex-grow-1">
+        <!-- Task Status Chart -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card-custom p-4 d-flex flex-column h-100">
+                <h5 class="fw-bold text-white mb-3">My Task Status Distribution</h5>
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                    <canvas id="emp-task-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hours Logged Bar Chart -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card-custom p-4 d-flex flex-column h-100">
+                <h5 class="fw-bold text-white mb-3">Work Hours Logged This Week</h5>
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                    <canvas id="emp-hours-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

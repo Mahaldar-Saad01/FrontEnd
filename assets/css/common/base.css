@@ -1,0 +1,84 @@
+/* Base CSS - Design Tokens and Global Overrides */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary-accent: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-glow: rgba(99, 102, 241, 0.15);
+    
+    --bg-main: #0b0f19;
+    --bg-panel: #111827;
+    --bg-input: #1f2937;
+    --border-color: rgba(255, 255, 255, 0.08);
+    
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-info: #06b6d4;
+    
+    --transition-speed: 0.25s;
+    --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Outfit', sans-serif !important;
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-input);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Utilities */
+.text-secondary-custom {
+    color: var(--text-secondary) !important;
+}
+
+.text-muted-custom {
+    color: var(--text-muted) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.font-size-sm {
+    font-size: 0.875rem;
+}
+
+.font-size-xs {
+    font-size: 0.75rem;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

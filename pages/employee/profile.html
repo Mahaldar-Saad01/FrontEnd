@@ -1,0 +1,58 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">My Profile</h4>
+            <p class="text-secondary small mb-0">Update your credentials and account details</p>
+        </div>
+    </div>
+
+    <div id="profile-alert-container"></div>
+
+    <div class="row g-4">
+        <!-- Avatar card -->
+        <div class="col-lg-4 col-md-12">
+            <div class="card-custom p-4 text-center d-flex flex-column align-items-center justify-content-center h-100">
+                <div class="rounded-circle overflow-hidden mb-3 border border-secondary" style="width: 96px; height: 96px;">
+                    <img id="profile-card-avatar" src="" alt="Avatar" class="w-100 h-100 object-fit-cover">
+                </div>
+                <h5 class="fw-bold text-white mb-1" id="profile-card-name">Alex Mercer</h5>
+                <span class="badge bg-primary rounded-pill font-size-xs px-2.5 py-1 mb-3 text-capitalize" id="profile-card-role">employee</span>
+                <p class="text-secondary small mb-0"><i class="fa-solid fa-building me-1.5 text-muted"></i>Dept: <span id="profile-card-dept" class="text-white">Engineering</span></p>
+            </div>
+        </div>
+
+        <!-- Form card -->
+        <div class="col-lg-8 col-md-12">
+            <div class="card-custom p-4 h-100">
+                <h5 class="fw-bold text-white mb-4"><i class="fa-regular fa-address-card text-primary me-2"></i>Account Details</h5>
+                <form id="profile-details-form">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label for="profile-name" class="form-label-custom">Full Name</label>
+                            <input type="text" class="form-control form-control-custom" id="profile-name" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label for="profile-email" class="form-label-custom">Email Address</label>
+                            <input type="email" class="form-control form-control-custom" id="profile-email" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label for="profile-role" class="form-label-custom">Account Role</label>
+                            <input type="text" class="form-control form-control-custom text-capitalize" id="profile-role" disabled>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label for="profile-dept" class="form-label-custom">Department</label>
+                            <input type="text" class="form-control form-control-custom" id="profile-dept" disabled>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary-custom px-4 py-2 mt-3">
+                        <i class="fa-solid fa-circle-check me-2"></i>Update Profile
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

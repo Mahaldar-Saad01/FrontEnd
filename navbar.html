@@ -1,0 +1,51 @@
+<header class="d-flex justify-content-between align-items-center px-4 py-3 w-100 border-bottom" style="background-color: var(--bg-panel); border-color: var(--border-color) !important;">
+    <!-- Search bar -->
+    <div class="d-flex align-items-center px-3 py-2 rounded-pill" style="background-color: var(--bg-main); border: 1px solid var(--border-color); width: min(320px, 100%);">
+        <i class="fa-solid fa-magnifying-glass text-muted me-2"></i>
+        <input type="text" class="form-control form-control-sm bg-transparent border-0 text-white shadow-none p-0" placeholder="Search tasks, projects..." aria-label="Search">
+    </div>
+
+    <!-- Right Controls -->
+    <div class="d-flex align-items-center gap-3 ms-3">
+        <!-- Messages Trigger -->
+        <a href="#chat" class="btn btn-link text-secondary-custom p-0 fs-5 position-relative" aria-label="Messages">
+            <i class="fa-regular fa-message"></i>
+            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle" style="width:8px; height:8px;"></span>
+        </a>
+        
+        <!-- Notifications Trigger -->
+        <a href="#notifications" class="btn btn-link text-secondary-custom p-0 fs-5 position-relative" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.55rem; padding: 0.25em 0.4em;">3</span>
+        </a>
+
+        <!-- Profile Dropdown (Reconstructed as button to bind Bootstrap click listeners) -->
+        <div class="dropdown">
+            <button class="btn btn-link p-0 rounded-circle border-0 shadow-none dropdown-toggle-no-caret" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width:36px; height:36px; display: block;">
+                <img src="" id="nav-user-avatar" alt="Profile" class="rounded-circle w-100 h-100 object-fit-cover border border-secondary" style="border-color: rgba(255,255,255,0.15) !important;">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end p-2 mt-2" aria-labelledby="profileDropdown" style="background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); min-width: 200px; z-index: 1060;">
+                <li class="px-3 py-2 mb-2 border-bottom" style="border-color: var(--border-color) !important;">
+                    <div class="fw-bold text-white text-truncate font-size-sm" id="nav-user-name">Loading...</div>
+                    <div class="text-muted small text-capitalize font-size-xs" id="nav-user-role">role</div>
+                </li>
+                <li>
+                    <a class="dropdown-item rounded-3 py-2 text-white small" href="#profile" id="nav-profile-link">
+                        <i class="fa-regular fa-user me-2 text-muted"></i>My Profile
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item rounded-3 py-2 text-white small" href="#settings" id="nav-settings-link">
+                        <i class="fa-solid fa-sliders me-2 text-muted"></i>Settings
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
+                <li>
+                    <a class="dropdown-item rounded-3 py-2 text-danger small cursor-pointer logout-action" id="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket me-2"></i>Sign Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>

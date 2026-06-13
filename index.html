@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkHub - Project Management System</title>
+
+    <!-- Inline Auth Check to prevent flash of unauthenticated page -->
+    <script>
+        if (!localStorage.getItem("currentUser")) {
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <!-- Bootstrap & FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Common Styling System -->
+    <link rel="stylesheet" href="assets/css/common/base.css">
+    <link rel="stylesheet" href="assets/css/common/layout.css">
+    <link rel="stylesheet" href="assets/css/common/components.css">
+    <link rel="stylesheet" href="assets/css/common/forms.css">
+    <link rel="stylesheet" href="assets/css/common/dashboard.css">
+
+    <!-- Page Specific Stylesheets -->
+    <link rel="stylesheet" href="assets/css/pages/chat.css">
+    <link rel="stylesheet" href="assets/css/pages/calendar.css">
+    <link rel="stylesheet" href="assets/css/pages/kanban.css">
+    <link rel="stylesheet" href="assets/css/pages/projects.css">
+    <link rel="stylesheet" href="assets/css/pages/tasks.css">
+
+    <!-- Chart.js for dashboard widgets -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="m-0 p-0 text-white" style="background-color:#0b0f19; overflow:hidden;">
+    <div class="d-flex vh-100 vw-100 overflow-hidden">
+        <!-- Injected Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <div class="d-flex flex-column flex-grow-1 min-vh-100 overflow-hidden">
+            <!-- Injected Navbar -->
+            <div id="navbar-container"></div>
+
+            <!-- Main Render Area -->
+            <main id="main-content" class="flex-grow-1 overflow-auto p-0">
+                <div class="d-flex h-100 align-items-center justify-content-center text-secondary">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- App Controller & Registry -->
+    <script src="assets/js/app.js"></script>
+
+    <!-- Components and Utilities -->
+    <script src="assets/js/components/navbar.js"></script>
+    <script src="assets/js/components/sidebar.js"></script>
+    <script src="assets/js/components/charts.js"></script>
+    <script src="assets/js/components/modal.js"></script>
+
+    <!-- Auth Handling -->
+    <script src="assets/js/auth/logout.js"></script>
+
+    <!-- Common Page Modules -->
+    <script src="assets/js/modules/chat.js"></script>
+    <script src="assets/js/modules/calender.js"></script>
+    <script src="assets/js/modules/meetings.js"></script>
+    <script src="assets/js/modules/notifications.js"></script>
+
+    <!-- Role Page Dashboards -->
+    <script src="assets/js/dashboard/admin-dashboard.js"></script>
+    <script src="assets/js/dashboard/manager-dashboard.js"></script>
+    <script src="assets/js/dashboard/employee-dashboard.js"></script>
+
+    <!-- Page Specific Modules -->
+    <script src="assets/js/modules/projects.js"></script>
+    <script src="assets/js/modules/tasks.js"></script>
+    <script src="assets/js/modules/departments.js"></script>
+    <script src="assets/js/modules/employees.js"></script>
+    <script src="assets/js/modules/reports.js"></script>
+    <script src="assets/js/modules/files.js"></script>
+</body>
+
+</html>

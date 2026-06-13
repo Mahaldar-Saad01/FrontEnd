@@ -1,0 +1,91 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">Manager Overview</h4>
+            <p class="text-secondary small mb-0">Monitor team sprint workloads, deliverables, and performance velocity</p>
+        </div>
+        <div class="text-secondary small fw-semibold">
+            <span class="badge bg-success py-1.5 px-3 font-size-xs"><i class="fa-solid fa-users me-1.5"></i>Sarah's Team</span>
+        </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="row g-4 mb-4">
+        <!-- KPI 1 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Team Projects</span>
+                    <h3 class="stat-number mb-0" id="mgr-stat-projects">2</h3>
+                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-circle-check me-1"></i>All on track</span>
+                </div>
+                <div class="stat-icon text-primary bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-folder-tree"></i>
+                </div>
+            </div>
+        </div>
+        <!-- KPI 2 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Open Tasks</span>
+                    <h3 class="stat-number mb-0" id="mgr-stat-tasks">12</h3>
+                    <span class="stat-trend text-secondary mt-1"><i class="fa-solid fa-clock-rotate-left me-1"></i>3 due this week</span>
+                </div>
+                <div class="stat-icon text-success bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+        </div>
+        <!-- KPI 3 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Team Size</span>
+                    <h3 class="stat-number mb-0" id="mgr-stat-size">3</h3>
+                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-user-plus me-1"></i>1 onboarding</span>
+                </div>
+                <div class="stat-icon text-info bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+            </div>
+        </div>
+        <!-- KPI 4 -->
+        <div class="col-xl-3 col-md-6 col-sm-12">
+            <div class="stat-card">
+                <div>
+                    <span class="text-secondary small fw-semibold text-uppercase">Needs Review</span>
+                    <h3 class="stat-number mb-0" id="mgr-stat-reviews">1</h3>
+                    <span class="stat-trend trend-down mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Requires approval</span>
+                </div>
+                <div class="stat-icon text-warning bg-dark border" style="border-color: var(--border-color) !important;">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts row -->
+    <div class="row g-4 flex-grow-1">
+        <!-- Task Status Chart -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card-custom p-4 d-flex flex-column h-100">
+                <h5 class="fw-bold text-white mb-3">Team Task Statuses</h5>
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                    <canvas id="mgr-task-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sprint Burndown Line Chart -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card-custom p-4 d-flex flex-column h-100">
+                <h5 class="fw-bold text-white mb-3">Sprint Task Burn-velocity</h5>
+                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                    <canvas id="mgr-velocity-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

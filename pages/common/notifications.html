@@ -1,0 +1,26 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">Notifications</h4>
+            <p class="text-secondary small mb-0">Track real-time system activity and project milestones</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-secondary-custom btn-sm" id="notif-mark-read-btn">
+                <i class="fa-solid fa-check-double me-2"></i>Mark all read
+            </button>
+            <button class="btn btn-secondary-custom btn-sm text-danger" id="notif-clear-btn" style="border-color: rgba(239, 68, 68, 0.2) !important;">
+                <i class="fa-solid fa-trash-can me-2"></i>Clear all
+            </button>
+        </div>
+    </div>
+
+    <!-- Notifications Log list -->
+    <div class="row flex-grow-1">
+        <div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
+            <div class="card-custom p-4 d-flex flex-column gap-3 overflow-auto hide-scrollbar" id="notifications-log-container" style="max-height: calc(100vh - 190px);">
+                <!-- Dynamically populated notifications list -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">Personnel Directory</h4>
+            <p class="text-secondary small mb-0">Manage access levels, roles, and department assignments</p>
+        </div>
+        <button class="btn btn-primary-custom" onclick="window.location.href='register.html'">
+            <i class="fa-solid fa-user-plus me-2"></i>Register Employee
+        </button>
+    </div>
+
+    <!-- Search/Filter Bar -->
+    <div class="card-custom p-3 mb-4">
+        <div class="row g-3">
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group align-items-center px-2 py-1 rounded-pill" style="background-color: var(--bg-main); border: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-magnifying-glass text-muted me-2"></i>
+                    <input type="text" id="employee-search-input" class="form-control bg-transparent border-0 text-white shadow-none p-0" placeholder="Search employees by name, email or department...">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 text-md-end text-sm-start d-flex align-items-center justify-content-md-end justify-content-start">
+                <span class="text-secondary small fw-semibold"><i class="fa-solid fa-users me-1 text-primary"></i>Total Personnel: <span id="employee-count-badge" class="text-white">12</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Directory Table -->
+    <div class="table-custom-container">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="employees-table-body">
+                <!-- Dynamically populated employees -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Employee Modal -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-custom">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title fw-bold text-white" id="addEmployeeModalLabel">Enroll New Employee</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addEmployeeForm">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label for="empName" class="form-label-custom">Full Name</label>
+                        <input type="text" class="form-control form-control-custom" id="empName" required placeholder="e.g. John Doe">
+                    </div>
+                    <div class="mb-3">
+                        <label for="empEmail" class="form-label-custom">Email Address</label>
+                        <input type="email" class="form-control form-control-custom" id="empEmail" required placeholder="johndoe@workhub.com">
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="empRole" class="form-label-custom">Role</label>
+                            <select class="form-select form-select-custom" id="empRole" required>
+                                <option value="employee" selected>Employee</option>
+                                <option value="manager">Manager</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label for="empDept" class="form-label-custom">Department</label>
+                            <select class="form-select form-select-custom" id="empDept" required>
+                                <option value="Engineering" selected>Engineering</option>
+                                <option value="Design">Design</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="HR">HR</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary-custom">Enroll Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

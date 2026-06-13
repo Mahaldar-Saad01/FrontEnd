@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - WorkHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/common/base.css">
+    <link rel="stylesheet" href="assets/css/common/layout.css">
+    <link rel="stylesheet" href="assets/css/common/components.css">
+    <link rel="stylesheet" href="assets/css/common/forms.css">
+    <style>
+        :root {
+            --auth-purple: #6d4df2;
+            --auth-purple-dark: #221267;
+            --auth-ink: #11133f;
+            --auth-muted: #666d92;
+            --auth-line: #e7e5f0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(98, 181, 255, 0.28), transparent 36%),
+                radial-gradient(circle at 88% 78%, rgba(125, 80, 244, 0.2), transparent 34%),
+                #f1f6ff !important;
+            color: var(--auth-ink);
+        }
+
+        .login-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+        }
+
+        .auth-shell {
+            width: min(100%, 1120px);
+            height: min(760px, calc(100vh - 1.5rem));
+            min-height: 680px;
+            display: grid;
+            grid-template-columns: minmax(360px, 0.44fr) minmax(520px, 0.56fr);
+            overflow: hidden;
+            border-radius: 22px;
+            background: #ffffff;
+            box-shadow: 0 28px 80px rgba(46, 53, 120, 0.22);
+        }
+
+        .auth-form-panel {
+            padding: 1.65rem 2.35rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-lockup {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #2bb4ff 0%, #7948f5 58%, #20c997 100%);
+            box-shadow: 0 12px 26px rgba(109, 77, 242, 0.28);
+        }
+
+        .brand-title {
+            margin: 0;
+            color: #11133f;
+            font-size: 1.18rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .brand-subtitle {
+            color: #666d92;
+            font-size: 0.8rem;
+        }
+
+        .auth-heading {
+            color: #11133f;
+            font-size: clamp(1.95rem, 3vw, 2.35rem);
+            font-weight: 800;
+            letter-spacing: 0;
+            margin-bottom: 0.45rem;
+        }
+
+        .auth-copy {
+            color: var(--auth-muted);
+            margin-bottom: 1rem;
+        }
+
+        .form-label-custom {
+            color: #11133f !important;
+            font-weight: 700;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap .form-control-custom {
+            height: 45px;
+            padding-left: 3.1rem !important;
+            background-color: #ffffff !important;
+            border-color: #deddea !important;
+            color: #11133f !important;
+            box-shadow: 0 8px 22px rgba(23, 23, 47, 0.06);
+        }
+
+        .input-wrap .form-control-custom::placeholder {
+            color: #a0a0ad !important;
+        }
+
+        .input-icon,
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #85859a;
+            z-index: 2;
+        }
+
+        .input-icon {
+            left: 1rem;
+        }
+
+        .password-toggle {
+            right: 1rem;
+            border: 0;
+            background: transparent;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .form-check-label,
+        .text-secondary-custom {
+            color: #747487 !important;
+        }
+
+        .form-check-input-custom {
+            background-color: #ffffff !important;
+            border-color: #deddea !important;
+        }
+
+        .auth-link {
+            color: #6547d9;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .role-section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #292a43;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0.7rem 0 0.7rem;
+        }
+
+        .role-section-title::before,
+        .role-section-title::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: var(--auth-line);
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .role-btn {
+            min-height: 100px;
+            background: #ffffff;
+            border: 1px solid var(--auth-line);
+            border-radius: 8px;
+            padding: 0.75rem 0.55rem;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            color: #1f2037;
+        }
+
+        .role-btn:hover,
+        .role-btn.active {
+            transform: translateY(-2px);
+            border-color: var(--auth-purple);
+            background-color: #faf8ff;
+            box-shadow: 0 12px 28px rgba(109, 77, 242, 0.14);
+        }
+
+        .role-btn i {
+            width: 36px;
+            height: 36px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 10px;
+            margin-bottom: 0.45rem;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .role-btn[data-role="admin"] i {
+            background: linear-gradient(135deg, #7c4dff, #5b37d6);
+        }
+
+        .role-btn[data-role="manager"] i {
+            background: linear-gradient(135deg, #2f80ed, #38bdf8);
+        }
+
+        .role-btn[data-role="employee"] i {
+            background: linear-gradient(135deg, #1fbf83, #62d394);
+        }
+
+        .role-btn div {
+            color: #1c1d35;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .role-btn span {
+            display: block;
+            color: #77778a;
+            font-size: 0.72rem;
+            line-height: 1.25;
+            margin-top: 0.25rem;
+        }
+
+        .btn-primary-custom {
+            min-height: 46px;
+            border: 0 !important;
+            border-radius: 8px !important;
+            background: linear-gradient(135deg, #7c4dff, #5738d8) !important;
+            box-shadow: 0 14px 28px rgba(109, 77, 242, 0.24);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #85859a;
+            font-size: 0.86rem;
+            margin: 0.75rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: var(--auth-line);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .social-btn {
+            min-height: 44px;
+            border: 1px solid var(--auth-line);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #26273d;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(23, 23, 47, 0.05);
+        }
+
+        .terms-note {
+            color: #85859a;
+            font-size: 0.76rem;
+            margin-top: 0.75rem;
+            padding-top: 0.7rem;
+            border-top: 1px solid var(--auth-line);
+        }
+
+        .auth-showcase {
+            position: relative;
+            overflow: hidden;
+            padding: 2.2rem 2.6rem;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 88% 18%, rgba(164, 88, 255, 0.55), transparent 30%),
+                radial-gradient(circle at 16% 86%, rgba(28, 134, 245, 0.7), transparent 38%),
+                linear-gradient(135deg, #266ee7 0%, #5c45dd 48%, #6f28c9 100%);
+        }
+
+        .auth-showcase::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 72px 72px;
+            opacity: 0.22;
+        }
+
+        .auth-showcase::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 86% 11%, rgba(144, 206, 255, 0.9) 0 3px, transparent 4px),
+                radial-gradient(circle at 93% 56%, rgba(255, 255, 255, 0.5) 0 5px, transparent 6px),
+                radial-gradient(circle at 14% 62%, rgba(118, 210, 255, 0.55) 0 3px, transparent 4px),
+                radial-gradient(circle at 71% 44%, rgba(255, 255, 255, 0.35) 0 3px, transparent 4px);
+            opacity: 0.8;
+        }
+
+        .showcase-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .showcase-pill {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .showcase-title {
+            margin: 1.35rem 0 0.75rem;
+            max-width: 460px;
+            font-size: clamp(2rem, 3.4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: 0;
+        }
+
+        .showcase-title span {
+            background: linear-gradient(90deg, #ff92cf 0%, #9fdcff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .showcase-text {
+            max-width: 390px;
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.55;
+            margin-bottom: 0;
+        }
+
+        .visual-stage {
+            position: relative;
+            flex: 1;
+            min-height: 260px;
+            margin-top: 1rem;
+        }
+
+        .login-visual-slider {
+            position: absolute;
+            inset: 0 2.8rem;
+            overflow: hidden;
+            border-radius: 18px;
+            background:
+                radial-gradient(circle at 88% 22%, rgba(152, 101, 255, 0.38), transparent 30%),
+                radial-gradient(circle at 18% 72%, rgba(23, 126, 242, 0.42), transparent 36%),
+                linear-gradient(135deg, rgba(51, 116, 235, 0.55), rgba(98, 58, 211, 0.68));
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+                0 18px 40px rgba(29, 24, 116, 0.24);
+        }
+
+        .login-visual-slider::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 9% 28%, rgba(142, 212, 255, 0.65) 0 2px, transparent 3px),
+                radial-gradient(circle at 91% 20%, rgba(255, 255, 255, 0.7) 0 2px, transparent 3px),
+                radial-gradient(circle at 86% 78%, rgba(255, 255, 255, 0.45) 0 4px, transparent 5px),
+                radial-gradient(circle at 16% 84%, rgba(142, 212, 255, 0.5) 0 3px, transparent 4px);
+            z-index: 1;
+        }
+
+        .login-visual-track {
+            height: 100%;
+            display: flex;
+            transition: transform 0.45s ease;
+        }
+
+        .login-visual-slide {
+            position: relative;
+            min-width: 100%;
+            height: 100%;
+        }
+
+        .boy-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            object-fit: contain;
+            border-radius: 18px;
+            filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.24));
+            z-index: 2;
+        }
+
+        .image-fallback {
+            display: none;
+        }
+
+        .person-visual {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .beanbag {
+            position: absolute;
+            right: 8px;
+            bottom: 0;
+            width: 210px;
+            height: 178px;
+            border-radius: 52% 48% 44% 56%;
+            background: radial-gradient(circle at 28% 22%, #51515b, #161720 68%);
+            box-shadow: 0 24px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .head {
+            position: absolute;
+            right: 92px;
+            top: 46px;
+            width: 54px;
+            height: 62px;
+            border-radius: 46% 46% 52% 52%;
+            background: #f0b69d;
+        }
+
+        .hair {
+            position: absolute;
+            right: 86px;
+            top: 32px;
+            width: 68px;
+            height: 48px;
+            border-radius: 44px 44px 18px 18px;
+            background: #774b54;
+            transform: rotate(-10deg);
+        }
+
+        .body {
+            position: absolute;
+            right: 74px;
+            top: 116px;
+            width: 132px;
+            height: 74px;
+            border-radius: 45px;
+            background: #4a4d57;
+            transform: rotate(-16deg);
+        }
+
+        .leg-one,
+        .leg-two {
+            position: absolute;
+            bottom: 34px;
+            height: 34px;
+            border-radius: 18px;
+            background: #1e2028;
+        }
+
+        .leg-one {
+            right: 38px;
+            width: 122px;
+            transform: rotate(16deg);
+        }
+
+        .leg-two {
+            right: 84px;
+            width: 110px;
+            transform: rotate(44deg);
+        }
+
+        .laptop {
+            position: absolute;
+            right: 72px;
+            top: 128px;
+            width: 100px;
+            height: 64px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #f9fafb, #cdd2df);
+            transform: rotate(11deg);
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+        }
+
+        .lamp {
+            display: none;
+            position: absolute;
+            right: 95px;
+            top: 0;
+            width: 170px;
+            height: 118px;
+            border-top: 4px solid rgba(0, 0, 0, 0.44);
+        }
+
+        .lamp::before {
+            content: "";
+            position: absolute;
+            right: 52px;
+            top: 0;
+            width: 3px;
+            height: 95px;
+            background: rgba(0, 0, 0, 0.36);
+        }
+
+        .lamp::after {
+            content: "";
+            position: absolute;
+            right: 6px;
+            top: 94px;
+            width: 96px;
+            height: 36px;
+            border-radius: 80px 80px 12px 12px;
+            background: radial-gradient(circle at 50% 100%, #f8f8ff, #111 78%);
+            box-shadow: 0 22px 44px rgba(255, 255, 255, 0.22);
+        }
+
+        .slide-arrow {
+            position: absolute;
+            top: 52%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            z-index: 4;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .slide-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.04);
+        }
+
+        .slide-arrow.prev {
+            left: 0.35rem;
+        }
+
+        .slide-arrow.next {
+            right: 0.35rem;
+        }
+
+        .feature-row {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.05rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 0.84);
+        }
+
+        .feature-item i {
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.13);
+        }
+
+        .feature-item strong {
+            display: block;
+            color: #ffffff;
+            font-size: 0.92rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .feature-item span {
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+
+        .showcase-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.65rem;
+            margin-top: 1rem;
+        }
+
+        .showcase-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.32);
+        }
+
+        .showcase-dots span {
+            cursor: pointer;
+            border: 0;
+        }
+
+        .showcase-dots span.active {
+            background: #ffffff;
+        }
+
+        @media (max-width: 992px) {
+            body {
+                overflow: auto;
+            }
+
+            .login-wrapper {
+                height: auto;
+                min-height: 100vh;
+                padding: 1rem;
+            }
+
+            .auth-shell {
+                grid-template-columns: 1fr;
+                max-width: 560px;
+                height: auto;
+                min-height: auto;
+            }
+
+            .auth-showcase {
+                display: none;
+            }
+
+            .auth-form-panel {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .login-wrapper {
+                align-items: flex-start;
+                padding: 0;
+            }
+
+            .auth-shell {
+                min-height: 100vh;
+                border-radius: 0;
+            }
+
+            .auth-form-panel {
+                padding: 1.35rem;
+            }
+
+            .brand-lockup {
+                margin-bottom: 1.8rem;
+            }
+
+            .role-grid,
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .role-btn {
+                min-height: auto;
+                display: flex;
+                align-items: center;
+                gap: 0.85rem;
+                text-align: left;
+            }
+
+            .role-btn i {
+                margin-bottom: 0;
+                flex: 0 0 36px;
+            }
+        }
+
+        @media (max-height: 720px) and (min-width: 993px) {
+            .auth-shell {
+                height: calc(100vh - 1rem);
+                min-height: 560px;
+            }
+
+            .auth-form-panel {
+                padding: 1rem 2rem;
+            }
+
+            .brand-lockup {
+                margin-bottom: 0.9rem;
+            }
+
+            .auth-heading {
+                font-size: 1.85rem;
+            }
+
+            .auth-copy,
+            .mb-3 {
+                margin-bottom: 0.7rem !important;
+            }
+
+            .role-btn {
+                min-height: 84px;
+                padding: 0.55rem;
+            }
+
+            .role-btn i {
+                width: 30px;
+                height: 30px;
+                font-size: 0.95rem;
+            }
+
+            .role-btn span {
+                font-size: 0.68rem;
+            }
+
+            .auth-showcase {
+                padding: 1.5rem 2.2rem;
+            }
+
+            .visual-stage {
+                min-height: 220px;
+            }
+
+            .feature-row {
+                margin-top: 0.7rem;
+            }
+
+            .feature-item span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="login-wrapper">
+        <section class="auth-shell">
+            <div class="auth-form-panel">
+                <div class="brand-lockup">
+                    <div class="brand-mark">
+                        <i class="fa-solid fa-diagram-project"></i>
+                    </div>
+                    <div>
+                        <p class="brand-title">WorkHub</p>
+                        <span class="brand-subtitle">Smart Project Management</span>
+                    </div>
+                </div>
+
+                <h1 class="auth-heading">Welcome Back!</h1>
+                <p class="auth-copy">Please sign in to continue to your account</p>
+
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label-custom">Email Address</label>
+                        <div class="input-wrap">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" class="form-control form-control-custom" id="email" value="admin@workhub.com" required placeholder="Enter your email">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="password" class="form-label-custom">Password</label>
+                        </div>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" class="form-control form-control-custom" id="password" value="admin123" required placeholder="Enter your password">
+                            <button type="button" class="password-toggle" aria-label="Show password">
+                                <i class="fa-regular fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input form-check-input-custom" id="remember">
+                            <label class="form-check-label small text-secondary-custom" for="remember">Remember me</label>
+                        </div>
+                        <a href="forgot-password.html" class="auth-link small">Forgot Password?</a>
+                    </div>
+
+                    <div class="role-section-title">Login as</div>
+
+                    <div class="role-grid">
+                        <div class="role-btn active" data-role="admin">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div>Admin</div>
+                            <span>Full system access</span>
+                        </div>
+                        <div class="role-btn" data-role="manager">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div>Manager</div>
+                            <span>Manage projects and teams</span>
+                        </div>
+                        <div class="role-btn" data-role="employee">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <div>Employee</div>
+                            <span>View tasks and collaborate</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-custom w-100">
+                        Login
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
+
+                <div class="divider">or continue with</div>
+
+                <div class="social-grid">
+                    <button type="button" class="btn social-btn">
+                        <i class="fa-brands fa-google me-2" style="color:#ea4335;"></i>Google
+                    </button>
+                    <button type="button" class="btn social-btn">
+                        <i class="fa-brands fa-github me-2"></i>GitHub
+                    </button>
+                </div>
+
+                <p class="text-center mt-3 mb-0 small text-secondary-custom">
+                    Don't have an account? <a href="register.html" class="auth-link">Sign Up</a>
+                </p>
+
+                <p class="terms-note text-center mb-0">
+                    <i class="fa-solid fa-shield-halved me-2" style="color:#6d4df2;"></i>
+                    By signing in, you agree to our <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a>
+                </p>
+            </div>
+
+            <aside class="auth-showcase" aria-label="Project management system preview">
+                <div class="showcase-content">
+                    <span class="showcase-pill"><i class="fa-regular fa-star"></i> All-in-One Solution</span>
+                    <h2 class="showcase-title">Project Management <span>System</span></h2>
+                    <p class="showcase-text">Plan, collaborate, track progress, and deliver projects efficiently all in one powerful platform.</p>
+
+                    <div class="visual-stage">
+                        <div class="lamp"></div>
+                        <button type="button" class="slide-arrow prev" aria-label="Previous image">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="login-visual-slider">
+                            <div class="login-visual-track">
+                                <div class="login-visual-slide">
+                                    <img class="boy-image" src="assets/images/login-boy-1.jpg" alt="Person working at desk" onerror="this.style.display='none'">
+                                    <div class="image-fallback" aria-hidden="true">
+                                        <div class="person-visual">
+                                            <div class="beanbag"></div>
+                                            <div class="hair"></div>
+                                            <div class="head"></div>
+                                            <div class="body"></div>
+                                            <div class="leg-one"></div>
+                                            <div class="leg-two"></div>
+                                            <div class="laptop"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="login-visual-slide">
+                                    <img class="boy-image" src="assets/images/login-boy-2.png" alt="Project dashboard with laptop user" onerror="this.style.display='none'">
+                                    <div class="image-fallback" aria-hidden="true">
+                                        <div class="person-visual">
+                                            <div class="beanbag"></div>
+                                            <div class="hair"></div>
+                                            <div class="head"></div>
+                                            <div class="body"></div>
+                                            <div class="leg-one"></div>
+                                            <div class="leg-two"></div>
+                                            <div class="laptop"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="login-visual-slide">
+                                    <img class="boy-image" src="assets/images/login-boy-3.jpg" alt="Office support desk" onerror="this.style.display='none'">
+                                    <div class="image-fallback" aria-hidden="true">
+                                        <div class="person-visual">
+                                            <div class="beanbag"></div>
+                                            <div class="hair"></div>
+                                            <div class="head"></div>
+                                            <div class="body"></div>
+                                            <div class="leg-one"></div>
+                                            <div class="leg-two"></div>
+                                            <div class="laptop"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="slide-arrow next" aria-label="Next image">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="feature-row">
+                        <div class="feature-item">
+                            <i class="fa-solid fa-users"></i>
+                            <div><strong>Role-based Access</strong><span>Tailored experience for every role</span></div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                            <div><strong>Real-time Updates</strong><span>Stay in sync with your team</span></div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div><strong>Secure & Reliable</strong><span>Your data is safe with us</span></div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-dots">
+                        <span class="active" data-slide="0"></span>
+                        <span data-slide="1"></span>
+                        <span data-slide="2"></span>
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const passwordInput = document.getElementById("password");
+            const toggleButton = document.querySelector(".password-toggle");
+            const toggleIcon = toggleButton.querySelector("i");
+            const sliderTrack = document.querySelector(".login-visual-track");
+            const slideDots = document.querySelectorAll(".showcase-dots span");
+            const prevButton = document.querySelector(".slide-arrow.prev");
+            const nextButton = document.querySelector(".slide-arrow.next");
+            const totalSlides = slideDots.length;
+            let currentSlide = 0;
+
+            toggleButton.addEventListener("click", () => {
+                const isPassword = passwordInput.type === "password";
+                passwordInput.type = isPassword ? "text" : "password";
+                toggleIcon.classList.toggle("fa-eye", isPassword);
+                toggleIcon.classList.toggle("fa-eye-slash", !isPassword);
+                toggleButton.setAttribute("aria-label", isPassword ? "Hide password" : "Show password");
+            });
+
+            const showSlide = (slideIndex) => {
+                currentSlide = (slideIndex + totalSlides) % totalSlides;
+                sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+                slideDots.forEach((dot, index) => {
+                    dot.classList.toggle("active", index === currentSlide);
+                });
+            };
+
+            prevButton.addEventListener("click", () => showSlide(currentSlide - 1));
+            nextButton.addEventListener("click", () => showSlide(currentSlide + 1));
+            slideDots.forEach((dot) => {
+                dot.addEventListener("click", () => showSlide(Number(dot.dataset.slide)));
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/auth/login.js"></script>
+</body>
+</html>
