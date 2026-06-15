@@ -49,26 +49,37 @@ window.PageModules['manager-dashboard'] = function() {
     // Team task doughnut chart
     const taskCanvas = document.getElementById("mgr-task-chart");
     if (taskCanvas) {
+        // If there are no tasks, show sample/fallback data so the chart is visible
+        const rawData = [doneCount, progressCount, reviewTasks, todoCount];
+        const total = rawData.reduce((s, v) => s + (Number(v) || 0), 0);
+        const displayData = total === 0 ? [4, 3, 2, 1] : rawData;
+
         window.mgrCharts.task = new Chart(taskCanvas, {
             type: 'doughnut',
             data: {
                 labels: ['Completed', 'In Progress', 'In Review', 'To Do'],
                 datasets: [{
-                    data: [doneCount, progressCount, reviewTasks, todoCount],
+                    data: displayData,
                     backgroundColor: ['#10b981', '#06b6d4', '#6366f1', '#6b7280'],
-                    borderColor: '#111827',
+                    borderColor: '#0b0f19',
                     borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '60%',
                 plugins: {
                     legend: {
                         position: 'bottom',
                         labels: {
                             color: '#9ca3af',
                             font: { family: 'Outfit', size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.label}: ${ctx.parsed}`
                         }
                     }
                 }
