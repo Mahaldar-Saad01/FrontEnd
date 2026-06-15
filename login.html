@@ -38,11 +38,11 @@
         }
 
         .auth-shell {
-            width: min(100%, 1120px);
-            height: min(760px, calc(100vh - 1.5rem));
-            min-height: 680px;
+            width: min(90%, 850px);
+            height: min(660px, calc(100vh - 1.5rem));
+            min-height: 640px;
             display: grid;
-            grid-template-columns: minmax(360px, 0.44fr) minmax(520px, 0.56fr);
+            grid-template-columns: minmax(320px, 0.44fr) minmax(480px, 0.56fr);
             overflow: hidden;
             border-radius: 22px;
             background: #ffffff;
@@ -50,22 +50,23 @@
         }
 
         .auth-form-panel {
-            padding: 1.65rem 2.35rem;
+            padding: 1rem 1.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            gap: 0.25rem;
         }
 
         .brand-lockup {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            margin-bottom: 1.25rem;
+            margin-bottom: 0.5rem;
         }
 
         .brand-mark {
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
             display: grid;
             place-items: center;
             border-radius: 12px;
@@ -77,32 +78,34 @@
         .brand-title {
             margin: 0;
             color: #11133f;
-            font-size: 1.18rem;
+            font-size: 1rem;
             font-weight: 800;
             line-height: 1.1;
         }
 
         .brand-subtitle {
             color: #666d92;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
 
         .auth-heading {
             color: #11133f;
-            font-size: clamp(1.95rem, 3vw, 2.35rem);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
             font-weight: 800;
             letter-spacing: 0;
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.15rem;
         }
 
         .auth-copy {
             color: var(--auth-muted);
-            margin-bottom: 1rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
         }
 
         .form-label-custom {
             color: #11133f !important;
             font-weight: 700;
+            font-size: 0.85rem;
         }
 
         .input-wrap {
@@ -110,12 +113,13 @@
         }
 
         .input-wrap .form-control-custom {
-            height: 45px;
+            height: 40px;
             padding-left: 3.1rem !important;
             background-color: #ffffff !important;
             border-color: #deddea !important;
             color: #11133f !important;
             box-shadow: 0 8px 22px rgba(23, 23, 47, 0.06);
+            font-size: 0.9rem;
         }
 
         .input-wrap .form-control-custom::placeholder {
@@ -164,9 +168,9 @@
             align-items: center;
             gap: 0.75rem;
             color: #292a43;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            margin: 0.7rem 0 0.7rem;
+            margin: 0.4rem 0 0.5rem;
         }
 
         .role-section-title::before,
@@ -180,16 +184,16 @@
         .role-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.9rem;
-            margin-bottom: 0.85rem;
+            gap: 0.7rem;
+            margin-bottom: 0.6rem;
         }
 
         .role-btn {
-            min-height: 100px;
+            min-height: 75px;
             background: #ffffff;
-            border: 1px solid var(--auth-line);
-            border-radius: 8px;
-            padding: 0.75rem 0.55rem;
+            border: 1.5px solid var(--auth-line);
+            border-radius: 12px;
+            padding: 0.5rem 0.4rem;
             cursor: pointer;
             text-align: center;
             transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
@@ -205,14 +209,14 @@
         }
 
         .role-btn i {
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             display: inline-grid;
             place-items: center;
             border-radius: 10px;
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.15rem;
             color: #ffffff;
-            font-size: 1.1rem;
+            font-size: 0.85rem;
         }
 
         .role-btn[data-role="admin"] i {
@@ -229,24 +233,27 @@
 
         .role-btn div {
             color: #1c1d35;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             font-weight: 800;
         }
 
         .role-btn span {
             display: block;
             color: #77778a;
-            font-size: 0.72rem;
-            line-height: 1.25;
-            margin-top: 0.25rem;
+            font-size: 0.6rem;
+            line-height: 1.1;
+            margin-top: 0.05rem;
         }
 
         .btn-primary-custom {
-            min-height: 46px;
+            min-height: 40px;
             border: 0 !important;
-            border-radius: 8px !important;
+            border-radius: 10px !important;
+            font-size: 0.9rem;
+            font-weight: 700;
             background: linear-gradient(135deg, #7c4dff, #5738d8) !important;
             box-shadow: 0 14px 28px rgba(109, 77, 242, 0.24);
+            margin-bottom: 0.35rem;
         }
 
         .divider {
@@ -254,8 +261,8 @@
             align-items: center;
             gap: 0.8rem;
             color: #85859a;
-            font-size: 0.86rem;
-            margin: 0.75rem 0;
+            font-size: 0.7rem;
+            margin: 0.3rem 0 0.4rem;
         }
 
         .divider::before,
@@ -269,25 +276,43 @@
         .social-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1rem;
+            gap: 0.7rem;
+            margin-bottom: 0.3rem;
         }
 
         .social-btn {
-            min-height: 44px;
-            border: 1px solid var(--auth-line);
-            border-radius: 8px;
+            min-height: 36px;
+            border: 1.5px solid var(--auth-line);
+            border-radius: 10px;
             background: #ffffff;
             color: #26273d;
             font-weight: 700;
-            box-shadow: 0 8px 18px rgba(23, 23, 47, 0.05);
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            padding: 0.4rem 0.6rem;
+            box-shadow: 0 2px 8px rgba(23, 23, 47, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .social-btn:hover {
+            border-color: var(--auth-purple);
+            box-shadow: 0 4px 12px rgba(109, 77, 242, 0.12);
+        }
+
+        .social-btn i {
+            font-size: 0.85rem;
         }
 
         .terms-note {
             color: #85859a;
-            font-size: 0.76rem;
-            margin-top: 0.75rem;
-            padding-top: 0.7rem;
+            font-size: 0.65rem;
+            margin-top: 0.2rem;
+            padding-top: 0.3rem;
             border-top: 1px solid var(--auth-line);
+            line-height: 1.25;
         }
 
         .auth-showcase {
@@ -680,8 +705,7 @@
             }
 
             .brand-lockup {
-                margin-bottom: 1.8rem;
-            }
+            margin-bottom: 1rem;
 
             .role-grid,
             .social-grid {
@@ -834,11 +858,13 @@
                 <div class="divider">or continue with</div>
 
                 <div class="social-grid">
-                    <button type="button" class="btn social-btn">
-                        <i class="fa-brands fa-google me-2" style="color:#ea4335;"></i>Google
+                    <button type="button" class="btn social-btn" aria-label="Continue with Google">
+                        <i class="fa-brands fa-google" style="color:#ea4335;"></i>
+                        <span>Continue with Google</span>
                     </button>
-                    <button type="button" class="btn social-btn">
-                        <i class="fa-brands fa-github me-2"></i>GitHub
+                    <button type="button" class="btn social-btn" aria-label="Continue with GitHub">
+                        <i class="fa-brands fa-github"></i>
+                        <span>Continue with GitHub</span>
                     </button>
                 </div>
 
@@ -945,6 +971,7 @@
             const toggleButton = document.querySelector(".password-toggle");
             const toggleIcon = toggleButton.querySelector("i");
             const sliderTrack = document.querySelector(".login-visual-track");
+            const slider = document.querySelector('.login-visual-slider');
             const slideDots = document.querySelectorAll(".showcase-dots span");
             const prevButton = document.querySelector(".slide-arrow.prev");
             const nextButton = document.querySelector(".slide-arrow.next");
@@ -967,11 +994,41 @@
                 });
             };
 
-            prevButton.addEventListener("click", () => showSlide(currentSlide - 1));
-            nextButton.addEventListener("click", () => showSlide(currentSlide + 1));
+            // Autoplay logic
+            const autoplayDelay = 4500;
+            let autoplayTimer = null;
+
+            const startAutoplay = () => {
+                clearAutoplay();
+                autoplayTimer = setInterval(() => showSlide(currentSlide + 1), autoplayDelay);
+            };
+
+            const clearAutoplay = () => {
+                if (autoplayTimer) {
+                    clearInterval(autoplayTimer);
+                    autoplayTimer = null;
+                }
+            };
+
+            const resetAutoplay = () => {
+                clearAutoplay();
+                startAutoplay();
+            };
+
+            prevButton.addEventListener("click", () => { showSlide(currentSlide - 1); resetAutoplay(); });
+            nextButton.addEventListener("click", () => { showSlide(currentSlide + 1); resetAutoplay(); });
             slideDots.forEach((dot) => {
-                dot.addEventListener("click", () => showSlide(Number(dot.dataset.slide)));
+                dot.addEventListener("click", () => { showSlide(Number(dot.dataset.slide)); resetAutoplay(); });
             });
+
+            // Pause autoplay while hovering the visual area
+            if (slider) {
+                slider.addEventListener('mouseenter', () => clearAutoplay());
+                slider.addEventListener('mouseleave', () => startAutoplay());
+            }
+
+            // Start autoplay initially
+            startAutoplay();
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
