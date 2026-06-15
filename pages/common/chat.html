@@ -1,7 +1,7 @@
-<div id="main-chat-container" class="container-fluid py-2" >
-        <div class="row bg-white rounded-4 shadow-sm overflow-hidden m-1" style="height: 100%;">
+<div id="main-chat-container" class="container-fluid py-2 h-100 d-flex flex-column fade-in-view overflow-hidden">
+        <div class="row bg-white rounded-4 shadow-sm overflow-hidden m-1 flex-grow-1" style="min-height: 0;">
             
-            <div class="col-lg-3 col-md-4 border-end p-3 d-flex flex-column messages-sidebar">
+            <div class="col-lg-3 col-md-4 border-end p-3 d-flex flex-column messages-sidebar h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0 fw-bold">Messages</h4>
                     <button class="btn btn-light btn-sm rounded-circle"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="chat-list flex-grow-1 overflow-auto hide-scrollbar">
+                <div class="chat-list flex-grow-1 overflow-auto hide-scrollbar" style="min-height: 0;">
                     <div class="chat-item d-flex align-items-center p-2 mb-2 bg-light rounded-3 cursor-pointer">
                         <img src="https://ui-avatars.com/api/?name=MITS+Team&background=6f42c1&color=fff" class="avatar-md rounded-circle me-3" alt="Team">
                         <div class="flex-grow-1 min-w-0">
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 col-md-8 border-end p-0 d-flex flex-column active-chat-area">
+            <div class="col-lg-6 col-md-8 border-end p-0 d-flex flex-column active-chat-area h-100">
                 <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-white">
                     <div class="d-flex align-items-center">
                         <img id="chat-active-avatar" src="https://ui-avatars.com/api/?name=MITS+Team&background=6f42c1&color=fff" class="avatar-md rounded-circle me-3" alt="Team">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div id="chat-messages-container" class="p-4 flex-grow-1 overflow-auto bg-chat-bg hide-scrollbar d-flex flex-column gap-3" style="max-height: calc(100vh - 190px);">
+                <div id="chat-messages-container" class="p-4 flex-grow-1 overflow-auto bg-chat-bg hide-scrollbar d-flex flex-column gap-3" style="min-height: 0;">
                     <div class="text-center my-2"><small class="text-muted fw-semibold">Today</small></div>
                     
                     <div class="d-flex align-items-start gap-2">
@@ -132,7 +132,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 d-none d-lg-flex flex-column p-4 bg-white right-sidebar">
+            <div class="col-lg-3 d-none d-lg-flex flex-column p-4 bg-white right-sidebar h-100 overflow-auto hide-scrollbar">
                 <div class="d-flex justify-content-end align-items-center mb-4 gap-3">
                     <div class="form-check form-switch m-0">
                         <input class="form-check-input" type="checkbox" id="darkModeSwitch">
