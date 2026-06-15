@@ -109,6 +109,11 @@
     overflow: hidden;
 }
 
+.table-custom-container.scrollable-table {
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+}
+
 .table-custom {
     width: 100%;
     margin-bottom: 0;
