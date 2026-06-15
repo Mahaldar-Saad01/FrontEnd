@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const fullName = document.getElementById("fullName").value.trim();
         const email = document.getElementById("email").value.trim();
         const role = document.getElementById("role").value;
+        const department = document.getElementById("department").value;
 
         // Generate temporary password matching the pattern randomnumber@nameofemployee
         const randomNumber = Math.floor(1000 + Math.random() * 9000);
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             name: fullName,
             email: email,
             role: role,
-            dept: role === "admin" ? "Management" : "Engineering",
+            dept: department,
             status: "Active",
             password: generatedPassword,
             isFirstLogin: true

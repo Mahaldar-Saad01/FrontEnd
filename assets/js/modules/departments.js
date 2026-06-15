@@ -23,7 +23,7 @@ window.PageModules['admin-departments'] = function() {
             const card = document.createElement("div");
             card.className = "col-xl-3 col-lg-4 col-md-6 col-sm-12";
             card.innerHTML = `
-                <div class="card-custom h-100 d-flex flex-column justify-content-between p-4">
+                <div class="card-custom h-100 d-flex flex-column justify-content-between p-4 dept-card" data-dept="${dept.name}">
                     <div>
                         <div class="d-flex align-items-center justify-content-center rounded-3 bg-dark border mb-3 text-primary" style="width: 48px; height: 48px; border-color: var(--border-color) !important;">
                             <i class="fa-solid fa-building fs-5"></i>
@@ -45,6 +45,17 @@ window.PageModules['admin-departments'] = function() {
                 </div>
             `;
             gridContainer.appendChild(card);
+
+            // click to open department detail
+            const deptEl = card.querySelector('.dept-card');
+            if (deptEl) {
+                deptEl.style.cursor = 'pointer';
+                deptEl.addEventListener('click', (e) => {
+                    // prevent delete button clicks from triggering
+                    if (e.target.closest('.delete-dept-btn')) return;
+                    showDeptDetails(dept.name);
+                });
+            }
         });
 
         // Delete department handler
@@ -56,6 +67,81 @@ window.PageModules['admin-departments'] = function() {
                 renderDepartments();
             });
         });
+
+        // showDeptDetails function
+        function showDeptDetails(deptName) {
+            const modalLabel = document.getElementById('deptDetailModalLabel');
+            const detailName = document.getElementById('dept-detail-name');
+            const detailCount = document.getElementById('dept-detail-count');
+            const membersBody = document.getElementById('dept-members-body');
+
+            if (!membersBody || !detailName || !detailCount) return;
+
+            detailName.textContent = deptName;
+
+            const employees = (window.getEmployeesData ? getEmployeesData() : JSON.parse(localStorage.getItem('workhub_employees') || '[]'));
+            const projects = JSON.parse(localStorage.getItem('workhub_projects') || '[]');
+            const tasks = JSON.parse(localStorage.getItem('workhub_tasks') || '[]');
+
+            const members = employees.filter(e => e.dept === deptName);
+            detailCount.textContent = `${members.length} Members`;
+
+            membersBody.innerHTML = '';
+
+            members.forEach(member => {
+                // determine project for member: prefer tasks assignedTo -> project
+                const assignedTasks = tasks.filter(t => t.assignedTo === member.name);
+                let projectName = '—';
+                let managerName = '';
+                if (assignedTasks.length) {
+                    projectName = assignedTasks[0].project;
+                    const proj = projects.find(p => p.name === projectName);
+                    managerName = proj ? proj.manager : '';
+                } else {
+                    // fallback: find a project in the dept that lists this member as manager
+                    const projManaged = projects.find(p => p.manager === member.name || p.dept === member.dept);
+                    if (projManaged) {
+                        projectName = projManaged.name;
+                        managerName = projManaged.manager;
+                    } else {
+                        // fallback to department head
+                        const deptObj = depts.find(d => d.name === deptName);
+                        managerName = deptObj ? deptObj.head : '';
+                    }
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random" class="rounded-circle" style="width:28px; height:28px;" alt="Avatar">
+                            <div>
+                                <div class="fw-bold text-white">${member.name}</div>
+                                <div class="text-secondary small">${member.email || ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-white">${projectName}</td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(managerName)}&background=random" class="rounded-circle" style="width:28px; height:28px;" alt="Manager">
+                            <span class="text-white small fw-semibold">${managerName}</span>
+                        </div>
+                    </td>
+                    <td class="text-capitalize small fw-semibold">${member.role}</td>
+                    <td><span class="badge-custom ${member.status === 'Active' ? 'badge-status-progress' : 'badge-status-todo'}">${member.status}</span></td>
+                `;
+                membersBody.appendChild(tr);
+            });
+
+            // show modal
+            const modalEl = document.getElementById('deptDetailModal');
+            if (modalEl) {
+                const instance = new bootstrap.Modal(modalEl);
+                instance.show();
+            }
+        }
+
     };
 
     // Form submit handler
