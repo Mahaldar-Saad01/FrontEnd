@@ -10,23 +10,63 @@
         </button>
     </div>
 
-    <!-- Directory Table -->
-    <div class="table-custom-container">
-        <table class="table-custom">
-            <thead>
-                <tr>
-                    <th>Project Name</th>
-                    <th>Lead Manager</th>
-                    <th>Department</th>
-                    <th>Status</th>
-                    <th>Progress</th>
-                    <th class="text-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="projects-table-body">
-                <!-- Dynamically populated projects -->
-            </tbody>
-        </table>
+    <!-- Tabs Nav -->
+    <ul class="nav nav-tabs nav-tabs-custom mb-4" id="projectsTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="running-tab" data-bs-toggle="tab" data-bs-target="#running-pane" type="button" role="tab" aria-controls="running-pane" aria-selected="true">
+                <i class="fa-solid fa-play me-2"></i>Running Projects
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending-pane" type="button" role="tab" aria-controls="pending-pane" aria-selected="false">
+                <i class="fa-solid fa-clock-rotate-left me-2"></i>Awaiting Approval
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content flex-grow-1" id="projectsTabContent">
+        <!-- Running Projects Pane -->
+        <div class="tab-pane fade show active" id="running-pane" role="tabpanel" aria-labelledby="running-tab">
+            <div class="table-custom-container">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Lead Manager</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projects-table-body-running">
+                        <!-- Dynamically populated running projects -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pending Approval Projects Pane -->
+        <div class="tab-pane fade" id="pending-pane" role="tabpanel" aria-labelledby="pending-tab">
+            <div class="table-custom-container">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Lead Manager</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Submitted Date</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projects-table-body-pending">
+                        <!-- Dynamically populated projects awaiting approval -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -53,20 +93,10 @@
                     <div class="mb-3">
                         <label for="projectDept" class="form-label-custom">Department</label>
                         <select class="form-select form-select-custom" id="projectDept" required>
-                            <option value="Engineering" selected>Engineering</option>
-                            <option value="Design">Design</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="HR">HR</option>
+                            <option value="" disabled selected>Select Department...</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="projectStatus" class="form-label-custom">Initial Status</label>
-                        <select class="form-select form-select-custom" id="projectStatus" required>
-                            <option value="Active" selected>Active</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-                    </div>
+                    <!-- Status is omitted to enforce default approval flow -->
                 </div>
                 <div class="modal-footer modal-footer-custom">
                     <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancel</button>

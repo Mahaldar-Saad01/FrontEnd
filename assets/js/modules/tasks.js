@@ -1,226 +1,305 @@
-// Tasks Module Initializer (Handles admin, manager assignments, and employee tasks)
+/**
+ * Tasks Module — Full CRUD via /api/tasks/
+ * Handles admin tasks, manager assignments, and employee my-tasks views.
+ * Role-based rendering: admin gets delete, employee gets status select, manager gets assignee select.
+ */
 
-const getTasksData = () => {
-    let tasks = JSON.parse(localStorage.getItem("workhub_tasks"));
-    if (!tasks) {
-        tasks = [
-            { id: 1, title: "Configure MySQL schemas", project: "FastAPI MySQL Migration", status: "done", priority: "high", dept: "Engineering", assignedTo: "Rihan Kahn" },
-            { id: 2, title: "Create API documentation", project: "FastAPI MySQL Migration", status: "progress", priority: "medium", dept: "Engineering", assignedTo: "Alex Mercer" },
-            { id: 3, title: "Draft landing page layouts", project: "Figma UI Redesign", status: "review", priority: "low", dept: "Design", assignedTo: "Saad Mahaldar" },
-            { id: 4, title: "Launch Q3 AdWords campaigns", project: "Q3 Marketing Launch", status: "todo", priority: "high", dept: "Marketing", assignedTo: "Alex Mercer" },
-            { id: 5, title: "Write backend unit tests", project: "FastAPI MySQL Migration", status: "todo", priority: "medium", dept: "Engineering", assignedTo: "Rihan Kahn" },
-            { id: 6, title: "Conduct HR phone screens", project: "HR Recruitment Campaign", status: "done", priority: "low", dept: "HR", assignedTo: "Sarah Miller" }
-        ];
-        localStorage.setItem("workhub_tasks", JSON.stringify(tasks));
-    }
-    return tasks;
-};
-
-const renderTasksCommon = (tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee = null) => {
+// ── Shared Render ──────────────────────────────────────────────────────────
+const renderTasksCommon = async (tableBodyId, searchInputId, priorityFilterId, statusFilterId) => {
     const tableBody = document.getElementById(tableBodyId);
     if (!tableBody) return;
 
-    const query = document.getElementById(searchInputId)?.value.toLowerCase() || "";
-    const priority = document.getElementById(priorityFilterId)?.value || "all";
-    const status = document.getElementById(statusFilterId)?.value || "all";
+    const query    = document.getElementById(searchInputId)?.value.toLowerCase()  || '';
+    const priority = document.getElementById(priorityFilterId)?.value             || 'all';
+    const status   = document.getElementById(statusFilterId)?.value               || 'all';
+    const role     = window.currentUser?.role || 'employee';
 
-    let tasks = getTasksData();
+    tableBody.innerHTML = `
+        <tr><td colspan="6" class="text-center text-secondary py-4">
+            <div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading tasks...
+        </td></tr>
+    `;
 
-    // Filter by Assignee if requested
-    if (filterAssignee) {
-        tasks = tasks.filter(t => t.assignedTo && t.assignedTo.toLowerCase() === filterAssignee.toLowerCase());
-    }
+    try {
+        const data = await WorkHubAPI.getJSON('/tasks/');
+        let tasks = Array.isArray(data) ? data : (data.results || []);
 
-    // Filter list
-    const filteredTasks = tasks.filter(task => {
-        const matchesQuery = task.title.toLowerCase().includes(query) || task.project.toLowerCase().includes(query);
-        const matchesPriority = priority === "all" || task.priority === priority;
-        const matchesStatus = status === "all" || task.status === status;
-        return matchesQuery && matchesPriority && matchesStatus;
-    });
+        // Client-side filter
+        const filtered = tasks.filter(task => {
+            const matchQ = task.title.toLowerCase().includes(query) ||
+                           (task.project_name || '').toLowerCase().includes(query);
+            const matchP = priority === 'all' || task.priority === priority;
+            const matchS = status   === 'all' || task.status   === status;
+            return matchQ && matchP && matchS;
+        });
 
-    tableBody.innerHTML = "";
+        tableBody.innerHTML = '';
 
-    if (filteredTasks.length === 0) {
+        if (filtered.length === 0) {
+            tableBody.innerHTML = `
+                <tr><td colspan="6" class="text-center text-secondary py-4">No tasks found.</td></tr>
+            `;
+            return;
+        }
+
+        // Cache employees for manager assignee dropdown
+        let employeeOptions = '<option value="">Unassigned</option>';
+        if (role === 'manager') {
+            try {
+                const empData = await WorkHubAPI.getJSON('/employees/');
+                const emps = Array.isArray(empData) ? empData : (empData.results || []);
+                employeeOptions += emps
+                    .filter(e => e.role !== 'admin')
+                    .map(e => `<option value="${e.id}">${e.full_name}</option>`)
+                    .join('');
+            } catch (e) { /* use placeholder */ }
+        }
+
+        filtered.forEach(task => {
+            let pBadge = 'badge-priority-low';
+            if (task.priority === 'high')   pBadge = 'badge-priority-high';
+            if (task.priority === 'medium') pBadge = 'badge-priority-medium';
+
+            let sBadge = 'badge-status-todo';
+            let statusLabel = 'To Do';
+            if (task.status === 'progress') { sBadge = 'badge-status-progress'; statusLabel = 'In Progress'; }
+            if (task.status === 'review')   { sBadge = 'badge-status-review';   statusLabel = 'In Review'; }
+            if (task.status === 'done')     { sBadge = 'badge-status-done';     statusLabel = 'Completed'; }
+
+            let actionColumn = '';
+            if (role === 'admin') {
+                actionColumn = `
+                    <td class="text-end">
+                        <button class="btn btn-link text-danger p-0 delete-task-btn" data-id="${task.id}">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+            } else if (role === 'employee') {
+                actionColumn = `
+                    <td class="text-end">
+                        <select class="form-select form-select-custom py-1 px-2 font-size-xs task-status-select"
+                                data-id="${task.id}" style="width:120px; display:inline-block;">
+                            <option value="todo"     ${task.status === 'todo'     ? 'selected' : ''}>To Do</option>
+                            <option value="progress" ${task.status === 'progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="review"   ${task.status === 'review'   ? 'selected' : ''}>In Review</option>
+                            <option value="done"     ${task.status === 'done'     ? 'selected' : ''}>Completed</option>
+                        </select>
+                    </td>
+                `;
+            } else { // manager
+                actionColumn = `
+                    <td class="text-end">
+                        <select class="form-select form-select-custom py-1 px-2 font-size-xs task-assignee-select"
+                                data-id="${task.id}" style="width:150px; display:inline-block;">
+                            ${employeeOptions.replace(
+                                `value="${task.assignee}"`,
+                                `value="${task.assignee}" selected`
+                            )}
+                        </select>
+                    </td>
+                `;
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="fw-semibold text-white">${task.title}</td>
+                <td><span class="text-secondary-custom">${task.project_name || '—'}</span></td>
+                <td><span class="text-muted-custom font-size-sm">${task.department_name || '—'}</span></td>
+                <td><span class="badge-custom ${pBadge}">${task.priority}</span></td>
+                <td><span class="badge-custom ${sBadge}">${statusLabel}</span></td>
+                ${actionColumn}
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        // ── Event Handlers ─────────────────────────────────────────
+
+        // Admin delete
+        document.querySelectorAll('.delete-task-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('Delete this task?')) return;
+                try {
+                    await WorkHubAPI.delete(`/tasks/${btn.dataset.id}/`);
+                    renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId);
+                } catch (e) { alert('Failed to delete task.'); }
+            });
+        });
+
+        // Employee status change
+        document.querySelectorAll('.task-status-select').forEach(sel => {
+            sel.addEventListener('change', async () => {
+                try {
+                    await WorkHubAPI.patch(`/tasks/${sel.dataset.id}/`, { status: sel.value });
+                    renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId);
+                } catch (e) { alert('Failed to update status.'); }
+            });
+        });
+
+        // Manager assignee change
+        document.querySelectorAll('.task-assignee-select').forEach(sel => {
+            sel.addEventListener('change', async () => {
+                try {
+                    await WorkHubAPI.patch(`/tasks/${sel.dataset.id}/`, {
+                        assignee: sel.value || null
+                    });
+                    renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId);
+                } catch (e) { alert('Failed to update assignee.'); }
+            });
+        });
+
+    } catch (err) {
+        console.error('Tasks load error:', err);
         tableBody.innerHTML = `
-            <tr>
-                <td colspan="6" class="text-center text-secondary py-4">No tasks found.</td>
-            </tr>
+            <tr><td colspan="6" class="text-center text-danger py-4">Failed to load tasks.</td></tr>
         `;
-        return;
     }
-
-    filteredTasks.forEach(task => {
-        let pBadge = "badge-priority-low";
-        if (task.priority === "high") pBadge = "badge-priority-high";
-        if (task.priority === "medium") pBadge = "badge-priority-medium";
-
-        let sBadge = "badge-status-todo";
-        let statusLabel = "To Do";
-        if (task.status === "progress") { sBadge = "badge-status-progress"; statusLabel = "In Progress"; }
-        if (task.status === "review") { sBadge = "badge-status-review"; statusLabel = "In Review"; }
-        if (task.status === "done") { sBadge = "badge-status-done"; statusLabel = "Completed"; }
-
-        const tr = document.createElement("tr");
-        
-        // Render role-specific columns / actions
-        const currentRole = window.currentUser?.role || "employee";
-        
-        let actionColumn = "";
-        if (currentRole === 'admin') {
-            actionColumn = `
-                <td class="text-end">
-                    <button class="btn btn-link text-danger p-0 delete-task-btn" data-id="${task.id}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-        } else if (currentRole === 'employee') {
-            // Dropdown to change status directly!
-            actionColumn = `
-                <td class="text-end">
-                    <select class="form-select form-select-custom py-1 px-2 font-size-xs task-status-select" data-id="${task.id}" style="width: 120px; display: inline-block;">
-                        <option value="todo" ${task.status === 'todo' ? 'selected' : ''}>To Do</option>
-                        <option value="progress" ${task.status === 'progress' ? 'selected' : ''}>In Progress</option>
-                        <option value="review" ${task.status === 'review' ? 'selected' : ''}>In Review</option>
-                        <option value="done" ${task.status === 'done' ? 'selected' : ''}>Completed</option>
-                    </select>
-                </td>
-            `;
-        } else { // Manager assignments
-            actionColumn = `
-                <td class="text-end">
-                    <select class="form-select form-select-custom py-1 px-2 font-size-xs task-assignee-select" data-id="${task.id}" style="width: 150px; display: inline-block;">
-                        <option value="">Unassigned</option>
-                        <option value="Alex Mercer" ${task.assignedTo === 'Alex Mercer' ? 'selected' : ''}>Alex Mercer</option>
-                        <option value="Rihan Kahn" ${task.assignedTo === 'Rihan Kahn' ? 'selected' : ''}>Rihan Kahn</option>
-                        <option value="Sarah Miller" ${task.assignedTo === 'Sarah Miller' ? 'selected' : ''}>Sarah Miller</option>
-                        <option value="Saad Mahaldar" ${task.assignedTo === 'Saad Mahaldar' ? 'selected' : ''}>Saad Mahaldar</option>
-                    </select>
-                </td>
-            `;
-        }
-
-        tr.innerHTML = `
-            <td class="fw-semibold text-white">${task.title}</td>
-            <td><span class="text-secondary-custom">${task.project}</span></td>
-            <td><span class="text-muted-custom font-size-sm">${task.dept}</span></td>
-            <td><span class="badge-custom ${pBadge}">${task.priority}</span></td>
-            <td><span class="badge-custom ${sBadge}">${statusLabel}</span></td>
-            ${actionColumn}
-        `;
-        tableBody.appendChild(tr);
-    });
-
-    // Delete project click handler
-    document.querySelectorAll(".delete-task-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const id = parseInt(btn.dataset.id);
-            let allTasks = getTasksData();
-            allTasks = allTasks.filter(t => t.id !== id);
-            localStorage.setItem("workhub_tasks", JSON.stringify(allTasks));
-            renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee);
-        });
-    });
-
-    // Employee status toggle handler
-    document.querySelectorAll(".task-status-select").forEach(select => {
-        select.addEventListener("change", () => {
-            const id = parseInt(select.dataset.id);
-            const val = select.value;
-            let allTasks = getTasksData();
-            const task = allTasks.find(t => t.id === id);
-            if (task) {
-                task.status = val;
-                localStorage.setItem("workhub_tasks", JSON.stringify(allTasks));
-                renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee);
-            }
-        });
-    });
-
-    // Manager assignment toggle handler
-    document.querySelectorAll(".task-assignee-select").forEach(select => {
-        select.addEventListener("change", () => {
-            const id = parseInt(select.dataset.id);
-            const val = select.value;
-            let allTasks = getTasksData();
-            const task = allTasks.find(t => t.id === id);
-            if (task) {
-                task.assignedTo = val || null;
-                localStorage.setItem("workhub_tasks", JSON.stringify(allTasks));
-                renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee);
-            }
-        });
-    });
 };
 
-const setupFilterListeners = (tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee = null) => {
+// ── Filter listeners ───────────────────────────────────────────────────────
+const setupTaskFilterListeners = (tableBodyId, searchInputId, priorityFilterId, statusFilterId) => {
     const queryEl = document.getElementById(searchInputId);
-    const prioEl = document.getElementById(priorityFilterId);
-    const statEl = document.getElementById(statusFilterId);
+    const prioEl  = document.getElementById(priorityFilterId);
+    const statEl  = document.getElementById(statusFilterId);
 
-    if (queryEl) queryEl.addEventListener("input", () => renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee));
-    if (prioEl) prioEl.addEventListener("change", () => renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee));
-    if (statEl) statEl.addEventListener("change", () => renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId, filterAssignee));
+    if (queryEl) queryEl.addEventListener('input',  () => renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId));
+    if (prioEl)  prioEl.addEventListener('change',  () => renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId));
+    if (statEl)  statEl.addEventListener('change',  () => renderTasksCommon(tableBodyId, searchInputId, priorityFilterId, statusFilterId));
 };
 
-// Admin Module Page Initializer
-window.PageModules['admin-tasks'] = function() {
-    renderTasksCommon("tasks-table-body", "task-search-input", "filter-priority", "filter-status");
-    setupFilterListeners("tasks-table-body", "task-search-input", "filter-priority", "filter-status");
+// ── Admin Tasks Page ───────────────────────────────────────────────────────
+window.PageModules['admin-tasks'] = async function () {
+    renderTasksCommon('tasks-table-body', 'task-search-input', 'filter-priority', 'filter-status');
+    setupTaskFilterListeners('tasks-table-body', 'task-search-input', 'filter-priority', 'filter-status');
+};
 
-    // Add Task submit handler
-    const form = document.getElementById("addTaskForm");
-    if (form) {
-        // Load active projects dynamically in select dropdown
-        const projectsSelect = document.getElementById("taskProj");
-        if (projectsSelect) {
-            const projects = JSON.parse(localStorage.getItem("workhub_projects")) || [];
-            if (projects.length > 0) {
-                projectsSelect.innerHTML = projects.map(p => `<option value="${p.name}">${p.name}</option>`).join("");
+// ── Employee My Tasks Page ─────────────────────────────────────────────────
+window.PageModules['employee-mytasks'] = function () {
+    renderTasksCommon('mytasks-table-body', 'mytask-search-input', 'myfilter-priority', 'myfilter-status');
+    setupTaskFilterListeners('mytasks-table-body', 'mytask-search-input', 'myfilter-priority', 'myfilter-status');
+};
+
+// ── Manager Assignments Page ───────────────────────────────────────────────
+window.PageModules['manager-assignments'] = async function () {
+    renderTasksCommon('assignments-table-body', 'assign-search-input', 'assign-filter-priority', 'assign-filter-status');
+    setupTaskFilterListeners('assignments-table-body', 'assign-search-input', 'assign-filter-priority', 'assign-filter-status');
+
+    const form = document.getElementById('addTaskForm');
+    if (form && !form.dataset.bound) {
+        form.dataset.bound = 'true';
+
+        const deptSelect = document.getElementById('taskDept');
+        const projSelect = document.getElementById('taskProj');
+        const assigneeSelect = document.getElementById('taskAssignee');
+
+        let allProjects = [];
+
+        // 1. Fetch available departments and populate the dropdown
+        try {
+            const dData = await WorkHubAPI.getJSON('/departments/');
+            const departments = Array.isArray(dData) ? dData : (dData.results || []);
+            if (deptSelect) {
+                deptSelect.innerHTML = '<option value="" disabled selected>Select Department...</option>';
+                departments.forEach(d => {
+                    deptSelect.innerHTML += `<option value="${d.id}">${d.name}</option>`;
+                });
             }
+        } catch (e) {
+            console.error('Failed to load departments', e);
         }
 
-        form.addEventListener("submit", (e) => {
+        // 2. Fetch projects and keep a copy in memory
+        try {
+            const pData = await WorkHubAPI.getJSON('/projects/');
+            allProjects = Array.isArray(pData) ? pData : (pData.results || []);
+        } catch (e) {
+            console.error('Failed to load projects', e);
+        }
+
+        // 3. Handle department selection to update projects dropdown
+        if (deptSelect && projSelect) {
+            deptSelect.addEventListener('change', () => {
+                const selectedDeptId = deptSelect.value;
+                if (!selectedDeptId) {
+                    projSelect.innerHTML = '<option value="" disabled selected>Select Department first...</option>';
+                    projSelect.disabled = true;
+                    return;
+                }
+
+                // Filter projects belonging to this department
+                // Note: p.department in the ProjectSerializer is the ID of the department
+                const deptProjects = allProjects.filter(p => p.department == selectedDeptId);
+
+                if (deptProjects.length === 0) {
+                    projSelect.innerHTML = '<option value="" disabled selected>No projects available in this department</option>';
+                    projSelect.disabled = true;
+                } else {
+                    projSelect.innerHTML = '<option value="" disabled selected>Select Project...</option>';
+                    deptProjects.forEach(p => {
+                        projSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+                    });
+                    projSelect.disabled = false;
+                }
+            });
+        }
+
+        // 4. Fetch team employees and populate "assigned to" dropdown
+        try {
+            const empData = await WorkHubAPI.getJSON('/employees/');
+            const employees = Array.isArray(empData) ? empData : (empData.results || []);
+            const currentUser = WorkHubAPI.getCurrentUser();
+            
+            // Filter employees working under the current manager
+            const teamEmployees = employees.filter(e => e.role === 'employee' && e.team_lead === currentUser.id);
+
+            if (assigneeSelect) {
+                assigneeSelect.innerHTML = '<option value="">Unassigned</option>';
+                teamEmployees.forEach(e => {
+                    assigneeSelect.innerHTML += `<option value="${e.id}">${e.full_name}</option>`;
+                });
+            }
+        } catch (e) {
+            console.error('Failed to load team employees', e);
+        }
+
+        // 5. Submit form
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const title = document.getElementById('taskTitle').value;
+            const projectId = document.getElementById('taskProj').value;
+            const deptId = document.getElementById('taskDept').value;
+            const priority = document.getElementById('taskPriority').value;
+            const status = document.getElementById('taskStatus').value;
+            const assigneeId = document.getElementById('taskAssignee').value || null;
 
-            const title = document.getElementById("taskTitle").value;
-            const project = document.getElementById("taskProj").value;
-            const priority = document.getElementById("taskPriority").value;
-            const dept = document.getElementById("taskDept").value;
-            const status = document.getElementById("taskStatus").value;
+            try {
+                const resp = await WorkHubAPI.post('/tasks/', {
+                    title,
+                    project: projectId ? parseInt(projectId) : null,
+                    department: deptId ? parseInt(deptId) : null,
+                    priority,
+                    status,
+                    assignee: assigneeId ? parseInt(assigneeId) : null
+                });
 
-            let allTasks = getTasksData();
-            const newTask = {
-                id: Date.now(),
-                title,
-                project,
-                priority,
-                dept,
-                status,
-                assignedTo: null
-            };
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    alert(`Failed to create task: ${errText}`);
+                    return;
+                }
 
-            allTasks.push(newTask);
-            localStorage.setItem("workhub_tasks", JSON.stringify(allTasks));
-
-            form.reset();
-            const modalInstance = bootstrap.Modal.getInstance(document.getElementById("addTaskModal"));
-            if (modalInstance) modalInstance.hide();
-
-            renderTasksCommon("tasks-table-body", "task-search-input", "filter-priority", "filter-status");
+                form.reset();
+                if (projSelect) {
+                    projSelect.innerHTML = '<option value="" disabled selected>Select Department first...</option>';
+                    projSelect.disabled = true;
+                }
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addTaskModal'));
+                if (modal) modal.hide();
+                renderTasksCommon('assignments-table-body', 'assign-search-input', 'assign-filter-priority', 'assign-filter-status');
+            } catch (err) {
+                console.error(err);
+                alert('Network error.');
+            }
         });
     }
-};
-
-// Employee Module Page Initializer
-window.PageModules['employee-mytasks'] = function() {
-    const currentName = window.currentUser?.name || "Alex Mercer";
-    
-    renderTasksCommon("mytasks-table-body", "mytask-search-input", "myfilter-priority", "myfilter-status", currentName);
-    setupFilterListeners("mytasks-table-body", "mytask-search-input", "myfilter-priority", "myfilter-status", currentName);
-};
-
-// Manager Module Page Initializer
-window.PageModules['manager-assignments'] = function() {
-    renderTasksCommon("assignments-table-body", "assign-search-input", "assign-filter-priority", "assign-filter-status");
-    setupFilterListeners("assignments-table-body", "assign-search-input", "assign-filter-priority", "assign-filter-status");
 };

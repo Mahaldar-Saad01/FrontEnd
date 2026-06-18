@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         dashboard: `pages/${role}/dashboard.html`,
         projects: role === 'employee' ? 'pages/employee/myprojects.html' : `pages/${role}/projects.html`,
-        tasks: role === 'admin' ? 'pages/admin/tasks.html' : (role === 'manager' ? 'pages/manager/assignments.html' : 'pages/employee/mytasks.html'),
+        tasks: role === 'manager' ? 'pages/manager/assignments.html' : 'pages/employee/mytasks.html',
+        approvals: "pages/admin/approvals.html",
         kanban: `pages/${role}/kanban.html`,
         reports: `pages/${role}/reports.html`,
         

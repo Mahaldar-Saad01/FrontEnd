@@ -1,117 +1,91 @@
-// Calendar Module Initializer
-window.PageModules['calendar'] = function() {
-    const monthYearEl = document.getElementById("calendar-month-year");
-    const daysGrid = document.getElementById("calendar-days-grid");
-    const agendaEl = document.getElementById("calendar-events-agenda");
-    const prevMonthBtn = document.getElementById("prev-month-btn");
-    const nextMonthBtn = document.getElementById("next-month-btn");
-    const todayBtn = document.getElementById("today-btn");
-    const addEventForm = document.getElementById("addEventForm");
+/**
+ * Calendar Module — Full CRUD via /api/calendar/events/
+ * Renders month grid, agenda sidebar, and handles add/delete events.
+ * All rendering logic and element IDs preserved from original design.
+ */
+window.PageModules['calendar'] = async function () {
+    const monthYearEl  = document.getElementById('calendar-month-year');
+    const daysGrid     = document.getElementById('calendar-days-grid');
+    const agendaEl     = document.getElementById('calendar-events-agenda');
+    const prevMonthBtn = document.getElementById('prev-month-btn');
+    const nextMonthBtn = document.getElementById('next-month-btn');
+    const todayBtn     = document.getElementById('today-btn');
+    const addEventForm = document.getElementById('addEventForm');
 
-    // Static events data list (persisted in localStorage)
-    let events = JSON.parse(localStorage.getItem("workhub_events"));
-    if (!events) {
-        events = [
-            { id: 1, title: "Sprint Planning", date: "2026-06-08", time: "10:00", category: "sprint", desc: "Align on upcoming sprint goals and assign tasks." },
-            { id: 2, title: "FastAPI MySQL Sync", date: "2026-06-11", time: "11:30", category: "review", desc: "Discuss FastAPI database schema and MySQL migration." },
-            { id: 3, title: "Client Feedback Sync", date: "2026-06-15", time: "15:00", category: "client", desc: "Walkthrough work in progress features with the client." },
-            { id: 4, title: "Friday Game Night", date: "2026-06-19", time: "17:00", category: "social", desc: "Relax and play some games with the team." }
-        ];
-        localStorage.setItem("workhub_events", JSON.stringify(events));
-    }
+    let events = [];
 
-    // Initialize to June 2026 (matching demo timeline)
-    let currentDate = new Date(2026, 5, 11); // June 11, 2026
-    let activeMonth = currentDate.getMonth();
-    let activeYear = currentDate.getFullYear();
+    const now          = new Date();
+    let currentDate    = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let activeMonth    = currentDate.getMonth();
+    let activeYear     = currentDate.getFullYear();
 
     const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        'January','February','March','April','May','June',
+        'July','August','September','October','November','December'
     ];
-
     const categoryTextMap = {
-        sprint: "Sprint Meeting",
-        client: "Client Sync",
-        review: "Code Review",
-        social: "Team Social"
+        sprint: 'Sprint Meeting',
+        client: 'Client Sync',
+        review: 'Code Review',
+        social: 'Team Social'
     };
 
+    // ── Render Calendar Grid ───────────────────────────────────────
     const renderCalendar = () => {
         if (!daysGrid || !monthYearEl) return;
 
-        daysGrid.innerHTML = "";
+        daysGrid.innerHTML = '';
         monthYearEl.textContent = `${monthNames[activeMonth]} ${activeYear}`;
 
-        // Get first day of month and total days
-        const firstDayIndex = new Date(activeYear, activeMonth, 1).getDay(); // 0 is Sunday, 1 is Monday...
-        const totalDays = new Date(activeYear, activeMonth + 1, 0).getDate();
-        
-        // Translate Sunday-first (0) to Monday-first index:
-        // Sun: 0 -> 6, Mon: 1 -> 0, Tue: 2 -> 1, Wed: 3 -> 2, Thu: 4 -> 3, Fri: 5 -> 4, Sat: 6 -> 5
-        const firstDayOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+        const firstDayIndex    = new Date(activeYear, activeMonth, 1).getDay();
+        const totalDays        = new Date(activeYear, activeMonth + 1, 0).getDate();
+        const firstDayOffset   = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+        const prevMonthDays    = new Date(activeYear, activeMonth, 0).getDate();
 
-        // Get total days in previous month
-        const prevMonthTotalDays = new Date(activeYear, activeMonth, 0).getDate();
-
-        // Render previous month's ending days
+        // Previous month tail
         for (let i = firstDayOffset - 1; i >= 0; i--) {
-            const dayNum = prevMonthTotalDays - i;
-            const cell = document.createElement("div");
-            cell.className = "calendar-cell inactive-month";
-            cell.innerHTML = `<span class="day-number">${dayNum}</span>`;
+            const cell = document.createElement('div');
+            cell.className = 'calendar-cell inactive-month';
+            cell.innerHTML = `<span class="day-number">${prevMonthDays - i}</span>`;
             daysGrid.appendChild(cell);
         }
 
-        // Render current month days
-        const today = new Date();
+        // Current month days
         for (let day = 1; day <= totalDays; day++) {
-            const cell = document.createElement("div");
-            cell.className = "calendar-cell";
+            const cell    = document.createElement('div');
+            cell.className = 'calendar-cell';
 
-            // Highlight current day if matches June 11, 2026 (or real today)
-            const isToday = (day === 11 && activeMonth === 5 && activeYear === 2026);
-            if (isToday) {
-                cell.classList.add("today");
-            }
+            const todayD = new Date();
+            const isToday = day === todayD.getDate() && activeMonth === todayD.getMonth() && activeYear === todayD.getFullYear();
+            if (isToday) cell.classList.add('today');
 
             cell.innerHTML = `<span class="day-number">${day}</span>`;
 
-            // Query events matching this specific date
-            const dateStr = `${activeYear}-${String(activeMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dateStr  = `${activeYear}-${String(activeMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = events.filter(e => e.date === dateStr);
 
-            const eventsContainer = document.createElement("div");
-            eventsContainer.className = "calendar-events-container";
+            const evCont = document.createElement('div');
+            evCont.className = 'calendar-events-container';
 
             dayEvents.forEach(ev => {
-                const dot = document.createElement("div");
-
+                const dot = document.createElement('div');
                 dot.className = `calendar-event-dot event-${ev.category}`;
-
                 dot.innerHTML = `
-                <span class="calendar-event-title">
-                ${ev.title}
-                </span>
-
-                <span class="calendar-event-time">
-                ${ev.time}
-                 </span>
+                    <span class="calendar-event-title">${ev.title}</span>
+                    <span class="calendar-event-time">${ev.time}</span>
                 `;
-
                 dot.title = `${ev.time} - ${ev.title}`;
+                evCont.appendChild(dot);
+            });
 
-                eventsContainer.appendChild(dot);
- });
+            cell.appendChild(evCont);
 
-            cell.appendChild(eventsContainer);
-
-            // Click cell to trigger pre-fill modal date
-            cell.addEventListener("click", () => {
-                const dateInput = document.getElementById("eventDate");
+            // Click to pre-fill add event modal date
+            cell.addEventListener('click', () => {
+                const dateInput = document.getElementById('eventDate');
                 if (dateInput) {
                     dateInput.value = dateStr;
-                    const modal = new bootstrap.Modal(document.getElementById("addEventModal"));
+                    const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
                     modal.show();
                 }
             });
@@ -119,52 +93,52 @@ window.PageModules['calendar'] = function() {
             daysGrid.appendChild(cell);
         }
 
-        // Render next month's starting days to fill grid row
-        const totalCellsFilled = firstDayOffset + totalDays;
-        const remainingCells = (7 - (totalCellsFilled % 7)) % 7;
-        for (let day = 1; day <= remainingCells; day++) {
-            const cell = document.createElement("div");
-            cell.className = "calendar-cell inactive-month";
+        // Next month head
+        const totalCells   = firstDayOffset + totalDays;
+        const remaining    = (7 - (totalCells % 7)) % 7;
+        for (let day = 1; day <= remaining; day++) {
+            const cell = document.createElement('div');
+            cell.className = 'calendar-cell inactive-month';
             cell.innerHTML = `<span class="day-number">${day}</span>`;
             daysGrid.appendChild(cell);
         }
-        
+
         renderAgenda();
     };
 
+    // ── Render Agenda ──────────────────────────────────────────────
     const renderAgenda = () => {
         if (!agendaEl) return;
+        agendaEl.innerHTML = '';
 
-        agendaEl.innerHTML = "";
+        const sorted = [...events].sort((a, b) =>
+            new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`)
+        );
 
-        // Sort events chronologically
-        const sortedEvents = [...events].sort((a, b) => {
-            return new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`);
-        });
-
-        if (sortedEvents.length === 0) {
+        if (sorted.length === 0) {
             agendaEl.innerHTML = `<div class="text-center text-muted small mt-4">No events scheduled.</div>`;
             return;
         }
 
-        sortedEvents.forEach(ev => {
-            const eventDate = new Date(ev.date);
-            const dateDisplay = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            
-            const card = document.createElement("div");
+        sorted.forEach(ev => {
+            const evDate     = new Date(ev.date);
+            const dateDisplay = evDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const card = document.createElement('div');
             card.className = `agenda-card cat-${ev.category}`;
             card.innerHTML = `
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge-custom badge-priority-${ev.category === 'sprint' ? 'high' : (ev.category === 'client' ? 'low' : 'medium')}" style="font-size: 0.65rem;">
-                        ${categoryTextMap[ev.category]}
-                    </span>
-                    <small class="text-muted" style="font-size: 0.75rem;">${ev.time}</small>
+                    <span class="badge-custom badge-priority-${ev.category === 'sprint' ? 'high' : (ev.category === 'client' ? 'low' : 'medium')}"
+                          style="font-size:0.65rem;">${categoryTextMap[ev.category] || ev.category}</span>
+                    <small class="text-muted" style="font-size:0.75rem;">${ev.time}</small>
                 </div>
                 <h6 class="fw-bold mb-1 text-white">${ev.title}</h6>
-                <p class="text-secondary small mb-1">${ev.desc}</p>
+                <p class="text-secondary small mb-1">${ev.description || ev.desc || ''}</p>
                 <div class="d-flex justify-content-between align-items-center mt-2">
-                    <span class="text-muted" style="font-size: 0.75rem;"><i class="fa-regular fa-calendar me-1"></i>${dateDisplay}</span>
-                    <button class="btn btn-link text-danger p-0 delete-event-btn" data-id="${ev.id}" style="font-size: 0.8rem; text-decoration: none;">
+                    <span class="text-muted" style="font-size:0.75rem;">
+                        <i class="fa-regular fa-calendar me-1"></i>${dateDisplay}
+                    </span>
+                    <button class="btn btn-link text-danger p-0 delete-event-btn" data-id="${ev.id}"
+                            style="font-size:0.8rem; text-decoration:none;">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
                 </div>
@@ -172,90 +146,81 @@ window.PageModules['calendar'] = function() {
             agendaEl.appendChild(card);
         });
 
-        // Add delete triggers
-        document.querySelectorAll(".delete-event-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
+        // Delete event handler
+        document.querySelectorAll('.delete-event-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
-                const id = parseInt(btn.dataset.id);
-                events = events.filter(ev => ev.id !== id);
-                localStorage.setItem("workhub_events", JSON.stringify(events));
-                renderCalendar();
+                try {
+                    await WorkHubAPI.delete(`/calendar/events/${btn.dataset.id}/`);
+                    events = events.filter(ev => ev.id != btn.dataset.id);
+                    renderCalendar();
+                } catch (err) { alert('Failed to delete event.'); }
             });
         });
     };
 
-    // Navigation events
+    // ── Load Events from API ───────────────────────────────────────
+    try {
+        const data = await WorkHubAPI.getJSON('/calendar/events/');
+        events = Array.isArray(data) ? data : (data.results || []);
+        renderCalendar();
+    } catch (err) {
+        console.error('Calendar load error:', err);
+        renderCalendar(); // Render empty calendar
+    }
+
+    // ── Navigation ─────────────────────────────────────────────────
     if (prevMonthBtn) {
-        prevMonthBtn.addEventListener("click", () => {
-            if (activeMonth === 0) {
-                activeMonth = 11;
-                activeYear--;
-            } else {
-                activeMonth--;
-            }
+        prevMonthBtn.addEventListener('click', () => {
+            if (activeMonth === 0) { activeMonth = 11; activeYear--; }
+            else { activeMonth--; }
             renderCalendar();
         });
     }
 
     if (nextMonthBtn) {
-        nextMonthBtn.addEventListener("click", () => {
-            if (activeMonth === 11) {
-                activeMonth = 0;
-                activeYear++;
-            } else {
-                activeMonth++;
-            }
+        nextMonthBtn.addEventListener('click', () => {
+            if (activeMonth === 11) { activeMonth = 0; activeYear++; }
+            else { activeMonth++; }
             renderCalendar();
         });
     }
 
     if (todayBtn) {
-        todayBtn.addEventListener("click", () => {
+        todayBtn.addEventListener('click', () => {
             activeMonth = currentDate.getMonth();
-            activeYear = currentDate.getFullYear();
+            activeYear  = currentDate.getFullYear();
             renderCalendar();
         });
     }
 
-    // Modal submit handler
-    if (addEventForm) {
-        addEventForm.addEventListener("submit", (e) => {
+    // ── Add Event Form ─────────────────────────────────────────────
+    if (addEventForm && !addEventForm.dataset.bound) {
+        addEventForm.dataset.bound = 'true';
+        addEventForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const title    = document.getElementById('eventTitle').value;
+            const date     = document.getElementById('eventDate').value;
+            const time     = document.getElementById('eventTime').value;
+            const category = document.getElementById('eventCategory').value;
+            const desc     = document.getElementById('eventDesc').value;
 
-            const title = document.getElementById("eventTitle").value;
-            const date = document.getElementById("eventDate").value;
-            const time = document.getElementById("eventTime").value;
-            const category = document.getElementById("eventCategory").value;
-            const desc = document.getElementById("eventDesc").value;
+            try {
+                const resp = await WorkHubAPI.post('/calendar/events/', {
+                    title, date, time, category, description: desc
+                });
+                if (!resp.ok) { alert('Failed to create event.'); return; }
 
-            const newEvent = {
-                id: Date.now(),
-                title,
-                date,
-                time,
-                category,
-                desc
-            };
+                const newEvent = await resp.json();
+                events.push(newEvent);
 
-            events.push(newEvent);
-            localStorage.setItem("workhub_events", JSON.stringify(events));
+                addEventForm.reset();
+                const modalEl = document.getElementById('addEventModal');
+                const modal   = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.hide();
 
-            // Reset Form and hide modal
-            addEventForm.reset();
-            const modalEl = document.getElementById("addEventModal");
-            const modalInstance = bootstrap.Modal.getInstance(modalEl);
-            if (modalInstance) {
-                modalInstance.hide();
-            } else {
-                // Fallback for custom triggers
-                const bsModal = new bootstrap.Modal(modalEl);
-                bsModal.hide();
-            }
-
-            renderCalendar();
+                renderCalendar();
+            } catch (err) { alert('Network error.'); }
         });
     }
-
-    // Run first render
-    renderCalendar();
 };

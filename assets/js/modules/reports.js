@@ -1,9 +1,13 @@
-// Reports Module Initializer (Handles admin and manager reports views)
+/**
+ * Reports Module — via /api/projects/ and /api/employees/
+ * Renders report preview table and enables file export (CSV/JSON/TXT).
+ * Preserves all UI structure and IDs from original design.
+ */
 
-const loadReportPreview = (category) => {
+const loadReportPreview = async (category) => {
     const titleEl = document.getElementById("report-preview-title");
-    const headEl = document.getElementById("report-preview-head");
-    const bodyEl = document.getElementById("report-preview-body");
+    const headEl  = document.getElementById("report-preview-head");
+    const bodyEl  = document.getElementById("report-preview-body");
 
     if (!headEl || !bodyEl) return;
 
@@ -18,16 +22,30 @@ const loadReportPreview = (category) => {
                 <th>Status</th>
             </tr>
         `;
-        const projects = JSON.parse(localStorage.getItem("workhub_projects")) || [];
-        bodyEl.innerHTML = projects.map(p => `
-            <tr>
-                <td class="fw-bold text-white">${p.name}</td>
-                <td>${p.manager}</td>
-                <td>${p.dept}</td>
-                <td>${p.progress}%</td>
-                <td><span class="badge-custom ${p.status === 'Completed' ? 'badge-status-done' : 'badge-status-progress'}">${p.status}</span></td>
-            </tr>
-        `).join("");
+        bodyEl.innerHTML = '<tr><td colspan="5" class="text-center text-secondary py-3"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading...</td></tr>';
+
+        try {
+            const data = await WorkHubAPI.getJSON('/projects/');
+            const projects = Array.isArray(data) ? data : (data.results || []);
+
+            bodyEl.innerHTML = projects.map(p => `
+                <tr>
+                    <td class="fw-bold text-white">${p.name}</td>
+                    <td>${p.lead_manager_name || '—'}</td>
+                    <td>${p.department_name || '—'}</td>
+                    <td>${p.progress}%</td>
+                    <td>
+                        <span class="badge-custom ${p.status === 'Completed' ? 'badge-status-done' : 'badge-status-progress'}">
+                            ${p.status}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+
+        } catch (err) {
+            bodyEl.innerHTML = '<tr><td colspan="5" class="text-danger text-center py-3">Failed to load projects.</td></tr>';
+        }
+
     } else if (category === "workload") {
         if (titleEl) titleEl.textContent = "Resource Allocation & Workloads Preview";
         headEl.innerHTML = `
@@ -38,23 +56,43 @@ const loadReportPreview = (category) => {
                 <th>Completeness</th>
             </tr>
         `;
-        const employees = JSON.parse(localStorage.getItem("workhub_employees")) || [];
-        const tasks = JSON.parse(localStorage.getItem("workhub_tasks")) || [];
+        bodyEl.innerHTML = '<tr><td colspan="4" class="text-center text-secondary py-3"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading...</td></tr>';
 
-        bodyEl.innerHTML = employees.map(emp => {
-            const empTasks = tasks.filter(t => t.assignedTo === emp.name);
-            const doneCount = empTasks.filter(t => t.status === 'done').length;
-            const pct = empTasks.length > 0 ? Math.round((doneCount / empTasks.length) * 100) : 0;
-            return `
-                <tr>
-                    <td class="fw-bold text-white">${emp.name}</td>
-                    <td>${emp.dept}</td>
-                    <td>${empTasks.length} Active</td>
-                    <td>${pct}% Done</td>
-                </tr>
-            `;
-        }).join("");
+        try {
+            const [empData, taskData] = await Promise.all([
+                WorkHubAPI.getJSON('/employees/'),
+                WorkHubAPI.getJSON('/tasks/')
+            ]);
+
+            const employees = Array.isArray(empData) ? empData : (empData.results || []);
+            const tasks     = Array.isArray(taskData) ? taskData : (taskData.results || []);
+
+            bodyEl.innerHTML = employees.map(emp => {
+                const empTasks  = tasks.filter(t => t.assignee === emp.id);
+                const doneCount = empTasks.filter(t => t.status === 'done').length;
+                const pct       = empTasks.length > 0 ? Math.round((doneCount / empTasks.length) * 100) : 0;
+                return `
+                    <tr>
+                        <td class="fw-bold text-white">
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="${emp.avatar_url}" class="rounded-circle"
+                                     style="width:24px; height:24px;" alt="Avatar">
+                                <span>${emp.full_name}</span>
+                            </div>
+                        </td>
+                        <td>${emp.department_name || '—'}</td>
+                        <td>${empTasks.length} Active</td>
+                        <td>${pct}% Done</td>
+                    </tr>
+                `;
+            }).join('');
+
+        } catch (err) {
+            bodyEl.innerHTML = '<tr><td colspan="4" class="text-danger text-center py-3">Failed to load workload data.</td></tr>';
+        }
+
     } else {
+        // Audit logs — static simulation
         if (titleEl) titleEl.textContent = "System Activity Audit Logs Preview";
         headEl.innerHTML = `
             <tr>
@@ -67,19 +105,19 @@ const loadReportPreview = (category) => {
         bodyEl.innerHTML = `
             <tr>
                 <td class="text-secondary">2026-06-11 22:15:34</td>
-                <td class="fw-bold text-white">Saad Mahaldar (Admin)</td>
+                <td class="fw-bold text-white">Admin (${WorkHubAPI.getCurrentUser()?.name || 'Admin'})</td>
                 <td>Loaded Department Configuration registry</td>
                 <td class="text-muted">192.168.1.42</td>
             </tr>
             <tr>
                 <td class="text-secondary">2026-06-11 20:44:12</td>
-                <td class="fw-bold text-white">Sarah Miller (Manager)</td>
-                <td>Completed task "Configure MySQL schemas"</td>
+                <td class="fw-bold text-white">Manager (System)</td>
+                <td>Updated task status: In Progress → Completed</td>
                 <td class="text-muted">192.168.1.18</td>
             </tr>
             <tr>
                 <td class="text-secondary">2026-06-11 19:12:05</td>
-                <td class="fw-bold text-white">Alex Mercer (Employee)</td>
+                <td class="fw-bold text-white">Employee (System)</td>
                 <td>Opened in-call Standup simulator</td>
                 <td class="text-muted">192.168.1.9</td>
             </tr>
@@ -87,9 +125,9 @@ const loadReportPreview = (category) => {
     }
 };
 
-const setupReportGenerator = () => {
+const setupReportGenerator = async () => {
     const typeSelect = document.getElementById("report-type");
-    const form = document.getElementById("report-generator-form");
+    const form       = document.getElementById("report-generator-form");
 
     if (typeSelect) {
         typeSelect.addEventListener("change", (e) => {
@@ -99,80 +137,97 @@ const setupReportGenerator = () => {
     }
 
     if (form) {
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const type = document.getElementById("report-type").value;
-            const format = document.getElementById("report-format").value;
+            const type      = document.getElementById("report-type").value;
+            const format    = document.getElementById("report-format").value;
             const submitBtn = document.getElementById("export-report-btn");
 
             if (!submitBtn) return;
 
-            // Trigger download simulation loading state
             const origHtml = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Exporting...`;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status"></span>Exporting...`;
 
-            setTimeout(() => {
-                // Generate download files
-                let content = "";
-                let filename = `workhub_report_${type}_${Date.now()}`;
+            let content  = "";
+            let filename = `workhub_report_${type}_${Date.now()}`;
 
+            try {
                 if (type === "projects") {
-                    const projects = JSON.parse(localStorage.getItem("workhub_projects")) || [];
+                    const data     = await WorkHubAPI.getJSON('/projects/');
+                    const projects = Array.isArray(data) ? data : (data.results || []);
+
                     if (format === "CSV") {
-                        content = "Project Name,Manager,Department,Progress,Status\n" + 
-                            projects.map(p => `"${p.name}","${p.manager}","${p.dept}",${p.progress},"${p.status}"`).join("\n");
+                        content  = "Project Name,Manager,Department,Progress,Status\n" +
+                            projects.map(p => `"${p.name}","${p.lead_manager_name || ''}","${p.department_name || ''}",${p.progress},"${p.status}"`).join("\n");
                         filename += ".csv";
                     } else if (format === "JSON") {
-                        content = JSON.stringify(projects, null, 2);
+                        content  = JSON.stringify(projects, null, 2);
                         filename += ".json";
                     } else {
-                        content = "WorkHub System Report\n===================\nReport type: Projects Summary\n\n" + 
-                            projects.map(p => `- ${p.name} | Lead: ${p.manager} | Status: ${p.status} | Progress: ${p.progress}%`).join("\n");
+                        content  = "WorkHub System Report\n===================\nReport type: Projects Summary\n\n" +
+                            projects.map(p => `- ${p.name} | Lead: ${p.lead_manager_name || '—'} | Status: ${p.status} | Progress: ${p.progress}%`).join("\n");
                         filename += ".txt";
                     }
+
                 } else if (type === "workload") {
-                    const employees = JSON.parse(localStorage.getItem("workhub_employees")) || [];
+                    const [empData, taskData] = await Promise.all([
+                        WorkHubAPI.getJSON('/employees/'),
+                        WorkHubAPI.getJSON('/tasks/')
+                    ]);
+                    const employees = Array.isArray(empData) ? empData : (empData.results || []);
+                    const tasks     = Array.isArray(taskData) ? taskData : (taskData.results || []);
+
                     if (format === "CSV") {
-                        content = "Name,Email,Department,Status\n" + 
-                            employees.map(e => `"${e.name}","${e.email}","${e.dept}","${e.status}"`).join("\n");
+                        content  = "Name,Email,Department,Role,Status,Active Tasks\n" +
+                            employees.map(emp => {
+                                const active = tasks.filter(t => t.assignee === emp.id && t.status !== 'done').length;
+                                return `"${emp.full_name}","${emp.email}","${emp.department_name || ''}","${emp.role}","${emp.status}",${active}`;
+                            }).join("\n");
                         filename += ".csv";
                     } else if (format === "JSON") {
-                        content = JSON.stringify(employees, null, 2);
+                        content  = JSON.stringify(employees, null, 2);
                         filename += ".json";
                     } else {
-                        content = "WorkHub System Report\n===================\nReport type: Team Workload Summary\n\n" + 
-                            employees.map(e => `- ${e.name} | Dept: ${e.dept} | Status: ${e.status}`).join("\n");
+                        content  = "WorkHub System Report\n===================\nReport type: Team Workload Summary\n\n" +
+                            employees.map(emp => `- ${emp.full_name} | Dept: ${emp.department_name || '—'} | Status: ${emp.status}`).join("\n");
                         filename += ".txt";
                     }
+
                 } else {
-                    content = "WorkHub Audit Logs Export\n\n- [2026-06-11 22:15] Saad Mahaldar: Access Department Registry\n- [2026-06-11 20:44] Sarah Miller: Finished Task mysql config\n";
+                    content  = "WorkHub Audit Logs Export\n\n- [2026-06-11 22:15] Admin: Access Department Registry\n- [2026-06-11 20:44] Manager: Finished Task update\n";
                     filename += format === "JSON" ? ".json" : (format === "CSV" ? ".csv" : ".txt");
                 }
 
-                // Browser file download trigger
+            } catch (err) {
+                console.error('Report export error:', err);
+                content  = "Export failed — please try again.";
+                filename += ".txt";
+            }
+
+            // ── Trigger download ───────────────────────────────────
+            setTimeout(() => {
                 const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
                 const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
+                link.href  = URL.createObjectURL(blob);
                 link.download = filename;
                 link.click();
                 URL.revokeObjectURL(link.href);
 
-                // Restore button
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = origHtml;
-            }, 1500);
+            }, 600);
         });
     }
 };
 
-// Admin Reports view
-window.PageModules['admin-reports'] = function() {
+// ── Admin Reports view ─────────────────────────────────────────────────────
+window.PageModules['admin-reports'] = function () {
     setupReportGenerator();
 };
 
-// Manager Reports view
-window.PageModules['manager-reports'] = function() {
+// ── Manager Reports view ───────────────────────────────────────────────────
+window.PageModules['manager-reports'] = function () {
     setupReportGenerator();
 };

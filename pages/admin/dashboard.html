@@ -29,12 +29,12 @@
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
                 <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Total Tasks</span>
-                    <h3 class="stat-number mb-0" id="admin-stat-tasks">24</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-arrow-trend-up me-1"></i>+8% vs yesterday</span>
+                    <span class="text-secondary small fw-semibold text-uppercase">Pending Approvals</span>
+                    <h3 class="stat-number mb-0" id="admin-stat-approvals">0</h3>
+                    <span class="stat-trend text-secondary mt-1"><i class="fa-solid fa-equals me-1"></i>Requires Action</span>
                 </div>
                 <div class="stat-icon text-success bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-list-check"></i>
+                    <i class="fa-solid fa-square-check"></i>
                 </div>
             </div>
         </div>
@@ -68,25 +68,16 @@
 
     <!-- Charts row -->
     <div class="row g-4 flex-grow-1">
-        <!-- Task Status Chart -->
+        <!-- Project Completion Chart -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Overall Task Completion Status</h5>
+                <h5 class="fw-bold text-white mb-3">Project Completion Status</h5>
                 <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
-                    <canvas id="admin-task-chart"></canvas>
+                    <canvas id="admin-project-chart"></canvas>
                 </div>
             </div>
         </div>
         
-        <!-- Department Workload Bar Chart -->
-        <div class="col-lg-6 col-md-12">
-            <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Resource Workload by Department</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
-                    <canvas id="admin-workload-chart"></canvas>
-                </div>
-            </div>
-        </div>
         <!-- Department Workload Bar Chart -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
