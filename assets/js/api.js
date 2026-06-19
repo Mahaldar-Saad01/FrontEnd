@@ -62,11 +62,16 @@
         async fetch(endpoint, options = {}) {
             let token = this.getAccessToken();
 
-            const buildHeaders = (tkn) => ({
-                'Content-Type': 'application/json',
-                ...(tkn ? { 'Authorization': `Bearer ${tkn}` } : {}),
-                ...(options.headers || {})
-            });
+            const buildHeaders = (tkn) => {
+                const headers = {
+                    ...(tkn ? { 'Authorization': `Bearer ${tkn}` } : {}),
+                    ...(options.headers || {})
+                };
+                if (!(options.body instanceof FormData)) {
+                    headers['Content-Type'] = 'application/json';
+                }
+                return headers;
+            };
 
             let response = await fetch(`${API_BASE}${endpoint}`, {
                 ...options,

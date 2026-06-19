@@ -306,6 +306,63 @@ window.PageModules['employee-profile'] = async function () {
     const form       = document.getElementById('profile-details-form');
     const alertCont  = document.getElementById('profile-alert-container');
 
+    // Avatar upload handling
+    const editBtn = document.getElementById('profile-avatar-edit-btn');
+    const fileInput = document.getElementById('profile-avatar-input');
+
+    if (editBtn && fileInput) {
+        editBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', async () => {
+            if (fileInput.files.length === 0) return;
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            try {
+                const resp = await WorkHubAPI.fetch('/users/me/avatar/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!resp.ok) {
+                    throw new Error('Upload failed');
+                }
+
+                const data = await resp.json();
+                const newAvatarUrl = data.avatar_url;
+
+                // Update UI elements
+                if (avatarImg) avatarImg.src = newAvatarUrl;
+                const navAvatar = document.getElementById('nav-user-avatar');
+                if (navAvatar) navAvatar.src = newAvatarUrl;
+
+                // Sync local storage session
+                const session = WorkHubAPI.getCurrentUser() || {};
+                session.avatar = newAvatarUrl;
+                session.avatar_url = newAvatarUrl;
+                WorkHubAPI.setCurrentUser(session);
+
+                if (alertCont) {
+                    alertCont.innerHTML = `
+                        <div class="alert alert-success d-flex align-items-center mb-4 fade-in-view" role="alert"
+                             style="background-color:rgba(16,185,129,0.15); border-color:var(--color-success); color:var(--color-success);">
+                            <i class="fa-solid fa-circle-check me-2"></i>
+                            <div>Avatar updated successfully.</div>
+                        </div>
+                    `;
+                    setTimeout(() => { alertCont.innerHTML = ''; }, 3000);
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert('Failed to upload profile picture. Please try again.');
+            } finally {
+                fileInput.value = '';
+            }
+        });
+    }
+
     try {
         const userData = await WorkHubAPI.getJSON('/users/me/');
 

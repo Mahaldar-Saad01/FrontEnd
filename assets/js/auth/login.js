@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const demoCredentials = {
         admin:    { email: "admin@gmail.com",    pass: "admin123" },
         manager:  { email: "saraa@gmail.com",  pass: "newpass123" },
-        employee: { email: "saad1@workhub.com", pass: "newpass123" }
+        employee: { email: "samad@mits.com", pass: "samad123" }
     };
 
     roleBtns.forEach(btn => {

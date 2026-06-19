@@ -85,6 +85,11 @@ const renderTasksCommon = async (tableBodyId, searchInputId, priorityFilterId, s
                             <option value="review"   ${task.status === 'review'   ? 'selected' : ''}>In Review</option>
                             <option value="done"     ${task.status === 'done'     ? 'selected' : ''}>Completed</option>
                         </select>
+                        <button class="btn btn-primary-custom py-1 px-2 font-size-xs ms-2 submit-review-btn"
+                                data-id="${task.id}" data-title="${task.title}"
+                                ${task.status === 'review' || task.status === 'done' ? 'disabled' : ''}>
+                            <i class="fa-solid fa-file-export"></i> Review
+                        </button>
                     </td>
                 `;
             } else { // manager
@@ -102,8 +107,12 @@ const renderTasksCommon = async (tableBodyId, searchInputId, priorityFilterId, s
             }
 
             const tr = document.createElement('tr');
+            let proceedBadge = '';
+            if (task.proceed_flag) {
+                proceedBadge = `<span class="badge bg-success text-white ms-2" style="font-size:0.7rem;"><i class="fa-solid fa-flag"></i> Proceed</span>`;
+            }
             tr.innerHTML = `
-                <td class="fw-semibold text-white">${task.title}</td>
+                <td class="fw-semibold text-white">${task.title}${proceedBadge}</td>
                 <td><span class="text-secondary-custom">${task.project_name || '—'}</span></td>
                 <td><span class="text-muted-custom font-size-sm">${task.department_name || '—'}</span></td>
                 <td><span class="badge-custom ${pBadge}">${task.priority}</span></td>
@@ -112,7 +121,7 @@ const renderTasksCommon = async (tableBodyId, searchInputId, priorityFilterId, s
             `;
             tableBody.appendChild(tr);
         });
-
+    //}
         // ── Event Handlers ─────────────────────────────────────────
 
         // Admin delete
@@ -147,6 +156,27 @@ const renderTasksCommon = async (tableBodyId, searchInputId, priorityFilterId, s
                 } catch (e) { alert('Failed to update assignee.'); }
             });
         });
+        // Employee Review request
+        document.querySelectorAll('.submit-review-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const taskId = btn.dataset.id;
+                const taskTitle = btn.dataset.title;
+
+                const reviewTaskIdEl = document.getElementById('reviewTaskId');
+                const reviewTaskTitleEl = document.getElementById('reviewTaskTitle');
+                const reviewReportEl = document.getElementById('reviewReport');
+
+                if (reviewTaskIdEl) reviewTaskIdEl.value = taskId;
+                if (reviewTaskTitleEl) reviewTaskTitleEl.value = taskTitle;
+                if (reviewReportEl) reviewReportEl.value = '';
+
+                const modalEl = document.getElementById('submitReviewModal');
+                if (modalEl) {
+                    const modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+                }
+            });
+        });
 
     } catch (err) {
         console.error('Tasks load error:', err);
@@ -177,6 +207,39 @@ window.PageModules['admin-tasks'] = async function () {
 window.PageModules['employee-mytasks'] = function () {
     renderTasksCommon('mytasks-table-body', 'mytask-search-input', 'myfilter-priority', 'myfilter-status');
     setupTaskFilterListeners('mytasks-table-body', 'mytask-search-input', 'myfilter-priority', 'myfilter-status');
+
+    const form = document.getElementById('submitReviewForm');
+    if (form && !form.dataset.bound) {
+        form.dataset.bound = 'true';
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const taskId = document.getElementById('reviewTaskId').value;
+            const report = document.getElementById('reviewReport').value;
+
+            try {
+                const resp = await WorkHubAPI.patch(`/tasks/${taskId}/`, {
+                    status: 'review',
+                    report: report
+                });
+
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    alert(`Failed to submit review: ${errText}`);
+                    return;
+                }
+
+                form.reset();
+                const modalEl = document.getElementById('submitReviewModal');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+
+                renderTasksCommon('mytasks-table-body', 'mytask-search-input', 'myfilter-priority', 'myfilter-status');
+            } catch (err) {
+                console.error(err);
+                alert('Network error.');
+            }
+        });
+    }
 };
 
 // ── Manager Assignments Page ───────────────────────────────────────────────
