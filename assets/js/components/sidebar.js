@@ -23,11 +23,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         approvals: "pages/admin/approvals.html",
         kanban: `pages/${role}/kanban.html`,
         reports: `pages/${role}/reports.html`,
+        reviews: "pages/manager/reviews.html",
         
         team: "pages/manager/team.html",
         departments: "pages/admin/departments.html",
         employees: "pages/admin/employees.html",
-        settings: "pages/admin/settings.html",
+        settings: "pages/common/settings.html",
         myprojects: "pages/employee/myprojects.html",
         mytasks: "pages/employee/mytasks.html",
         assignments: "pages/manager/assignments.html",

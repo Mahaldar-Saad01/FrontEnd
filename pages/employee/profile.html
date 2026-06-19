@@ -13,8 +13,14 @@
         <!-- Avatar card -->
         <div class="col-lg-4 col-md-12">
             <div class="card-custom p-4 text-center d-flex flex-column align-items-center justify-content-center h-100">
-                <div class="rounded-circle overflow-hidden mb-3 border border-secondary" style="width: 96px; height: 96px;">
-                    <img id="profile-card-avatar" src="" alt="Avatar" class="w-100 h-100 object-fit-cover">
+                <div class="position-relative mb-3" style="width: 96px; height: 96px;">
+                    <div class="rounded-circle overflow-hidden border border-secondary w-100 h-100">
+                        <img id="profile-card-avatar" src="" alt="Avatar" class="w-100 h-100 object-fit-cover">
+                    </div>
+                    <button id="profile-avatar-edit-btn" class="btn btn-primary-custom rounded-circle position-absolute d-flex align-items-center justify-content-center" style="bottom: 0; right: 0; width: 28px; height: 28px; padding: 0; border: 2px solid var(--bg-panel); z-index: 10;" title="Change Avatar" type="button">
+                        <i class="fa-solid fa-plus text-white" style="font-size: 10px;"></i>
+                    </button>
+                    <input type="file" id="profile-avatar-input" accept="image/*" style="display: none;">
                 </div>
                 <h5 class="fw-bold text-white mb-1" id="profile-card-name">Alex Mercer</h5>
                 <span class="badge bg-primary rounded-pill font-size-xs px-2.5 py-1 mb-3 text-capitalize" id="profile-card-role">employee</span>

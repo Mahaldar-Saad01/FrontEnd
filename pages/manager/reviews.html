@@ -1,0 +1,57 @@
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 fw-bold text-white">Pending Task Reviews</h4>
+            <p class="text-secondary small mb-0">Evaluate task deliverables submitted by your team and raise proceed flags</p>
+        </div>
+    </div>
+
+    <!-- Reviews Table -->
+    <div class="table-custom-container">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Submitted By</th>
+                    <th>Project</th>
+                    <th>Report / Deliverables</th>
+                    <th>Submitted Date</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody id="reviews-table-body">
+                <tr>
+                    <td colspan="6" class="text-center text-secondary py-4">
+                        <div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading reviews...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- View Report Modal -->
+    <div class="modal fade" id="viewReportModal" tabindex="-1" aria-labelledby="viewReportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold text-white" id="viewReportModalLabel">Task Report Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 text-white">
+                    <h6 class="fw-bold mb-2">Task: <span id="reportModalTaskTitle" class="text-primary"></span></h6>
+                    <p class="text-secondary small mb-3">Submitted by: <span id="reportModalAssignee" class="fw-semibold text-white"></span></p>
+                    <hr style="border-color: var(--border-color);">
+                    <label class="form-label-custom mb-2 text-muted">Submitted Progress Report</label>
+                    <div class="p-3 rounded bg-dark border font-size-sm text-white" style="border-color: var(--border-color); white-space: pre-wrap; max-height: 250px; overflow-y: auto;" id="reportModalContent"></div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success-custom" id="reportModalProceedBtn">
+                        <i class="fa-solid fa-flag me-1"></i> Raise Proceed Flag
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

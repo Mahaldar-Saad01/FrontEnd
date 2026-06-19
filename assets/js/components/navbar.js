@@ -27,15 +27,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (roleEl)    roleEl.textContent = currentUser.role || '';
 
         // Route links based on role
-        if (currentUser.role === 'admin') {
-            if (settingsLink) settingsLink.href = '#settings';
-            if (profileLink)  profileLink.href = '#dashboard';
-        } else if (currentUser.role === 'manager') {
-            if (settingsLink) settingsLink.style.display = 'none';
-            if (profileLink)  profileLink.href = '#dashboard';
-        } else {
-            if (settingsLink) settingsLink.style.display = 'none';
-            if (profileLink)  profileLink.href = '#profile';
+        if (profileLink) profileLink.href = '#profile';
+        if (settingsLink) {
+            settingsLink.style.display = 'block';
+            settingsLink.href = '#settings';
         }
 
         // Fetch unread notification count and update badge
