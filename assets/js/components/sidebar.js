@@ -92,6 +92,47 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     })();
 
+    const showUnreadMessagesNotification = async () => {
+        try {
+            const conversations = await WorkHubAPI.getJSON('/chat/messages/conversations/');
+            const totalUnread = conversations.reduce((acc, conv) => acc + (conv.unread_count || 0), 0);
+            
+            if (totalUnread > 0) {
+                const mainContainer = mainContent.querySelector('.container-fluid');
+                if (mainContainer) {
+                    if (document.getElementById('dashboard-unread-messages-alert')) return;
+                    
+                    const alertDiv = document.createElement('div');
+                    alertDiv.id = 'dashboard-unread-messages-alert';
+                    alertDiv.className = 'alert alert-info alert-dismissible fade show d-flex align-items-center gap-3 m-3 mb-4';
+                    alertDiv.style.backgroundColor = 'rgba(99, 102, 241, 0.15)';
+                    alertDiv.style.borderColor = 'var(--primary-accent)';
+                    alertDiv.style.color = '#ffffff';
+                    alertDiv.style.borderRadius = '12px';
+                    alertDiv.style.borderWidth = '1px';
+                    alertDiv.innerHTML = `
+                        <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle" style="width:36px; height:36px; flex-shrink: 0; background-color: var(--primary-accent) !important;">
+                            <i class="fa-solid fa-message text-white"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <span class="fw-bold">New Messages:</span> You have <strong>${totalUnread}</strong> unread message(s).
+                            <a href="#chat" class="text-decoration-underline ms-2" style="color: #a5b4fc; font-weight: 600;">Go to Chat</a>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    mainContainer.insertBefore(alertDiv, mainContainer.firstChild);
+                    
+                    alertDiv.querySelector('a').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        loadPage('pages/common/chat.html');
+                    });
+                }
+            }
+        } catch (err) {
+            console.warn('Failed to load unread messages notification:', err);
+        }
+    };
+
     const loadPage = async (pagePath, shouldUpdateHistory = true) => {
         // Role authorization check for admin and manager pages
         if (pagePath.includes("pages/admin/") && role !== "admin") {
@@ -148,6 +189,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 } catch (e) {
                     console.error(`Error executing initializer for key: ${pageKey}`, e);
                 }
+            }
+
+            if (pageKey.endsWith('-dashboard')) {
+                showUnreadMessagesNotification();
             }
         } catch (error) {
             mainContent.innerHTML = `
