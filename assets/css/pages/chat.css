@@ -104,16 +104,70 @@
 /* -----------------------------------------
    5. Chat List & Message Bubbles
 ----------------------------------------- */
-.chat-item { 
+.chat-item,
+.chat-user-card { 
     transition: background-color 0.2s ease; 
 }
-.chat-item:hover { 
+.chat-item:hover,
+.chat-user-card:hover { 
     background-color: var(--bg-input) !important; 
 }
-.chat-item.bg-light { 
+.chat-item.bg-light,
+.chat-user-card.bg-light { 
     background-color: var(--bg-input) !important; 
     border-left: 3px solid var(--primary-accent); 
     border-radius: 0 8px 8px 0 !important;
+}
+
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+.chat-message-self {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+.chat-bubble-group {
+    max-width: 75%;
+}
+.chat-message-self .chat-bubble-group {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+.chat-sender-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+.chat-bubble {
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding: 0.75rem 1rem;
+    overflow-wrap: anywhere;
+}
+.chat-bubble-other {
+    background-color: var(--bg-input) !important;
+    border-top-left-radius: 0.25rem;
+}
+.chat-bubble-self {
+    background-color: var(--primary-accent) !important;
+    border-top-right-radius: 0.25rem;
+    color: #fff !important;
+}
+.chat-timestamp {
+    color: var(--text-secondary) !important;
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+}
+.chat-empty-state {
+    color: var(--text-secondary) !important;
+}
+.chat-empty-state i {
+    color: var(--primary-accent) !important;
+    font-size: 1.5rem;
 }
 
 .message-bubble {
@@ -180,3 +234,47 @@
 .cursor-pointer { cursor: pointer; }
 .avatar-sm { width: 35px; height: 35px; object-fit: cover; }
 .avatar-md { width: 45px; height: 45px; object-fit: cover; }
+
+/* -----------------------------------------
+   8. Light Theme support
+----------------------------------------- */
+#main-chat-container.light-theme {
+    --bg-main: #f3f4f6;
+    --bg-panel: #ffffff;
+    --bg-input: #e5e7eb;
+    --border-color: #e2e8f0;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+}
+
+#main-chat-container.light-theme .chat-bubble-other {
+    color: #1f2937 !important;
+}
+
+#main-chat-container.light-theme .chat-item:hover,
+#main-chat-container.light-theme .chat-user-card:hover {
+    background-color: var(--bg-input) !important;
+}
+
+#main-chat-container.light-theme .chat-item.bg-light,
+#main-chat-container.light-theme .chat-user-card.bg-light {
+    background-color: var(--bg-input) !important;
+}
+
+#main-chat-container.light-theme #darkModeSwitch + label {
+    color: var(--text-secondary) !important;
+}
+
+/* Modal User List Styles */
+.modal-user-item {
+    transition: background-color 0.2s ease;
+}
+.modal-user-item:hover {
+    background-color: var(--bg-input) !important;
+}
+#modal-users-list .text-white {
+    color: var(--text-primary) !important;
+}
+#modal-users-list .text-muted {
+    color: var(--text-secondary) !important;
+}
