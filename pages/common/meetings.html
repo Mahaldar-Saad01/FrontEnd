@@ -15,59 +15,44 @@
         <!-- Dynamically injected meeting cards -->
     </div>
 
-    <!-- Simulated Active Video Call View (Hidden initially) -->
-    <div id="video-call-overlay" class="position-absolute top-0 start-0 w-100 h-100 bg-dark rounded-4 shadow-lg flex-column p-4 d-none" style="z-index: 1050; background-color: #0b0f19 !important; border: 1px solid var(--border-color);">
+    <!-- Video Call Overlay (Real Jitsi) -->
+    <div id="video-call-overlay"
+         class="position-absolute top-0 start-0 w-100 h-100 rounded-4 shadow-lg flex-column p-4 d-none"
+         style="z-index:1050; background-color:#0b0f19 !important; border:1px solid var(--border-color);">
+
+        <!-- Call Header -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h5 class="fw-bold text-white mb-0" id="call-meeting-title">Daily Sprint Standup</h5>
-                <small class="text-success"><i class="fa-solid fa-circle-play me-1 small"></i>Live Call (04:12)</small>
+                <h5 class="fw-bold text-white mb-0" id="call-meeting-title">Meeting</h5>
+                <small class="text-success">
+                    <i class="fa-solid fa-circle-play me-1 small"></i>Live Call
+                </small>
             </div>
             <div class="d-flex gap-2">
-                <span class="badge bg-secondary rounded-pill py-2 px-3"><i class="fa-solid fa-users me-2"></i>4 active</span>
+                <span class="badge bg-secondary rounded-pill py-2 px-3">
+                    <i class="fa-solid fa-video me-2"></i>Jitsi Meet
+                </span>
             </div>
         </div>
 
-        <!-- Video grid -->
-        <div class="row flex-grow-1 g-3 align-items-center justify-content-center mb-4" style="min-height: 280px;">
-            <div class="col-md-6 col-sm-12 h-100">
-                <div class="card-custom h-100 d-flex flex-column align-items-center justify-content-center border-0 text-center relative overflow-hidden" style="background-color: #1f2937; min-height: 160px;">
-                    <img src="https://ui-avatars.com/api/?name=Saad+Mahaldar&background=6366f1&color=fff" class="rounded-circle mb-2" style="width: 64px; height: 64px;" alt="Saad">
-                    <h6 class="fw-semibold text-white mb-0">Saad Mahaldar (You)</h6>
-                    <span class="position-absolute bottom-3 end-3 badge bg-dark opacity-75"><i class="fa-solid fa-microphone"></i></span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 h-100">
-                <div class="card-custom h-100 d-flex flex-column align-items-center justify-content-center border-0 text-center relative overflow-hidden" style="background-color: #1f2937; min-height: 160px;">
-                    <img src="https://ui-avatars.com/api/?name=Sarah+Miller&background=10b981&color=fff" class="rounded-circle mb-2" style="width: 64px; height: 64px;" alt="Sarah">
-                    <h6 class="fw-semibold text-white mb-0">Sarah Miller</h6>
-                    <span class="position-absolute bottom-3 end-3 badge bg-dark opacity-75"><i class="fa-solid fa-microphone text-danger"></i></span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 h-100">
-                <div class="card-custom h-100 d-flex flex-column align-items-center justify-content-center border-0 text-center relative overflow-hidden" style="background-color: #1f2937; min-height: 160px;">
-                    <img src="https://ui-avatars.com/api/?name=Rihan+Kahn&background=f59e0b&color=fff" class="rounded-circle mb-2" style="width: 64px; height: 64px;" alt="Rihan">
-                    <h6 class="fw-semibold text-white mb-0">Rihan Kahn</h6>
-                    <span class="position-absolute bottom-3 end-3 badge bg-dark opacity-75"><i class="fa-solid fa-microphone"></i></span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 h-100">
-                <div class="card-custom h-100 d-flex flex-column align-items-center justify-content-center border-0 text-center relative overflow-hidden" style="background-color: #1f2937; min-height: 160px;">
-                    <img src="https://ui-avatars.com/api/?name=Alex+Mercer&background=06b6d4&color=fff" class="rounded-circle mb-2" style="width: 64px; height: 64px;" alt="Alex">
-                    <h6 class="fw-semibold text-white mb-0">Alex Mercer</h6>
-                    <span class="position-absolute bottom-3 end-3 badge bg-dark opacity-75"><i class="fa-solid fa-microphone"></i></span>
-                </div>
-            </div>
+        <!-- REAL Jitsi Video renders here (replaces fake avatar grid) -->
+        <div id="jitsi-call-container"
+             class="flex-grow-1 mb-4 rounded-3 overflow-hidden"
+             style="min-height:280px; background-color:#1f2937;">
         </div>
 
         <!-- Controls -->
         <div class="d-flex justify-content-center gap-3">
-            <button class="btn btn-secondary-custom rounded-circle p-3" id="call-mic-toggle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <button class="btn btn-secondary-custom rounded-circle p-3" id="call-mic-toggle"
+                    style="width:50px; height:50px; display:flex; align-items:center; justify-content:center;">
                 <i class="fa-solid fa-microphone"></i>
             </button>
-            <button class="btn btn-secondary-custom rounded-circle p-3" id="call-video-toggle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <button class="btn btn-secondary-custom rounded-circle p-3" id="call-video-toggle"
+                    style="width:50px; height:50px; display:flex; align-items:center; justify-content:center;">
                 <i class="fa-solid fa-video"></i>
             </button>
-            <button class="btn btn-danger rounded-circle p-3" id="leave-call-btn" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <button class="btn btn-danger rounded-circle p-3" id="leave-call-btn"
+                    style="width:50px; height:50px; display:flex; align-items:center; justify-content:center;">
                 <i class="fa-solid fa-phone-slash"></i>
             </button>
         </div>
@@ -75,53 +60,91 @@
 </div>
 
 <!-- Schedule Meeting Modal -->
-<div class="modal fade" id="scheduleMeetingModal" tabindex="-1" aria-labelledby="scheduleMeetingModalLabel" aria-hidden="true">
+<div class="modal fade" id="scheduleMeetingModal" tabindex="-1"
+     aria-labelledby="scheduleMeetingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title fw-bold text-white" id="scheduleMeetingModalLabel">Schedule Team Meeting</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title fw-bold text-white" id="scheduleMeetingModalLabel">
+                    Schedule Team Meeting
+                </h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="scheduleMeetingForm">
                 <div class="modal-body p-4">
                     <div class="mb-3">
                         <label for="meetingTitle" class="form-label-custom">Meeting Title</label>
-                        <input type="text" class="form-control form-control-custom" id="meetingTitle" required placeholder="e.g. Frontend Architecture Review">
+                        <input type="text" class="form-control form-control-custom"
+                               id="meetingTitle" required
+                               placeholder="e.g. Frontend Architecture Review">
                     </div>
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label for="meetingDate" class="form-label-custom">Date</label>
-                            <input type="date" class="form-control form-control-custom" id="meetingDate" required>
+                            <input type="date" class="form-control form-control-custom"
+                                   id="meetingDate" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="meetingTime" class="form-label-custom">Time</label>
-                            <input type="time" class="form-control form-control-custom" id="meetingTime" required>
+                            <input type="time" class="form-control form-control-custom"
+                                   id="meetingTime" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label for="meetingDuration" class="form-label-custom">Duration (mins)</label>
-                            <input type="number" class="form-control form-control-custom" id="meetingDuration" value="30" min="15" required>
+                            <input type="number" class="form-control form-control-custom"
+                                   id="meetingDuration" value="30" min="15" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="meetingPlatform" class="form-label-custom">Platform</label>
                             <select class="form-select form-select-custom" id="meetingPlatform" required>
-                                <option value="Zoom" selected>Zoom</option>
+                                <option value="Jitsi" selected>Jitsi Meet (Video Call)</option>
+                                <option value="Zoom">Zoom</option>
                                 <option value="MS Teams">MS Teams</option>
                                 <option value="Google Meet">Google Meet</option>
                             </select>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="meetingTopic" class="form-label-custom">Agenda/Topic</label>
-                        <textarea class="form-control form-control-custom" id="meetingTopic" rows="3" placeholder="Brief outline of topics..."></textarea>
+                        <label for="meetingTopic" class="form-label-custom">Agenda / Topic</label>
+                        <textarea class="form-control form-control-custom"
+                                  id="meetingTopic" rows="3"
+                                  placeholder="Brief outline of topics..."></textarea>
+                    </div>
+                    <!-- Department Filter + Participant Selector -->
+                    <div class="mb-3">
+                        <label class="form-label-custom">Filter by Department</label>
+                        <select class="form-select form-select-custom" id="meetingDeptFilter">
+                            <option value="">All Departments</option>
+                            <!-- populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">
+                            Add Participants
+                            <span class="text-secondary small ms-2">(hold Ctrl / Cmd to select multiple)</span>
+                        </label>
+                        <select class="form-select form-select-custom" id="meetingParticipants"
+                                multiple style="height: 140px;">
+                            <!-- populated by JS -->
+                        </select>
+                        <small class="text-secondary mt-1 d-block" id="participant-count">
+                            0 participants selected
+                        </small>
                     </div>
                 </div>
                 <div class="modal-footer modal-footer-custom">
-                    <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary-custom"
+                            data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary-custom">Schedule</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Jitsi External API — must be loaded before meetings.js -->
+<!-- <script src="https://meet.jit.si/external_api.js"></script> -->
