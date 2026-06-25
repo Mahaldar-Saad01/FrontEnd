@@ -131,7 +131,7 @@ window.PageModules['calendar'] = async function () {
                           style="font-size:0.65rem;">${categoryTextMap[ev.category] || ev.category}</span>
                     <small class="text-muted" style="font-size:0.75rem;">${ev.time}</small>
                 </div>
-                <h6 class="fw-bold mb-1 text-white">${ev.title}</h6>
+                <h6 class="fw-bold mb-1 text-dark">${ev.title}</h6>
                 <p class="text-secondary small mb-1">${ev.description || ev.desc || ''}</p>
                 <div class="d-flex justify-content-between align-items-center mt-2">
                     <span class="text-muted" style="font-size:0.75rem;">

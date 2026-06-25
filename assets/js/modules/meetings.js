@@ -467,7 +467,6 @@ window.PageModules['meetings'] = async function () {
     const currentUser = WorkHubAPI.getCurrentUser();
     const userRole    = currentUser?.role;
 
-    // ── Render Meeting Cards ───────────────────────────────────────
     const renderMeetings = () => {
         if (!listContainer) return;
         listContainer.innerHTML = '';
@@ -502,7 +501,7 @@ window.PageModules['meetings'] = async function () {
                                 <i class="fa-solid fa-laptop-code me-1"></i>${meet.platform}
                             </span>
                         </div>
-                        <h5 class="fw-bold text-white mb-2">${meet.title}</h5>
+                        <h5 class="fw-bold text-dark mb-2">${meet.title}</h5>
                         <p class="text-secondary small mb-3"
                            style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
                             ${meet.agenda || '—'}
@@ -513,15 +512,15 @@ window.PageModules['meetings'] = async function () {
                              style="border-color:var(--border-color) !important;">
                             <div class="d-flex justify-content-between small text-secondary-custom">
                                 <span><i class="fa-regular fa-calendar me-2"></i>Date:</span>
-                                <span class="text-white fw-semibold">${meet.date}</span>
+                                <span class="text-darkfw-semibold">${meet.date}</span>
                             </div>
                             <div class="d-flex justify-content-between small text-secondary-custom">
                                 <span><i class="fa-regular fa-clock me-2"></i>Time:</span>
-                                <span class="text-white fw-semibold">${meet.time} (${meet.duration} mins)</span>
+                                <span class="text-dark fw-semibold">${meet.time} (${meet.duration} mins)</span>
                             </div>
                             <div class="d-flex justify-content-between small text-secondary-custom">
                                 <span><i class="fa-solid fa-users me-2"></i>Participants:</span>
-                                <span class="text-white fw-semibold">
+                                <span class="text-dark fw-semibold">
                                     ${meet.participant_names?.length
                                         ? meet.participant_names.join(', ')
                                         : 'None assigned'}
@@ -529,7 +528,6 @@ window.PageModules['meetings'] = async function () {
                             </div>
                         </div>
 
-                        <!-- Join + Delete buttons -->
                         <div class="d-flex gap-2">
                             <button class="btn ${isLive ? 'btn-success' : 'btn-secondary-custom'} flex-grow-1 py-2 join-call-action"
                                     data-id="${meet.id}" data-title="${meet.title}">
@@ -550,14 +548,12 @@ window.PageModules['meetings'] = async function () {
             listContainer.appendChild(card);
         });
 
-        // Join call listener
         document.querySelectorAll('.join-call-action').forEach(btn => {
             btn.addEventListener('click', () => {
                 joinMeeting(btn.dataset.id, btn.dataset.title);
             });
         });
 
-        // Delete meeting listener
         document.querySelectorAll('.delete-meeting-action').forEach(btn => {
             btn.addEventListener('click', () => {
                 deleteMeeting(btn.dataset.id, btn.dataset.title);
@@ -565,7 +561,6 @@ window.PageModules['meetings'] = async function () {
         });
     };
 
-    // ── Load Meetings ──────────────────────────────────────────────
     try {
         const data = await WorkHubAPI.getJSON('/meetings/');
         meetings   = Array.isArray(data) ? data : (data.results || []);
@@ -577,11 +572,9 @@ window.PageModules['meetings'] = async function () {
         }
     }
 
-    // ── Load Employees + Departments for Participant Selector ──────
     const loadParticipantData = async () => {
         if (!participantSel || !deptFilter) return;
 
-        // Clear previous data to avoid duplicates on modal reopen
         deptFilter.innerHTML = '<option value="">All Departments</option>';
         participantSel.innerHTML = '';
 
@@ -611,7 +604,7 @@ window.PageModules['meetings'] = async function () {
         participantSel.innerHTML = '';
 
         employees.forEach(emp => {
-            if (emp.id === currentUser?.id) return; // skip self
+            if (emp.id === currentUser?.id) return;
             const opt       = document.createElement('option');
             opt.value       = emp.id;
             opt.textContent = `${emp.full_name} — ${emp.department_name || 'No Dept'} (${emp.role})`;
@@ -619,7 +612,6 @@ window.PageModules['meetings'] = async function () {
         });
     };
 
-    // Filter by department
     if (deptFilter) {
         deptFilter.addEventListener('change', () => {
             const deptId = deptFilter.value;
@@ -634,7 +626,6 @@ window.PageModules['meetings'] = async function () {
         });
     }
 
-    // Show selected count
     if (participantSel) {
         participantSel.addEventListener('change', () => {
             const count = participantSel.selectedOptions.length;
@@ -645,7 +636,6 @@ window.PageModules['meetings'] = async function () {
         });
     }
 
-    // Load participant data when modal opens
     const modalEl = document.getElementById('scheduleMeetingModal');
     if (modalEl) {
         modalEl.addEventListener('show.bs.modal', () => {
@@ -653,7 +643,6 @@ window.PageModules['meetings'] = async function () {
         });
     }
 
-    // ── Join Meeting ───────────────────────────────────────────────
     const joinMeeting = async (meetingId, title) => {
         if (!overlay) return;
 
@@ -696,7 +685,6 @@ window.PageModules['meetings'] = async function () {
         }
     };
 
-    // ── Delete Meeting ─────────────────────────────────────────────
     const deleteMeeting = async (meetingId, title) => {
         const confirmed = confirm(
             `Are you sure you want to delete "${title}"?\n\nAll participants will be notified.`
@@ -707,7 +695,6 @@ window.PageModules['meetings'] = async function () {
             const resp = await WorkHubAPI.delete(`/meetings/${meetingId}/`);
 
             if (resp.ok) {
-                // Remove from local list and re-render
                 meetings = meetings.filter(m => m.id != meetingId);
                 renderMeetings();
             } else {
@@ -720,7 +707,6 @@ window.PageModules['meetings'] = async function () {
         }
     };
 
-    // ── Launch Jitsi ───────────────────────────────────────────────
     const launchJitsi = (joinData) => {
         if (!jitsiContainer) return;
 
@@ -773,7 +759,6 @@ window.PageModules['meetings'] = async function () {
         });
     };
 
-    // ── Close Overlay ──────────────────────────────────────────────
     const closeOverlay = () => {
         if (jitsiApi) { jitsiApi.dispose(); jitsiApi = null; }
         if (jitsiContainer) jitsiContainer.innerHTML = '';
@@ -782,7 +767,6 @@ window.PageModules['meetings'] = async function () {
         renderMeetings();
     };
 
-    // ── Control Buttons ────────────────────────────────────────────
     const resetButtons = () => {
         if (micToggle) {
             micToggle.className = 'btn btn-secondary-custom rounded-circle p-3';
@@ -848,11 +832,31 @@ window.PageModules['meetings'] = async function () {
                 participants: selectedParticipants
             };
 
+            console.log('Submitting meeting payload:', payload);
+
             try {
                 const resp = await WorkHubAPI.post('/meetings/', payload);
                 if (!resp.ok) {
                     const err = await resp.json();
-                    alert(err.detail || 'Failed to schedule meeting.');
+
+                    // ✅ FIX: log the full backend response and surface
+                    // field-level validation errors (e.g. {"date": ["This field
+                    // is required."]}) instead of always falling back to the
+                    // generic "Failed to schedule meeting." message, which
+                    // hides the actual cause.
+                    console.error('Schedule meeting validation error:', resp.status, err);
+
+                    let message = 'Failed to schedule meeting.';
+                    if (err.detail) {
+                        message = err.detail;
+                    } else if (typeof err === 'object' && err !== null) {
+                        const fieldErrors = Object.entries(err)
+                            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(', ') : msgs}`)
+                            .join('\n');
+                        if (fieldErrors) message = fieldErrors;
+                    }
+
+                    alert(message);
                     return;
                 }
 
@@ -871,6 +875,7 @@ window.PageModules['meetings'] = async function () {
                 renderMeetings();
 
             } catch (err) {
+                console.error('Network/schedule error:', err);
                 alert('Network error. Please try again.');
             }
         });

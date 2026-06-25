@@ -7,34 +7,100 @@
     margin-bottom: 2rem;
 }
 
-.stat-card {
-    background-color: var(--bg-panel);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 1.5rem;
+/* ── Stat Cards ─────────────────────────────────────────────────── */
+.stat-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    background:rgba(255,255,255,.80);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.6);
+
+    border-radius:24px;
+
+    padding:24px;
+
+    min-height:180px;
+
+    box-shadow:
+    0 20px 50px rgba(139,92,246,.08);
+
+    transition:.35s ease;
+}
+
+.stat-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:4px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #ec4899,
+        #8b5cf6,
+        #6366f1
+    );
+}
+
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 30px 60px rgba(139,92,246,.15);
+}
+.stat-card-top {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    position: relative;
-    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.stat-card-dots {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    cursor: pointer;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-top: -2px;
 }
 
 .stat-icon {
-    font-size: 1.5rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    font-size: 1.4rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    border: none !important;
+    background: rgba(0,0,0,0) !important;
 }
 
 .stat-number {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-    color: #ffffff;
+    color: #111827;
+    line-height: 1.1;
+    margin: 4px 0 6px;
 }
 
 .stat-trend {
@@ -45,21 +111,110 @@
     gap: 0.25rem;
 }
 
-.trend-up {
-    color: var(--color-success);
+.trend-up   { color: #16a34a; }
+.trend-down { color: #b91c1c; }
+
+.stat-sparkline {
+    margin-top: 10px;
+    height: 40px !important;
+    max-height: 40px !important;
+    display: block;
+    width: 100%;
 }
 
-.trend-down {
-    color: var(--color-danger);
+.stat-icon.text-primary {
+    background: rgba(99, 102, 241, 0.12) !important;
+    color: #6366f1 !important;
+}
+.stat-icon.text-success {
+    background: rgba(16, 185, 129, 0.12) !important;
+    color: #059669 !important;
+}
+.stat-icon.text-info {
+    background: rgba(251, 146, 60, 0.15) !important;
+    color: #ea580c !important;
+}
+.stat-icon.text-warning {
+    background: rgba(20, 184, 166, 0.12) !important;
+    color: #0d9488 !important;
 }
 
-/* Dashboard Specific Layout */
+/* ── Chart cards ─────────────────────────────────────────────────── */
+.chart-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.chart-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111827;
+}
+
+.chart-card-title .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #7c3aed;
+    flex-shrink: 0;
+}
+
+.chart-filter-btn {
+    font-size: 0.78rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.donut-legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: #374151;
+    min-width: 140px;
+}
+
+.donut-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.donut-legend-label { flex-grow: 1; }
+
+.donut-legend-pct {
+    font-weight: 600;
+    color: #111827;
+}
+
 .chart-container-custom {
     position: relative;
     height: 300px;
     width: 100%;
 }
 
+/* ── Activity list ─────────────────────────────────────────────── */
 .activity-list {
     display: flex;
     flex-direction: column;
@@ -96,4 +251,296 @@
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-top: 0.125rem;
+}
+
+/* ── Dashboard page wrapper ─────────────────────────────────────── */
+.dashboard-page{
+
+    position:relative;
+
+    background:transparent;
+
+    color:#111827;
+
+    /* ✅ FIX: overflow:hidden here was clipping the dashboard's own
+       content, preventing the page from scrolling. #main-content
+       (in layout.css) is the element responsible for scrolling —
+       this wrapper inside it should never hide overflow itself. */
+    overflow:visible;
+}
+
+.dashboard-page::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-150px;
+    right:-150px;
+
+    width:400px;
+    height:400px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(236,72,153,.12),
+        transparent 70%
+    );
+
+    pointer-events:none;
+
+    /* ✅ keep decorative blob from extending scrollable area */
+    z-index:-1;
+}
+
+.dashboard-page::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-150px;
+    left:-150px;
+
+    width:400px;
+    height:400px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(139,92,246,.12),
+        transparent 70%
+    );
+
+    pointer-events:none;
+
+    z-index:-1;
+}
+.dashboard-page h4,
+.dashboard-page h5,
+.dashboard-page p {
+    color: #111827 !important;
+}
+
+.dashboard-page .text-secondary {
+    color: #6b7280 !important;
+}
+
+.dashboard-page .card-custom{
+
+    background:rgba(255,255,255,.85);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.6);
+
+    border-radius:24px;
+
+    box-shadow:
+    0 20px 50px rgba(15,23,42,.08);
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+.dashboard-page .card-custom h5,
+.dashboard-page .card-custom .chart-card-title {
+    color: #111827 !important;
+}
+
+.dashboard-page .trend-up  { color: #16a34a; }
+.dashboard-page .trend-down { color: #b91c1c; }
+.dashboard-page .stat-trend { color: #6b7280; }
+.dashboard-page .stat-trend.trend-up  { color: #16a34a; }
+.dashboard-page .stat-trend.trend-down { color: #b91c1c; }
+
+/* ── Motivation / keep-going widget in sidebar ──────────────────── */
+.motivation-widget {
+    margin: 1rem 0.75rem 0.5rem;
+    background: linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);
+    border: 1px solid rgba(168, 85, 247, 0.18);
+    border-radius: 16px;
+    padding: 14px 16px;
+}
+
+.motivation-widget .rocket-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.motivation-widget .mw-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #5b21b6;
+    margin-bottom: 1px;
+}
+
+.motivation-widget .mw-sub {
+    font-size: 0.73rem;
+    color: #7c3aed;
+    margin-bottom: 10px;
+}
+
+.motivation-widget .mw-progress-track {
+    background: rgba(168, 85, 247, 0.15);
+    border-radius: 999px;
+    height: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.motivation-widget .mw-progress-fill {
+    background: linear-gradient(90deg, #a855f7, #7c3aed);
+    border-radius: 999px;
+    height: 100%;
+    transition: width 0.6s ease;
+}
+
+.motivation-widget .mw-pct {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #7c3aed;
+    text-align: right;
+    margin-top: 4px;
+}
+
+/* ── Float-in animation ─────────────────────────────────────────── */
+@keyframes floatIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.dashboard-page{
+
+animation:dashboardIn .5s ease;
+
+}
+
+
+@keyframes dashboardIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:none;
+
+}
+
+}
+
+
+.stats-grid{
+
+grid-template-columns:
+repeat(4,1fr);
+
+}
+
+
+@media(max-width:1000px){
+
+.stats-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+canvas {
+    width:100% !important;
+    height:260px !important;
+}
+/* Fix white page headings */
+h4.fw-bold,
+.dashboard-page h4,
+.page-header h4 {
+    color: #111827 !important;
+}
+
+.dashboard-page p,
+.page-header p {
+    color: #6b7280 !important;
+}
+/* =========================
+   PREMIUM DASHBOARD BANNER
+========================= */
+
+.dashboard-banner{
+
+    background:
+    linear-gradient(
+        135deg,
+        #8b5cf6,
+        #ec4899
+    );
+
+    color:white;
+
+    border-radius:28px;
+
+    padding:28px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:
+    0 25px 60px rgba(139,92,246,.25);
+}
+
+.dashboard-banner h3{
+
+    color:white !important;
+
+    font-weight:700;
+}
+
+.dashboard-banner p{
+
+    color:rgba(255,255,255,.9) !important;
+}
+
+.banner-pill{
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(10px);
+
+    padding:12px 18px;
+
+    border-radius:999px;
+
+    font-weight:700;
+}
+
+/* Premium Numbers */
+
+.stat-number{
+
+    background:
+    linear-gradient(
+        135deg,
+        #ec4899,
+        #8b5cf6
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
 }

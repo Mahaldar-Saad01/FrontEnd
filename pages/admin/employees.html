@@ -2,8 +2,9 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="mb-1 fw-bold text-white">Personnel Directory</h4>
-            <p class="text-secondary small mb-0">Manage access levels, roles, and department assignments</p>
+            <!-- ✅ FIX: text-white was invisible on the new light page background -->
+            <h4 class="mb-1 fw-bold" style="color:#1e293b;">Personnel Directory</h4>
+            <p class="small mb-0" style="color:#64748b;">Manage access levels, roles, and department assignments</p>
         </div>
         <button class="btn btn-primary-custom" onclick="window.location.href='register.html'">
             <i class="fa-solid fa-user-plus me-2"></i>Register Employee
@@ -14,13 +15,17 @@
     <div class="card-custom p-3 mb-4">
         <div class="row g-3">
             <div class="col-md-6 col-sm-12">
-                <div class="input-group align-items-center px-2 py-1 rounded-pill" style="background-color: var(--bg-main); border: 1px solid var(--border-color);">
-                    <i class="fa-solid fa-magnifying-glass text-muted me-2"></i>
-                    <input type="text" id="employee-search-input" class="form-control bg-transparent border-0 text-white shadow-none p-0" placeholder="Search employees by name, email or department...">
+                <!-- ✅ FIX: background uses var(--bg-main), a dark-theme variable.
+                     Hardcoded to a light pill background so the dark text is
+                     actually readable against it. -->
+                <div class="input-group align-items-center px-2 py-1 rounded-pill" style="background-color: #f8fafc; border: 1px solid #e5e7eb;">
+                    <i class="fa-solid fa-magnifying-glass me-2" style="color:#94a3b8;"></i>
+                    <!-- ✅ FIX: text-white removed, replaced with dark text color -->
+                    <input type="text" id="employee-search-input" class="form-control bg-transparent border-0 shadow-none p-0" style="color:#1e293b;" placeholder="Search employees by name, email or department...">
                 </div>
             </div>
             <div class="col-md-6 col-sm-12 text-md-end text-sm-start d-flex align-items-center justify-content-md-end justify-content-start">
-                <span class="text-secondary small fw-semibold"><i class="fa-solid fa-users me-1 text-primary"></i>Total Personnel: <span id="employee-count-badge" class="text-white">12</span></span>
+                <span class="small fw-semibold" style="color:#64748b;"><i class="fa-solid fa-users me-1 text-primary"></i>Total Personnel: <span id="employee-count-badge" style="color:#1e293b;">6</span></span>
             </div>
         </div>
     </div>

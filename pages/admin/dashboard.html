@@ -1,88 +1,164 @@
-<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view dashboard-page">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="mb-1 fw-bold text-white">Admin Dashboard</h4>
-            <p class="text-secondary small mb-0">System health, departments overview, and performance metrics</p>
+            <h4 class="mb-1 fw-bold" style="color:#111827;">Admin Dashboard 👋</h4>
+            <p class="small mb-0" style="color:#6b7280;">System health, departments overview, and performance metrics</p>
         </div>
-        <div class="text-secondary small fw-semibold">
-            <i class="fa-solid fa-clock-rotate-left me-1"></i>Last Refreshed: Just Now
+        <div class="small fw-semibold" style="color:#6b7280;">
+            <i class="fa-solid fa-clock-rotate-left me-1"></i>Last Refreshed: <span style="color:#7c3aed;">Just Now</span>
         </div>
     </div>
 
     <!-- Stats row -->
-    <div class="row g-4 mb-4">
-        <!-- Card 1 -->
+     <div class="dashboard-banner mb-4">
+
+        <div>
+            <small class="text-uppercase">Performance Overview</small>
+
+            <h3 class="mb-2">
+                87% Project Success Rate 🚀
+            </h3>
+
+            <p class="mb-0">
+                Projects are progressing better than last month.
+            </p>
+        </div>
+
+        <div class="banner-pill">
+            +18% Growth
+        </div>
+
+    </div>
+    <div class="row g-3 mb-4">
+        <!-- Card 1: Active Projects -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Active Projects</span>
-                    <h3 class="stat-number mb-0" id="admin-stat-projects">5</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-arrow-trend-up me-1"></i>+12% vs last month</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Active Projects</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-primary">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-primary bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div>
+                <h3 class="stat-number" id="admin-stat-projects">5</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-arrow-trend-up me-1"></i>+12% vs last month</span>
+                <canvas class="stat-sparkline" id="spark-admin-projects"></canvas>
             </div>
         </div>
-        <!-- Card 2 -->
+        <!-- Card 2: Pending Approvals -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Pending Approvals</span>
-                    <h3 class="stat-number mb-0" id="admin-stat-approvals">0</h3>
-                    <span class="stat-trend text-secondary mt-1"><i class="fa-solid fa-equals me-1"></i>Requires Action</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Pending Approvals</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-success">
+                            <i class="fa-solid fa-square-check"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-success bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-square-check"></i>
-                </div>
+                <h3 class="stat-number" id="admin-stat-approvals">0</h3>
+                <span class="stat-trend" style="color:#6b7280;"><i class="fa-solid fa-equals me-1"></i>Requires Action</span>
+                <canvas class="stat-sparkline" id="spark-admin-approvals"></canvas>
             </div>
         </div>
-        <!-- Card 3 -->
+        <!-- Card 3: Departments -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Departments</span>
-                    <h3 class="stat-number mb-0" id="admin-stat-departments">4</h3>
-                    <span class="stat-trend text-secondary mt-1"><i class="fa-solid fa-equals me-1"></i>Steady</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Departments</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-info">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-info bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-building"></i>
-                </div>
+                <h3 class="stat-number" id="admin-stat-departments">4</h3>
+                <span class="stat-trend" style="color:#6b7280;"><i class="fa-solid fa-equals me-1"></i>Steady</span>
+                <canvas class="stat-sparkline" id="spark-admin-depts"></canvas>
             </div>
         </div>
-        <!-- Card 4 -->
+        <!-- Card 4: Employees -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Employees</span>
-                    <h3 class="stat-number mb-0" id="admin-stat-employees">12</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-user-plus me-1"></i>+2 new hires</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Employees</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-warning">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-warning bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-users"></i>
-                </div>
+                <h3 class="stat-number" id="admin-stat-employees">12</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-user-plus me-1"></i>+2 new hires</span>
+                <canvas class="stat-sparkline" id="spark-admin-employees"></canvas>
             </div>
         </div>
     </div>
 
     <!-- Charts row -->
     <div class="row g-4 flex-grow-1">
-        <!-- Project Completion Chart -->
+        <!-- Project Completion Donut -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Project Completion Status</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
-                    <canvas id="admin-project-chart"></canvas>
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <span class="dot"></span>
+                        Overall Task Completion Status
+                    </div>
+                    <div class="chart-filter-btn">
+                        This Month <i class="fa-solid fa-chevron-down" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1 d-flex align-items-center gap-4" style="position:relative; min-height:260px;">
+                    <div style="flex:1; position:relative; min-height:240px;">
+                        <canvas id="admin-project-chart"></canvas>
+                    </div>
+                    <!-- Donut legend -->
+                    <div class="donut-legend">
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#4ade80;"></span>
+                            <span class="donut-legend-label">Completed</span>
+                            <span class="donut-legend-pct" id="admin-legend-completed">45%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#60a5fa;"></span>
+                            <span class="donut-legend-label">In Progress</span>
+                            <span class="donut-legend-pct" id="admin-legend-active">25%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#a78bfa;"></span>
+                            <span class="donut-legend-label">Pending</span>
+                            <span class="donut-legend-pct" id="admin-legend-pending">15%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#fbbf24;"></span>
+                            <span class="donut-legend-label">Not Started</span>
+                            <span class="donut-legend-pct" id="admin-legend-notstarted">15%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Department Workload Bar Chart -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Resource Workload by Department</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <span class="dot"></span>
+                        Resource Workload by Department
+                    </div>
+                    <div class="chart-filter-btn">
+                        This Month <i class="fa-solid fa-chevron-down" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1" style="position:relative; min-height:260px;">
                     <canvas id="admin-workload-chart"></canvas>
                 </div>
             </div>

@@ -50,7 +50,7 @@ window.PageModules['notifications'] = async function () {
                 </div>
                 <div class="flex-grow-1 min-w-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="fw-bold mb-0 text-white text-truncate font-size-sm">
+                        <h6 class="fw-bold mb-0 text-dark text-truncate font-size-sm">
                             ${notif.title}
                             ${!notif.is_read ? '<span class="badge bg-primary rounded-circle p-1 ms-1 d-inline-block" style="width:6px;height:6px;vertical-align:middle;"></span>' : ''}
                         </h6>

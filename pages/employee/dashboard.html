@@ -1,88 +1,144 @@
-<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view dashboard-page">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="mb-1 fw-bold text-white">My Workspace</h4>
-            <p class="text-secondary small mb-0">Track your tasks, assigned projects, and logged hours</p>
+            <h4 class="mb-1 fw-bold" style="color:#111827;">My Workspace 💼</h4>
+            <p class="small mb-0" style="color:#6b7280;">Track your tasks, assigned projects, and logged hours</p>
         </div>
-        <div class="text-secondary small fw-semibold">
-            <span class="badge bg-primary py-1.5 px-3 font-size-xs"><i class="fa-solid fa-laptop me-1.5"></i>Employee Console</span>
+        <div class="small fw-semibold" style="color:#6b7280;">
+            <i class="fa-solid fa-clock-rotate-left me-1"></i>Last Refreshed: <span style="color:#7c3aed;">Just Now</span>
         </div>
     </div>
 
     <!-- Stats row -->
-    <div class="row g-4 mb-4">
+    <div class="row g-3 mb-4">
         <!-- Card 1 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">My Projects</span>
-                    <h3 class="stat-number mb-0" id="emp-stat-projects">2</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-circle-check me-1"></i>Active</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">My Projects</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-primary">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-primary bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div>
+                <h3 class="stat-number" id="emp-stat-projects">2</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-circle-check me-1"></i>Active</span>
+                <canvas class="stat-sparkline" id="spark-emp-projects"></canvas>
             </div>
         </div>
         <!-- Card 2 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Assigned Tasks</span>
-                    <h3 class="stat-number mb-0" id="emp-stat-tasks">3</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-spinner me-1"></i>2 in progress</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Assigned Tasks</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-success">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-success bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
+                <h3 class="stat-number" id="emp-stat-tasks">3</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-spinner me-1"></i>2 in progress</span>
+                <canvas class="stat-sparkline" id="spark-emp-tasks"></canvas>
             </div>
         </div>
         <!-- Card 3 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Completed Tasks</span>
-                    <h3 class="stat-number mb-0" id="emp-stat-completed">1</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-circle-check me-1"></i>Good progress</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Completed Tasks</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-info">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-info bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
+                <h3 class="stat-number" id="emp-stat-completed">1</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-circle-check me-1"></i>Good progress</span>
+                <canvas class="stat-sparkline" id="spark-emp-completed"></canvas>
             </div>
         </div>
         <!-- Card 4 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Hours Logged</span>
-                    <h3 class="stat-number mb-0" id="emp-stat-hours">38</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-clock me-1"></i>This week</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Hours Logged</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-warning">
+                            <i class="fa-solid fa-business-time"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-warning bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-business-time"></i>
-                </div>
+                <h3 class="stat-number" id="emp-stat-hours">38</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-clock me-1"></i>This week</span>
+                <canvas class="stat-sparkline" id="spark-emp-hours"></canvas>
             </div>
         </div>
     </div>
 
     <!-- Charts row -->
     <div class="row g-4 flex-grow-1">
-        <!-- Task Status Chart -->
+        <!-- Task Status Donut -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">My Task Status Distribution</h5> 
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
-                    <canvas id="emp-task-chart"></canvas>
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <span class="dot"></span>
+                        My Task Status Distribution
+                    </div>
+                    <div class="chart-filter-btn">
+                        This Month <i class="fa-solid fa-chevron-down" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1 d-flex align-items-center gap-4" style="position:relative; min-height:260px;">
+                    <div style="flex:1; position:relative; min-height:240px;">
+                        <canvas id="emp-task-chart"></canvas>
+                    </div>
+                    <div class="donut-legend">
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#4ade80;"></span>
+                            <span class="donut-legend-label">Completed</span>
+                            <span class="donut-legend-pct" id="emp-legend-done">40%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#22d3ee;"></span>
+                            <span class="donut-legend-label">In Progress</span>
+                            <span class="donut-legend-pct" id="emp-legend-progress">30%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#a78bfa;"></span>
+                            <span class="donut-legend-label">In Review</span>
+                            <span class="donut-legend-pct" id="emp-legend-review">20%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#9ca3af;"></span>
+                            <span class="donut-legend-label">To Do</span>
+                            <span class="donut-legend-pct" id="emp-legend-todo">10%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Hours Logged Bar Chart -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Work Hours Logged This Week</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <span class="dot"></span>
+                        Work Hours Logged This Week
+                    </div>
+                    <div class="chart-filter-btn">
+                        This Week <i class="fa-solid fa-chevron-down" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1" style="position:relative; min-height:260px;">
                     <canvas id="emp-hours-chart"></canvas>
                 </div>
             </div>
