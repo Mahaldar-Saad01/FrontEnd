@@ -47,12 +47,14 @@ window.PageModules['admin-approvals'] = async function () {
                     <td><span class="badge-custom badge-status-todo">Pending Approval</span></td>
                     <td><span class="text-secondary-custom">${createdDate}</span></td>
                     <td class="text-end">
-                        <button class="btn btn-sm btn-success approve-btn me-2 px-3 py-1" data-id="${proj.id}" style="font-weight: 500; font-size: 0.8rem; border-radius: 6px;">
-                            <i class="fa-solid fa-check me-1"></i> Approve
-                        </button>
-                        <button class="btn btn-sm btn-danger reject-btn px-3 py-1" data-id="${proj.id}" style="font-weight: 500; font-size: 0.8rem; border-radius: 6px;">
-                            <i class="fa-solid fa-xmark me-1"></i> Reject
-                        </button>
+                        <div class="d-flex align-items-center justify-content-end gap-2">
+                            <button class="btn btn-sm btn-success approve-btn px-3 py-1" ...>
+                                <i class="fa-solid fa-check me-1"></i> Approve
+                            </button>
+                            <button class="btn btn-sm btn-danger reject-btn px-3 py-1" ...>
+                                <i class="fa-solid fa-xmark me-1"></i> Reject
+                            </button>
+                        </div>
                     </td>
                 `;
                 tableBody.appendChild(tr);

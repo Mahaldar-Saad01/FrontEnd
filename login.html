@@ -14,7 +14,7 @@
         :root {
             --auth-purple: #6d4df2;
             --auth-purple-dark: #221267;
-            --auth-ink: #11133f;
+            --auth-ink: #3b113f;
             --auth-muted: #666d92;
             --auth-line: #e7e5f0;
         }
@@ -320,12 +320,8 @@
             overflow: hidden;
             padding: 2.2rem 2.6rem;
             color: #ffffff;
-            background:
-                radial-gradient(circle at 88% 18%, rgba(164, 88, 255, 0.55), transparent 30%),
-                radial-gradient(circle at 16% 86%, rgba(28, 134, 245, 0.7), transparent 38%),
-                linear-gradient(135deg, #266ee7 0%, #5c45dd 48%, #6f28c9 100%);
+            background: #3b6ef5;
         }
-
         .auth-showcase::before {
             content: "";
             position: absolute;
@@ -805,7 +801,7 @@
                         <label for="email" class="form-label-custom">Email Address</label>
                         <div class="input-wrap">
                             <i class="fa-regular fa-envelope input-icon"></i>
-                            <input type="email" class="form-control form-control-custom" id="email" value="admin@workhub.com" required placeholder="Enter your email">
+                            <input type="email" class="form-control form-control-custom" id="email" required placeholder="Enter your email">
                         </div>
                     </div>
 
@@ -815,7 +811,7 @@
                         </div>
                         <div class="input-wrap">
                             <i class="fa-solid fa-lock input-icon"></i>
-                            <input type="password" class="form-control form-control-custom" id="password" value="admin123" required placeholder="Enter your password">
+                            <input type="password" class="form-control form-control-custom" id="password"  required placeholder="Enter your password">
                             <button type="button" class="password-toggle" aria-label="Show password">
                                 <i class="fa-regular fa-eye-slash"></i>
                             </button>

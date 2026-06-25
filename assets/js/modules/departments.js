@@ -28,7 +28,7 @@ window.PageModules['admin-departments'] = async function () {
                              style="width:48px; height:48px; border-color:var(--border-color) !important;">
                             <i class="fa-solid fa-building fs-5"></i>
                         </div>
-                        <h5 class="fw-bold text-white mb-1">${dept.name}</h5>
+                        <h5 class="fw-bold text-dark mb-1">${dept.name}</h5>
                         <span class="badge bg-secondary rounded-pill font-size-xs px-2.5 py-1 mb-3">
                             ${dept.member_count ?? dept.headcount} Members
                         </span>
@@ -39,7 +39,7 @@ window.PageModules['admin-departments'] = async function () {
                             <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(dept.lead_manager_name || 'TBD')}&background=random"
                                  class="rounded-circle" style="width:28px; height:28px;" alt="Lead">
                             <div>
-                                <div class="text-white small fw-semibold">${dept.lead_manager_name || '—'}</div>
+                                <div class="text-dark small fw-semibold">${dept.lead_manager_name || '—'}</div>
                                 <div class="text-muted" style="font-size:0.7rem;">Lead Manager</div>
                             </div>
                         </div>

@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const alertContainer = document.getElementById("loginAlert") || document.createElement('div');
 
     // ── Role switcher (pre-fills demo credentials) ─────────────────
-    const demoCredentials = {
-        admin:    { email: "admin@gmail.com",    pass: "admin123" },
-        manager:  { email: "saraa@gmail.com",  pass: "newpass123" },
-        employee: { email: "samad@mits.com", pass: "samad123" }
-    };
+    // const demoCredentials = {
+    //     admin:    { email: "admin@gmail.com",    pass: "admin123" },
+    //     manager:  { email: "saraa@gmail.com",  pass: "newpass123" },
+    //     employee: { email: "samad@mits.com", pass: "samad123" }
+    // };
 
     roleBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add("active");
             const role = btn.dataset.role;
             if (demoCredentials[role]) {
-                emailInput.value = demoCredentials[role].email;
-                passwordInput.value = demoCredentials[role].pass;
+                emailInput.value = "";
+                passwordInput.value = "";
             }
         });
     });

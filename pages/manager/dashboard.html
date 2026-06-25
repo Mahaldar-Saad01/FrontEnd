@@ -1,88 +1,144 @@
-<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view dashboard-page">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="mb-1 fw-bold text-white">Manager Overview</h4>
-            <p class="text-secondary small mb-0">Monitor team sprint workloads, deliverables, and performance velocity</p>
+            <h4 class="mb-1 fw-bold" style="color:#111827;">Manager Overview 📊</h4>
+            <p class="small mb-0" style="color:#6b7280;">Monitor team sprint workloads, deliverables, and performance velocity</p>
         </div>
-        <div class="text-secondary small fw-semibold">
-            <span class="badge bg-success py-1.5 px-3 font-size-xs"><i class="fa-solid fa-users me-1.5"></i>Sarah's Team</span>
+        <div class="small fw-semibold" style="color:#6b7280;">
+            <i class="fa-solid fa-clock-rotate-left me-1"></i>Last Refreshed: <span style="color:#7c3aed;">Just Now</span>
         </div>
     </div>
 
     <!-- Stats row -->
-    <div class="row g-4 mb-4">
+    <div class="row g-3 mb-4">
         <!-- KPI 1 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Team Projects</span>
-                    <h3 class="stat-number mb-0" id="mgr-stat-projects">2</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-circle-check me-1"></i>All on track</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Team Projects</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-primary">
+                            <i class="fa-solid fa-folder-tree"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-primary bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-folder-tree"></i>
-                </div>
+                <h3 class="stat-number" id="mgr-stat-projects">2</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-circle-check me-1"></i>All on track</span>
+                <canvas class="stat-sparkline" id="spark-mgr-projects"></canvas>
             </div>
         </div>
         <!-- KPI 2 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Open Tasks</span>
-                    <h3 class="stat-number mb-0" id="mgr-stat-tasks">12</h3>
-                    <span class="stat-trend text-secondary mt-1"><i class="fa-solid fa-clock-rotate-left me-1"></i>3 due this week</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Open Tasks</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-success">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-success bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
+                <h3 class="stat-number" id="mgr-stat-tasks">12</h3>
+                <span class="stat-trend" style="color:#6b7280;"><i class="fa-solid fa-clock-rotate-left me-1"></i>3 due this week</span>
+                <canvas class="stat-sparkline" id="spark-mgr-tasks"></canvas>
             </div>
         </div>
         <!-- KPI 3 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Team Size</span>
-                    <h3 class="stat-number mb-0" id="mgr-stat-size">3</h3>
-                    <span class="stat-trend trend-up mt-1"><i class="fa-solid fa-user-plus me-1"></i>1 onboarding</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Team Size</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-info">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-info bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-user-group"></i>
-                </div>
+                <h3 class="stat-number" id="mgr-stat-size">3</h3>
+                <span class="stat-trend trend-up"><i class="fa-solid fa-user-plus me-1"></i>1 onboarding</span>
+                <canvas class="stat-sparkline" id="spark-mgr-size"></canvas>
             </div>
         </div>
         <!-- KPI 4 -->
         <div class="col-xl-3 col-md-6 col-sm-12">
             <div class="stat-card">
-                <div>
-                    <span class="text-secondary small fw-semibold text-uppercase">Needs Review</span>
-                    <h3 class="stat-number mb-0" id="mgr-stat-reviews">1</h3>
-                    <span class="stat-trend trend-down mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Requires approval</span>
+                <div class="stat-card-top">
+                    <span class="small fw-semibold text-uppercase" style="color:#9ca3af; font-size:0.7rem; letter-spacing:.06em;">Needs Review</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="stat-card-dots">···</span>
+                        <div class="stat-icon text-warning">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-icon text-warning bg-dark border" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-eye"></i>
-                </div>
+                <h3 class="stat-number" id="mgr-stat-reviews">1</h3>
+                <span class="stat-trend trend-down"><i class="fa-solid fa-triangle-exclamation me-1"></i>Requires approval</span>
+                <canvas class="stat-sparkline" id="spark-mgr-reviews"></canvas>
             </div>
         </div>
     </div>
 
     <!-- Charts row -->
     <div class="row g-4 flex-grow-1">
-        <!-- Task Status Chart -->
+        <!-- Task Status Donut -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Team Task Statuses</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
-                    <canvas id="mgr-task-chart"></canvas>
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <span class="dot"></span>
+                        Team Task Statuses
+                    </div>
+                    <div class="chart-filter-btn">
+                        This Month <i class="fa-solid fa-chevron-down" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1 d-flex align-items-center gap-4" style="position:relative; min-height:260px;">
+                    <div style="flex:1; position:relative; min-height:240px;">
+                        <canvas id="mgr-task-chart"></canvas>
+                    </div>
+                    <div class="donut-legend">
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#4ade80;"></span>
+                            <span class="donut-legend-label">Completed</span>
+                            <span class="donut-legend-pct" id="mgr-legend-done">40%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#60a5fa;"></span>
+                            <span class="donut-legend-label">In Progress</span>
+                            <span class="donut-legend-pct" id="mgr-legend-progress">30%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#a78bfa;"></span>
+                            <span class="donut-legend-label">In Review</span>
+                            <span class="donut-legend-pct" id="mgr-legend-review">20%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#9ca3af;"></span>
+                            <span class="donut-legend-label">To Do</span>
+                            <span class="donut-legend-pct" id="mgr-legend-todo">10%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Sprint Burndown Line Chart -->
+
+        <!-- Sprint Velocity Line Chart -->
         <div class="col-lg-6 col-md-12">
             <div class="card-custom p-4 d-flex flex-column h-100">
-                <h5 class="fw-bold text-white mb-3">Sprint Task Burn-velocity</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position:relative; min-height: 250px;">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <span class="dot"></span>
+                        Sprint Task Burn-velocity
+                    </div>
+                    <div class="chart-filter-btn">
+                        This Sprint <i class="fa-solid fa-chevron-down" style="font-size:.65rem;"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1" style="position:relative; min-height:260px;">
                     <canvas id="mgr-velocity-chart"></canvas>
                 </div>
             </div>

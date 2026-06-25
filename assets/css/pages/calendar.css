@@ -3,8 +3,8 @@
 ========================================== */
 
 .calendar-cell {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
     border-radius: 14px;
     padding: 10px;
     min-height: 140px;
@@ -15,166 +15,312 @@
     cursor: pointer;
 }
 
+
 .calendar-cell:hover {
     transform: translateY(-3px);
-    background: rgba(255,255,255,0.04);
-    border-color: rgba(99,102,241,0.4);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    background: #f8fafc !important;
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.15);
 }
+
 
 .calendar-cell.inactive-month {
-    opacity: 0.25;
+    opacity: 0.35;
 }
 
+
 .calendar-cell.today {
-    background: rgba(99,102,241,0.08);
-    border: 1px solid rgba(99,102,241,0.5);
+    background: #ede9fe !important;
+    border: 1px solid #8b5cf6 !important;
 }
+
 
 /* ==========================================
    DATE NUMBER
 ========================================== */
 
+
 .day-number {
-    width: 28px;
-    height: 28px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width:28px;
+    height:28px;
 
-    font-size: 0.85rem;
-    font-weight: 700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    color: #ffffff;
+    font-size:0.85rem;
+    font-weight:700;
 
-    border-radius: 50%;
+    color:#1f2937 !important;
 
-    margin-bottom: 8px;
+    border-radius:50%;
+    margin-bottom:8px;
 }
+
 
 .calendar-cell.today .day-number {
-    background: #6366f1;
-    color: white;
+
+    background:#7c3aed;
+    color:#ffffff !important;
+
 }
 
+
+
 /* ==========================================
-   EVENTS CONTAINER
+   EVENTS
 ========================================== */
+
 
 .calendar-events-container {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-grow: 1;
+
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex-grow:1;
+
 }
 
-/* ==========================================
-   TASK CARD
-========================================== */
+
 
 .calendar-event-dot {
-    border-radius: 10px;
 
-    padding: 8px 10px;
+    border-radius:10px;
 
-    font-size: 12px;
-    font-weight: 600;
+    padding:8px 10px;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size:12px;
+    font-weight:600;
 
-    transition: all 0.2s ease;
+    overflow:hidden;
+    text-overflow:ellipsis;
 
-    line-height: 1.3;
+    line-height:1.3;
 }
 
-.calendar-event-dot:hover {
-    transform: scale(1.02);
-}
 
-/* ==========================================
-   TASK TITLE + TIME
-========================================== */
 
 .calendar-event-title {
-    display: block;
-    color: white;
-    font-weight: 600;
+
+    display:block;
+    color:#111827 !important;
+    font-weight:700;
+
 }
 
+
+
 .calendar-event-time {
-    display: block;
-    margin-top: 3px;
-    font-size: 10px;
-    opacity: 0.8;
+
+    display:block;
+    margin-top:3px;
+    font-size:10px;
+    color:#6b7280 !important;
+
 }
+
+
+
 
 /* ==========================================
    EVENT COLORS
 ========================================== */
 
+
 .event-sprint {
-    background: rgba(99,102,241,0.18);
-    border-left: 4px solid #6366f1;
-    color: #c7d2fe;
+
+    background:#ede9fe !important;
+    border-left:4px solid #7c3aed;
+    color:#4c1d95 !important;
+
 }
+
+
 
 .event-client {
-    background: rgba(6,182,212,0.18);
-    border-left: 4px solid #06b6d4;
-    color: #a5f3fc;
+
+    background:#cffafe !important;
+    border-left:4px solid #06b6d4;
+    color:#164e63 !important;
+
 }
+
+
 
 .event-review {
-    background: rgba(245,158,11,0.18);
-    border-left: 4px solid #f59e0b;
-    color: #fde68a;
+
+    background:#fef3c7 !important;
+    border-left:4px solid #f59e0b;
+    color:#78350f !important;
+
 }
+
+
 
 .event-social {
-    background: rgba(16,185,129,0.18);
-    border-left: 4px solid #10b981;
-    color: #a7f3d0;
+
+    background:#d1fae5 !important;
+    border-left:4px solid #10b981;
+    color:#065f46 !important;
+
 }
 
+
+
 /* ==========================================
-   GRID
+   CALENDAR GRID
 ========================================== */
+
 
 #calendar-days-grid {
-    gap: 10px !important;
+
+    gap:10px !important;
+
 }
+
+
 
 /* ==========================================
-   UPCOMING EVENTS PANEL
+   FULL CALENDAR OVERRIDE
 ========================================== */
 
-.agenda-card {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-    padding: 1rem;
-    border-left: 4px solid #64748b;
-    transition: all 0.25s ease;
+
+#calendar,
+.fc {
+
+    background:#ffffff !important;
+    color:#1f2937 !important;
+    border-radius:18px;
+
 }
 
-.agenda-card:hover {
-    transform: translateX(4px);
+
+
+.fc-toolbar-title {
+
+    color:#111827 !important;
+    font-weight:700 !important;
+
 }
+
+
+
+.fc-col-header-cell-cushion {
+
+    color:#374151 !important;
+    font-weight:700 !important;
+
+}
+
+
+
+.fc-daygrid-day {
+
+    background:#ffffff !important;
+    border-color:#e5e7eb !important;
+
+}
+
+
+
+.fc-daygrid-day-number {
+
+    color:#374151 !important;
+    font-weight:600 !important;
+
+}
+
+
+
+.fc-day-today {
+
+    background:#ede9fe !important;
+
+}
+
+
+
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+
+.fc-button {
+
+    background:#7c3aed !important;
+    border:none !important;
+    color:white !important;
+
+}
+
+
+
+.fc-button:hover {
+
+    background:#6d28d9 !important;
+
+}
+
+
+
+
+/* ==========================================
+   UPCOMING EVENTS
+========================================== */
+
+
+.agenda-card {
+
+    background:#ffffff !important;
+    border:1px solid #e5e7eb !important;
+    border-radius:14px;
+
+    padding:1rem;
+
+    color:#374151 !important;
+
+}
+
+
+
+.agenda-card h3,
+.agenda-card h4,
+.agenda-card p {
+
+    color:#374151 !important;
+
+}
+
+
 
 .agenda-card.cat-sprint {
-    border-left-color: #6366f1;
+
+    border-left:4px solid #7c3aed;
+
 }
+
+
 
 .agenda-card.cat-client {
-    border-left-color: #06b6d4;
+
+    border-left:4px solid #06b6d4;
+
 }
+
+
 
 .agenda-card.cat-review {
-    border-left-color: #f59e0b;
+
+    border-left:4px solid #f59e0b;
+
 }
 
+
+
 .agenda-card.cat-social {
-    border-left-color: #10b981;
+
+    border-left:4px solid #10b981;
+
 }
