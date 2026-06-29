@@ -15,6 +15,7 @@
                     <th>Project Name</th>
                     <th>Lead Manager</th>
                     <th>Department</th>
+                    <th>Project Docs</th>
                     <th>Status</th>
                     <th>Submitted Date</th>
                     <th class="text-end">Actions</th>
@@ -24,5 +25,38 @@
                 <!-- Dynamically populated approvals -->
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Project Document Preview Modal -->
+<div class="modal fade document-preview-modal" id="approvalDocumentPreviewModal" tabindex="-1" aria-labelledby="approvalDocumentPreviewTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content document-preview-content">
+            <div class="document-preview-header">
+                <div class="d-flex align-items-center gap-3 min-w-0">
+                    <span class="document-preview-icon"><i class="fa-regular fa-file-pdf"></i></span>
+                    <div class="min-w-0">
+                        <h5 class="modal-title text-truncate mb-1" id="approvalDocumentPreviewTitle">Project document</h5>
+                        <p class="mb-0">PDF preview</p>
+                    </div>
+                </div>
+                <div class="document-preview-actions">
+                    <a id="approvalDocumentOpenLink" class="btn btn-sm btn-secondary-custom" href="#" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Open
+                    </a>
+                    <a id="approvalDocumentDownloadLink" class="btn btn-sm btn-primary-custom" href="#" download>
+                        <i class="fa-solid fa-download me-1"></i>Download
+                    </a>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close document preview"></button>
+                </div>
+            </div>
+            <div class="document-preview-body">
+                <div class="document-preview-loading" id="approvalDocumentPreviewLoading">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <span>Loading PDF preview...</span>
+                </div>
+                <iframe id="approvalDocumentPreviewFrame" title="Project document preview"></iframe>
+            </div>
+        </div>
     </div>
 </div>

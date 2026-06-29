@@ -1,63 +1,115 @@
-<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="mb-1 fw-bold text-white">My Profile</h4>
-            <p class="text-secondary small mb-0">Update your credentials and account details</p>
-        </div>
-    </div>
-
-    <div id="profile-alert-container"></div>
-
-    <div class="row g-4">
-        <!-- Avatar card -->
-        <div class="col-lg-4 col-md-12">
-            <div class="card-custom p-4 text-center d-flex flex-column align-items-center justify-content-center h-100">
-                <div class="position-relative mb-3" style="width: 96px; height: 96px;">
-                    <div class="rounded-circle overflow-hidden border border-secondary w-100 h-100">
-                        <img id="profile-card-avatar" src="" alt="Avatar" class="w-100 h-100 object-fit-cover">
-                    </div>
-                    <button id="profile-avatar-edit-btn" class="btn btn-primary-custom rounded-circle position-absolute d-flex align-items-center justify-content-center" style="bottom: 0; right: 0; width: 28px; height: 28px; padding: 0; border: 2px solid var(--bg-panel); z-index: 10;" title="Change Avatar" type="button">
-                        <i class="fa-solid fa-plus text-white" style="font-size: 10px;"></i>
-                    </button>
-                    <input type="file" id="profile-avatar-input" accept="image/*" style="display: none;">
-                </div>
-                <h5 class="fw-bold text-dark mb-1" id="profile-card-name">Alex Mercer</h5>
-                <span class="badge bg-primary rounded-pill font-size-xs px-2.5 py-1 mb-3 text-capitalize" id="profile-card-role">employee</span>
-                <p class="text-secondary small mb-0"><i class="fa-solid fa-building me-1.5 text-muted"></i>Dept: <span id="profile-card-dept" class="text-dark">Engineering</span></p>
+<div class="profile-page container-fluid py-3 h-100 fade-in-view">
+    <div class="profile-shell">
+        <header class="profile-header d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+            <div>
+                <div class="profile-kicker mb-2">Account Center</div>
+                <h4 class="mb-1 fw-bold text-white">My Profile</h4>
+                <p class="text-secondary small mb-0">Keep your public identity current while workspace access stays managed by admins.</p>
             </div>
-        </div>
+            <div class="profile-status-pill">
+                <i class="fa-solid fa-shield-halved"></i>
+                Verified workspace profile
+            </div>
+        </header>
 
-        <!-- Form card -->
-        <div class="col-lg-8 col-md-12">
-            <div class="card-custom p-4 h-100">
-                <h5 class="fw-bold text-dark mb-4"><i class="fa-regular fa-address-card text-primary me-2"></i>Account Details</h5>
-                <form id="profile-details-form">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="profile-name" class="form-label-custom">Full Name</label>
-                            <input type="text" class="form-control form-control-custom" id="profile-name" required>
+        <div id="profile-alert-container"></div>
+
+        <div class="row g-4 align-items-stretch">
+            <div class="col-xl-4 col-lg-5 col-md-12">
+                <section class="profile-identity-card h-100">
+                    <div class="profile-card-topline"></div>
+                    <div class="profile-avatar-wrap">
+                        <div class="profile-avatar-ring">
+                            <img id="profile-card-avatar" src="" alt="Avatar" class="profile-avatar-img">
                         </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="profile-email" class="form-label-custom">Email Address</label>
-                            <input type="email" class="form-control form-control-custom" id="profile-email" required>
+                        <button id="profile-avatar-edit-btn" class="profile-avatar-action" title="Change avatar" type="button">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
+                        <input type="file" id="profile-avatar-input" accept="image/*" class="d-none">
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <h3 class="profile-name mb-1" id="profile-card-name">Profile Name</h3>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
+                            <span class="profile-role-chip text-capitalize" id="profile-card-role">employee</span>
+                            <span class="profile-dept-chip">
+                                <i class="fa-solid fa-building"></i>
+                                <span id="profile-card-dept">Department</span>
+                            </span>
+                        </div>
+                        <p class="profile-card-note mb-0">Role and department are assigned by the workspace and cannot be edited from this profile page.</p>
+                    </div>
+
+                    <div class="profile-meta-list mt-4">
+                        <div class="profile-meta-row">
+                            <span><i class="fa-regular fa-id-badge"></i>Role</span>
+                            <strong class="text-capitalize" id="profile-role-display">employee</strong>
+                        </div>
+                        <div class="profile-meta-row">
+                            <span><i class="fa-regular fa-building"></i>Department</span>
+                            <strong id="profile-dept-display">Department</strong>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="profile-role" class="form-label-custom">Account Role</label>
-                            <input type="text" class="form-control form-control-custom text-capitalize" id="profile-role" disabled>
+                </section>
+            </div>
+
+            <div class="col-xl-8 col-lg-7 col-md-12">
+                <section class="profile-edit-card h-100">
+                    <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+                        <div>
+                            <h5 class="fw-bold text-dark mb-1">Editable Details</h5>
+                            <p class="text-secondary small mb-0">Only your name and email are updated from here.</p>
                         </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="profile-dept" class="form-label-custom">Department</label>
-                            <input type="text" class="form-control form-control-custom" id="profile-dept" disabled>
-                        </div>
+                        <span class="profile-lock-note">
+                            <i class="fa-solid fa-lock"></i>
+                            Access fields locked
+                        </span>
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary-custom px-4 py-2 mt-3">
-                        <i class="fa-solid fa-circle-check me-2"></i>Update Profile
-                    </button>
-                </form>
+
+                    <form id="profile-details-form">
+                        <div class="row g-3">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="profile-name" class="form-label-custom">Full Name</label>
+                                <div class="profile-input-wrap">
+                                    <i class="fa-regular fa-user"></i>
+                                    <input type="text" class="form-control form-control-custom" id="profile-name" autocomplete="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="profile-email" class="form-label-custom">Email Address</label>
+                                <div class="profile-input-wrap">
+                                    <i class="fa-regular fa-envelope"></i>
+                                    <input type="email" class="form-control form-control-custom" id="profile-email" autocomplete="email" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-fixed-grid mt-4">
+                            <div class="profile-fixed-field">
+                                <label for="profile-role">Account Role</label>
+                                <div>
+                                    <i class="fa-solid fa-user-shield"></i>
+                                    <input type="text" id="profile-role" class="text-capitalize" readonly disabled>
+                                    <span>Fixed</span>
+                                </div>
+                            </div>
+                            <div class="profile-fixed-field">
+                                <label for="profile-dept">Department</label>
+                                <div>
+                                    <i class="fa-solid fa-sitemap"></i>
+                                    <input type="text" id="profile-dept" readonly disabled>
+                                    <span>Fixed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-primary-custom px-4 py-2" id="profile-update-btn">
+                                <i class="fa-solid fa-circle-check me-2"></i>Update Profile
+                            </button>
+                        </div>
+                    </form>
+                </section>
             </div>
         </div>
     </div>

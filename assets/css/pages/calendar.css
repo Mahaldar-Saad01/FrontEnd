@@ -324,3 +324,35 @@
     border-left:4px solid #10b981;
 
 }
+
+
+/* ==========================================
+   DARK THEME TEXT CONTRAST
+========================================== */
+
+#main-content .container-fluid:has(#calendar-days-grid) > .d-flex h4.text-white {
+    color:#f8fafc !important;
+}
+
+#main-content .container-fluid:has(#calendar-days-grid) > .d-flex .text-secondary {
+    color:#cbd5e1 !important;
+}
+
+#main-content .container-fluid:has(#calendar-days-grid) .card-custom {
+    background:#cfcad1 !important;
+}
+
+#main-content .container-fluid:has(#calendar-days-grid) .card-custom > h5,
+#main-content .container-fluid:has(#calendar-days-grid) #calendar-month-year {
+    color:#111827 !important;
+}
+
+#main-content .container-fluid:has(#calendar-days-grid) .card-custom > .row.text-secondary,
+#main-content .container-fluid:has(#calendar-days-grid) #calendar-events-agenda .text-muted {
+    color:#64748b !important;
+}
+
+#main-content .container-fluid:has(#calendar-days-grid) .agenda-card h6,
+#main-content .container-fluid:has(#calendar-days-grid) .agenda-card .text-muted {
+    color:#1f2937 !important;
+}

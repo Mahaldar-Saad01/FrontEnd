@@ -195,13 +195,55 @@
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
 }
-.calendar-grid > div {
+.calendar-grid > div,
+.calendar-grid > button {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 30px;
     width: 30px;
     margin: auto;
+}
+#main-chat-container .calendar-widget .btn-link {
+    color: var(--text-primary) !important;
+}
+.calendar-weekday {
+    color: var(--text-secondary) !important;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+.chat-calendar-day {
+    border: 0;
+    border-radius: 50%;
+    color: black;
+    position: relative;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.chat-calendar-day:hover {
+    background-color: var(--bg-input);
+}
+.chat-calendar-day.is-outside {
+    color: var(--text-secondary) !important;
+    opacity: 0.45;
+}
+.chat-calendar-day.is-today {
+    border: 3px solid var(--primary-accent);
+}
+.chat-calendar-day.is-selected {
+    background-color: var(--primary-accent) !important;
+    color: #070404 !important;
+}
+.chat-calendar-day.has-event::after {
+    background-color: var(--primary-accent);
+    border-radius: 50%;
+    bottom: 3px;
+    content: "";
+    height: 4px;
+    position: absolute;
+    width: 4px;
+}
+.chat-calendar-day.is-selected.has-event::after {
+    background-color: #0b0505;
 }
 .calendar-grid .bg-primary {
     background-color: var(--primary-accent) !important;
@@ -245,10 +287,24 @@
     --border-color: #e2e8f0;
     --text-primary: #1f2937;
     --text-secondary: #4b5563;
+    animation: workhubGradientFlow 20s ease-in-out infinite;
+    background: var(--app-page-gradient) !important;
+    background-size: 260% 260% !important;
+}
+
+#main-chat-container.light-theme .active-chat-area .flex-grow-1.overflow-auto {
+    background: rgba(248, 250, 252, 0.74) !important;
 }
 
 #main-chat-container.light-theme .chat-bubble-other {
     color: #1f2937 !important;
+}
+
+#main-chat-container.light-theme .custom-search .input-group-text,
+#main-chat-container.light-theme .custom-search .form-control,
+#main-chat-container.light-theme .active-chat-area .input-group,
+#main-chat-container.light-theme .active-chat-area .form-control {
+    color: var(--text-primary) !important;
 }
 
 #main-chat-container.light-theme .chat-item:hover,

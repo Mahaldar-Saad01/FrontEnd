@@ -1,4 +1,4 @@
-<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view">
+<div class="container-fluid py-3 h-100 d-flex flex-column fade-in-view kanban-page">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -11,7 +11,7 @@
     <div class="row flex-grow-1 g-3 align-items-stretch" style="min-height: 480px;">
         <!-- Column 1: To Do -->
         <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+            <div class="kanban-column-shell d-flex flex-column h-100 rounded-4 p-3 border">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold text-white mb-0"><i class="fa-regular fa-circle text-secondary me-2"></i>To Do</h6>
                     <span class="badge bg-secondary rounded-pill font-size-xs" id="count-todo">0</span>
@@ -24,7 +24,7 @@
 
         <!-- Column 2: In Progress -->
         <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+            <div class="kanban-column-shell d-flex flex-column h-100 rounded-4 p-3 border">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-spinner text-info me-2"></i>In Progress</h6>
                     <span class="badge bg-info rounded-pill font-size-xs text-dark" id="count-progress">0</span>
@@ -37,7 +37,7 @@
 
         <!-- Column 3: In Review -->
         <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+            <div class="kanban-column-shell d-flex flex-column h-100 rounded-4 p-3 border">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-eye text-warning me-2"></i>In Review</h6>
                     <span class="badge bg-warning rounded-pill font-size-xs text-dark" id="count-review">0</span>
@@ -50,7 +50,7 @@
 
         <!-- Column 4: Completed -->
         <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="d-flex flex-column h-100 rounded-4 p-3 bg-dark border" style="border-color: var(--border-color) !important; background-color: #0b0e17 !important;">
+            <div class="kanban-column-shell d-flex flex-column h-100 rounded-4 p-3 border">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-circle-check text-success me-2"></i>Completed</h6>
                     <span class="badge bg-success rounded-pill font-size-xs" id="count-done">0</span>

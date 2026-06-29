@@ -12,6 +12,13 @@ window.PageModules['chat'] = async function () {
     const activeDesc = document.getElementById('chat-active-desc');
     const activeAvatar = document.getElementById('chat-active-avatar');
     const profileAvatar = document.getElementById('chat-profile-avatar');
+    const calendarMonthYear = document.getElementById('chat-calendar-month-year');
+    const calendarGrid = document.getElementById('chat-calendar-grid');
+    const calendarPrev = document.getElementById('chat-calendar-prev');
+    const calendarNext = document.getElementById('chat-calendar-next');
+    const plansDateLabel = document.getElementById('chat-plans-date-label');
+    const dayPlans = document.getElementById('chat-day-plans');
+    const addEventBtn = document.getElementById('chat-add-event-btn');
 
     const currentUser = WorkHubAPI.getCurrentUser();
     const clearSelections = () => {
@@ -25,11 +32,125 @@ window.PageModules['chat'] = async function () {
     let socket = null;
     let reconnectTimer = null;
     let intentionallyClosed = false;
+    let chatEvents = [];
+    let chatCalendarDate = new Date();
+    let selectedPlanDate = new Date();
 
     const escapeHtml = (text) => {
         const div = document.createElement('div');
         div.appendChild(document.createTextNode(text || ''));
         return div.innerHTML;
+    };
+
+    const formatDateKey = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const formatPlanLabel = (date) => {
+        const today = new Date();
+        if (formatDateKey(date) === formatDateKey(today)) return 'Today';
+        return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    };
+
+    const renderChatPlans = () => {
+        if (!dayPlans || !plansDateLabel) return;
+
+        const selectedKey = formatDateKey(selectedPlanDate);
+        const plans = chatEvents
+            .filter(event => event.date === selectedKey)
+            .sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')));
+
+        plansDateLabel.textContent = formatPlanLabel(selectedPlanDate);
+
+        if (!plans.length) {
+            dayPlans.innerHTML = `
+                <div class="text-muted small border rounded-3 p-3 text-center">
+                    No plans for this day.
+                </div>
+            `;
+            return;
+        }
+
+        dayPlans.innerHTML = plans.map(plan => `
+            <div class="plan-item bg-dark border-light rounded-3 p-3 mb-2">
+                <div class="d-flex justify-content-between gap-2">
+                    <div class="fw-semibold small">${escapeHtml(plan.title || 'Untitled event')}</div>
+                    <span class="text-muted small">${escapeHtml(plan.time || '')}</span>
+                </div>
+                <div class="text-muted small mt-1">${escapeHtml(plan.description || '')}</div>
+            </div>
+        `).join('');
+    };
+
+    const renderChatCalendar = () => {
+        if (!calendarGrid || !calendarMonthYear) return;
+
+        const month = chatCalendarDate.getMonth();
+        const year = chatCalendarDate.getFullYear();
+        const selectedKey = formatDateKey(selectedPlanDate);
+        const todayKey = formatDateKey(new Date());
+        const eventDates = new Set(chatEvents.map(event => event.date));
+        const monthName = chatCalendarDate.toLocaleDateString([], { month: 'long', year: 'numeric' });
+
+        calendarMonthYear.textContent = monthName;
+        calendarGrid.innerHTML = '';
+
+        ['M', 'T', 'W', 'T', 'F', 'S', 'S'].forEach(day => {
+            const label = document.createElement('div');
+            label.className = 'calendar-weekday';
+            label.textContent = day;
+            calendarGrid.appendChild(label);
+        });
+
+        const firstDayIndex = new Date(year, month, 1).getDay();
+        const firstDayOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+        const startDate = new Date(year, month, 1 - firstDayOffset);
+
+        for (let i = 0; i < 42; i += 1) {
+            const cellDate = new Date(startDate);
+            cellDate.setDate(startDate.getDate() + i);
+            const dateKey = formatDateKey(cellDate);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'chat-calendar-day';
+            btn.textContent = cellDate.getDate();
+            btn.setAttribute('aria-label', cellDate.toLocaleDateString([], {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+            }));
+
+            if (cellDate.getMonth() !== month) btn.classList.add('is-outside');
+            if (dateKey === todayKey) btn.classList.add('is-today');
+            if (dateKey === selectedKey) btn.classList.add('is-selected');
+            if (eventDates.has(dateKey)) btn.classList.add('has-event');
+
+            btn.addEventListener('click', () => {
+                selectedPlanDate = new Date(cellDate);
+                renderChatCalendar();
+                renderChatPlans();
+            });
+
+            calendarGrid.appendChild(btn);
+        }
+
+        renderChatPlans();
+    };
+
+    const loadChatCalendar = async () => {
+        if (!calendarGrid) return;
+        try {
+            const data = await WorkHubAPI.getJSON('/calendar/events/');
+            chatEvents = Array.isArray(data) ? data : (data.results || []);
+        } catch (err) {
+            console.warn('Chat calendar load error:', err);
+            chatEvents = [];
+        }
+        renderChatCalendar();
     };
 
     const getWsBase = () => {
@@ -471,6 +592,32 @@ window.PageModules['chat'] = async function () {
         }
     }
 
+    if (calendarPrev) {
+        calendarPrev.addEventListener('click', () => {
+            chatCalendarDate = new Date(chatCalendarDate.getFullYear(), chatCalendarDate.getMonth() - 1, 1);
+            renderChatCalendar();
+        });
+    }
+
+    if (calendarNext) {
+        calendarNext.addEventListener('click', () => {
+            chatCalendarDate = new Date(chatCalendarDate.getFullYear(), chatCalendarDate.getMonth() + 1, 1);
+            renderChatCalendar();
+        });
+    }
+
+    if (addEventBtn) {
+        addEventBtn.addEventListener('click', () => {
+            const calendarLink = document.querySelector('.menu-link[href="#calendar"]');
+            if (calendarLink) {
+                calendarLink.click();
+            } else {
+                window.location.hash = '#calendar';
+            }
+        });
+    }
+
+    await loadChatCalendar();
     await loadMessages();
     connectSocket();
 

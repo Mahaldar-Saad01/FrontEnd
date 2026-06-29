@@ -34,6 +34,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             settingsLink.href = '#settings';
         }
 
+        document.querySelectorAll('.navbar-route-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                const href = link.getAttribute('href');
+                if (!href || !href.startsWith('#')) return;
+
+                const sidebarLink = document.querySelector(`.menu-link[href="${href}"]`);
+                if (sidebarLink) {
+                    event.preventDefault();
+                    sidebarLink.click();
+                }
+            });
+        });
+
         // ── PROFILE DROPDOWN Z-INDEX FIX ─────────────────────────
         // The dropdown was appearing under the dashboard content because
         // the dashboard-page div creates a new stacking context.

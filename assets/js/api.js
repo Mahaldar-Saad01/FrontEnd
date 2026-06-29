@@ -107,6 +107,13 @@
             });
         },
 
+        async postForm(endpoint, formData) {
+            return this.fetch(endpoint, {
+                method: 'POST',
+                body: formData
+            });
+        },
+
         async put(endpoint, body) {
             return this.fetch(endpoint, {
                 method: 'PUT',
@@ -157,3 +164,4 @@
     window.API_BASE = API_BASE;
 
 })();
+

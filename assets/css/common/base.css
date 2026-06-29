@@ -10,6 +10,16 @@
     --bg-panel: #eaccec;
     --bg-input: #ffffff;
     --border-color: rgba(255, 255, 255, 0.08);
+    --app-page-gradient:
+        linear-gradient(
+            125deg,
+            #f8fbff 0%,
+            #eef7ff 20%,
+            #f7f3ff 42%,
+            #fff7ed 64%,
+            #ecfdf5 82%,
+            #f8fbff 100%
+        );
     
     --text-primary: #172033;
     --text-secondary: #64748b;
@@ -27,10 +37,9 @@
 
 body {
     font-family: 'Outfit', sans-serif !important;
-    background:
-    radial-gradient(circle at top right,#f3d8ff,transparent 30%),
-    radial-gradient(circle at bottom left,#dbeafe,transparent 35%),
-    #f8fafc!important;
+    animation: workhubGradientFlow 18s ease-in-out infinite;
+    background: var(--app-page-gradient) !important;
+    background-size: 260% 260% !important;
 
     color:#172033!important;
 
@@ -38,6 +47,12 @@ body {
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes workhubGradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* Scrollbar Customization */

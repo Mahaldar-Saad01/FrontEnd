@@ -45,9 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (folderName === "common" || !folderName) {
             return cleanName;
         }
-        if (cleanName === "calendar") {
-            return "calender";
-        }
         return `${folderName}-${cleanName}`;
     };
 
@@ -67,6 +64,31 @@ document.addEventListener("DOMContentLoaded", async () => {
             const isActive = linkPage === pagePath || (linkHash && linkHash === `#${activeUrlKey}`);
             link.classList.toggle("active", isActive);
         });
+    };
+
+    const cleanupStaleModals = () => {
+        window.dispatchEvent(new CustomEvent("workhub:pagehide"));
+
+        if (window.ModalHelpers?.cleanup) {
+            window.ModalHelpers.cleanup();
+        }
+
+        document.querySelectorAll(".modal.show").forEach((modalEl) => {
+            if (window.bootstrap) {
+                bootstrap.Modal.getInstance(modalEl)?.hide();
+            }
+            modalEl.classList.remove("show");
+            modalEl.setAttribute("aria-hidden", "true");
+            modalEl.style.display = "none";
+        });
+
+        document.querySelectorAll(".modal-backdrop").forEach((backdrop) => {
+            backdrop.remove();
+        });
+
+        document.body.classList.remove("modal-open");
+        document.body.style.removeProperty("overflow");
+        document.body.style.removeProperty("padding-right");
     };
 
     // Render sidebar template in parallel
@@ -134,6 +156,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     const loadPage = async (pagePath, shouldUpdateHistory = true) => {
+        cleanupStaleModals();
+
         // Role authorization check for admin and manager pages
         if (pagePath.includes("pages/admin/") && role !== "admin") {
             console.warn(`Unauthorized access attempt to ${pagePath} by role: ${role}`);
