@@ -11,21 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const alertContainer = document.getElementById("loginAlert") || document.createElement('div');
 
     // ── Role switcher (pre-fills demo credentials) ─────────────────
-    // const demoCredentials = {
-    //     admin:    { email: "admin@gmail.com",    pass: "admin123" },
-    //     manager:  { email: "saraa@gmail.com",  pass: "newpass123" },
-    //     employee: { email: "samad@mits.com", pass: "samad123" }
-    // };
-
     roleBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             roleBtns.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
-            const role = btn.dataset.role;
-            if (demoCredentials[role]) {
-                emailInput.value = "";
-                passwordInput.value = "";
-            }
         });
     });
 
@@ -34,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const container = document.getElementById("loginAlert");
         if (!container) return;
         container.innerHTML = `
-            <div class="alert d-flex align-items-center mb-4" role="alert"
+            <div class="alert d-flex align-items-center mb-4" role="alert" aria-live="polite"
                  style="background-color: rgba(${type === 'danger' ? '244,63,94' : '16,185,129'}, 0.15);
                         border-color: var(--color-${type === 'danger' ? 'danger' : 'success'});
                         color: var(--color-${type === 'danger' ? 'danger' : 'success'});">
@@ -52,6 +41,26 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Sign In';
         }
+    }
+
+    async function readLoginResponse(response) {
+        try {
+            return await response.json();
+        } catch {
+            return {};
+        }
+    }
+
+    function getLoginErrorMessage(response, data) {
+        if (response.status === 400 || response.status === 401) {
+            return 'Invalid email or password. Please check your credentials and try again.';
+        }
+
+        return data.detail
+            || data.email?.[0]
+            || data.password?.[0]
+            || data.non_field_errors?.[0]
+            || 'Login failed. Please try again.';
     }
 
     // ── Form Submission ────────────────────────────────────────────
@@ -76,11 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ email, password })
             });
 
-            const data = await response.json();
+            const data = await readLoginResponse(response);
 
             if (!response.ok) {
-                const msg = data.detail || data.email?.[0] || data.password?.[0] || 'Invalid credentials.';
-                showAlert(msg);
+                showAlert(getLoginErrorMessage(response, data));
                 setLoading(submitBtn, false);
                 return;
             }

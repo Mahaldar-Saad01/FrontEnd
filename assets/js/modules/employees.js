@@ -305,10 +305,46 @@ window.PageModules['employee-profile'] = async function () {
     const inputDept = document.getElementById('profile-dept');
     const form       = document.getElementById('profile-details-form');
     const alertCont  = document.getElementById('profile-alert-container');
+    const roleDisplay = document.getElementById('profile-role-display');
+    const deptDisplay = document.getElementById('profile-dept-display');
+    const updateBtn = document.getElementById('profile-update-btn');
 
     // Avatar upload handling
     const editBtn = document.getElementById('profile-avatar-edit-btn');
     const fileInput = document.getElementById('profile-avatar-input');
+
+    const fallbackAvatar = (name) =>
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=6366f1&color=fff`;
+
+    const normalizeDept = (user) =>
+        user?.department_name || user?.dept || user?.department || 'Unassigned';
+
+    const renderProfile = (user) => {
+        const name = user?.full_name || user?.name || 'User';
+        const email = user?.email || '';
+        const role = user?.role || 'employee';
+        const dept = normalizeDept(user);
+        const avatar = user?.avatar_url || user?.avatar || fallbackAvatar(name);
+
+        if (avatarImg) avatarImg.src = avatar;
+        if (cardName) cardName.textContent = name;
+        if (cardRole) cardRole.textContent = role;
+        if (cardDept) cardDept.textContent = dept;
+        if (roleDisplay) roleDisplay.textContent = role;
+        if (deptDisplay) deptDisplay.textContent = dept;
+        if (inputName) inputName.value = name;
+        if (inputEmail) inputEmail.value = email;
+        if (inputRole) {
+            inputRole.value = role;
+            inputRole.disabled = true;
+            inputRole.readOnly = true;
+        }
+        if (inputDept) {
+            inputDept.value = dept;
+            inputDept.disabled = true;
+            inputDept.readOnly = true;
+        }
+    };
 
     if (editBtn && fileInput) {
         editBtn.addEventListener('click', () => fileInput.click());
@@ -365,28 +401,13 @@ window.PageModules['employee-profile'] = async function () {
 
     try {
         const userData = await WorkHubAPI.getJSON('/users/me/');
-
-        if (avatarImg) avatarImg.src = userData.avatar_url || '';
-        if (cardName)  cardName.textContent  = userData.full_name;
-        if (cardRole)  cardRole.textContent  = userData.role;
-        if (cardDept)  cardDept.textContent  = userData.department_name || '';
-        if (inputName) inputName.value  = userData.full_name;
-        if (inputEmail) inputEmail.value = userData.email;
-        if (inputRole) inputRole.value  = userData.role;
-        if (inputDept) inputDept.value  = userData.department_name || '';
+        renderProfile(userData);
 
     } catch (e) {
         // Fallback to localStorage session
         const u = WorkHubAPI.getCurrentUser();
         if (!u) return;
-        if (avatarImg) avatarImg.src = u.avatar || '';
-        if (cardName)  cardName.textContent = u.name || u.full_name;
-        if (cardRole)  cardRole.textContent = u.role;
-        if (cardDept)  cardDept.textContent = u.dept || u.department || '';
-        if (inputName) inputName.value = u.name || u.full_name;
-        if (inputEmail) inputEmail.value = u.email;
-        if (inputRole) inputRole.value = u.role;
-        if (inputDept) inputDept.value = u.dept || u.department || '';
+        renderProfile(u);
     }
 
     if (form) {
@@ -395,6 +416,11 @@ window.PageModules['employee-profile'] = async function () {
             const updatedName  = inputName?.value.trim();
             const updatedEmail = inputEmail?.value.trim();
             if (!updatedName || !updatedEmail) return;
+
+            if (updateBtn) {
+                updateBtn.disabled = true;
+                updateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Updating...';
+            }
 
             try {
                 const resp = await WorkHubAPI.put('/users/me/', {
@@ -415,8 +441,7 @@ window.PageModules['employee-profile'] = async function () {
                 session.avatar_url = newAvatar;
                 WorkHubAPI.setCurrentUser(session);
 
-                if (avatarImg) avatarImg.src = newAvatar;
-                if (cardName) cardName.textContent = updatedName;
+                renderProfile({ ...session, avatar_url: newAvatar });
 
                 // Update navbar avatar
                 const navAvatar = document.getElementById('nav-user-avatar');
@@ -436,6 +461,12 @@ window.PageModules['employee-profile'] = async function () {
                 }
 
             } catch (err) { alert('Network error.'); }
+            finally {
+                if (updateBtn) {
+                    updateBtn.disabled = false;
+                    updateBtn.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Update Profile';
+                }
+            }
         });
     }
 };

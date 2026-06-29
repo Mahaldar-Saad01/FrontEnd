@@ -1,24 +1,79 @@
 /* Kanban Board Stylesheet */
 
+.kanban-page {
+    animation: kanbanGradientShift 16s ease-in-out infinite;
+    background:
+        linear-gradient(120deg,
+            rgba(248, 250, 252, 0.96) 0%,
+            rgba(236, 253, 245, 0.94) 24%,
+            rgba(239, 246, 255, 0.96) 48%,
+            rgba(245, 243, 255, 0.95) 74%,
+            rgba(255, 247, 237, 0.92) 100%);
+    background-size: 240% 240%;
+    color: #0f172a;
+    overflow: hidden;
+    position: relative;
+}
+
+.kanban-page::before {
+    animation: kanbanSheen 12s linear infinite;
+    background: linear-gradient(100deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.45) 38%,
+        rgba(255, 255, 255, 0.18) 50%,
+        transparent 70%);
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    transform: translateX(-70%);
+}
+
+.kanban-page > * {
+    position: relative;
+    z-index: 1;
+}
+
+.kanban-page h4.text-white,
+.kanban-page h6.text-white {
+    color: #0f172a !important;
+}
+
+.kanban-page .text-secondary,
+.kanban-page .text-muted-custom {
+    color: #64748b !important;
+}
+
+.kanban-column-shell {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-color: rgba(148, 163, 184, 0.28) !important;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.09);
+}
+
 .kanban-column {
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    border-radius: 12px;
-    padding: 0.5rem;
+    background: rgba(248, 250, 252, 0.62);
+    border: 1px dashed rgba(148, 163, 184, 0.22);
+    border-radius: 14px;
+    padding: 0.65rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .kanban-column.drag-over {
-    background-color: rgba(99, 102, 241, 0.04) !important;
+    background-color: rgba(99, 102, 241, 0.10) !important;
     border: 1px dashed var(--primary-accent) !important;
+    box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.14);
 }
 
 /* Kanban Cards */
 .kanban-card {
-    background-color: var(--bg-panel);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.25rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
     cursor: grab;
+    padding: 1.15rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
@@ -28,23 +83,43 @@
 }
 
 .kanban-card:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    border-color: rgba(99, 102, 241, 0.28);
+    box-shadow: 0 16px 32px rgba(99, 102, 241, 0.14);
+    transform: translateY(-2px);
 }
 
 .kanban-card.dragging {
-    opacity: 0.4;
+    opacity:0.45;
+}
+
+.kanban-card .text-white {
+    color: #111827 !important;
+}
+
+.kanban-empty {
+    color: #64748b !important;
 }
 
 /* Priority Left Borders */
 .prio-card-high {
-    border-left: 3px solid var(--color-danger) !important;
+    border-left: 4px solid var(--color-danger) !important;
 }
 
 .prio-card-medium {
-    border-left: 3px solid var(--color-warning) !important;
+    border-left: 4px solid var(--color-warning) !important;
 }
 
 .prio-card-low {
-    border-left: 3px solid var(--color-success) !important;
+    border-left: 4px solid var(--color-success) !important;
+}
+
+@keyframes kanbanGradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes kanbanSheen {
+    0% { transform: translateX(-85%); }
+    100% { transform: translateX(85%); }
 }

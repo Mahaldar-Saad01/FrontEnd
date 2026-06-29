@@ -2,26 +2,26 @@
     <!-- Search bar -->
     <div class="search-pill d-flex align-items-center px-3 py-2 rounded-pill">
         <i class="fa-solid fa-magnifying-glass me-2" style="color: rgba(0,0,0,0.5);"></i>
-        <input type="text" class="form-control form-control-sm bg-transparent border-0 shadow-none p-0" style="color: #ffffff;" placeholder="Search tasks, projects..." aria-label="Search">
+        <input type="text" id="globalSearch" name="global_search" class="form-control form-control-sm bg-transparent border-0 shadow-none p-0" style="color: #ffffff;" placeholder="Search tasks, projects..." aria-label="Search tasks and projects" autocomplete="off">
     </div>
 
     <!-- Right Controls -->
-    <div class="d-flex align-items-center gap-3 ms-3">
+    <div class="navbar-actions d-flex align-items-center ms-3">
         <!-- Messages Trigger -->
-        <a href="#chat" class="btn btn-link p-0 fs-5 position-relative nav-icon" aria-label="Messages">
-            <i class="fa-regular fa-message"></i>
+        <a href="#chat" class="btn btn-link p-0 fs-5 position-relative nav-icon navbar-route-link" aria-label="Messages" title="Messages">
+            <i class="fa-regular fa-envelope"></i>
             <span class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle" style="width:8px; height:8px;"></span>
         </a>
 
         <!-- Notifications Trigger -->
-        <a href="#notifications" class="btn btn-link p-0 fs-5 position-relative nav-icon" aria-label="Notifications">
+        <a href="#notifications" class="btn btn-link p-0 fs-5 position-relative nav-icon navbar-route-link" aria-label="Notifications" title="Notifications">
             <i class="fa-regular fa-bell"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.55rem; padding: 0.25em 0.4em;">3</span>
+            <span id="nav-notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.55rem; padding: 0.25em 0.4em;">3</span>
         </a>
 
         <!-- Profile Dropdown -->
         <div class="dropdown">
-            <button class="btn btn-link p-0 rounded-circle border-0 shadow-none dropdown-toggle-no-caret profile-trigger" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-link p-0 rounded-circle border-0 shadow-none dropdown-toggle-no-caret profile-trigger" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Open profile menu" title="Open profile menu">
                 <img src="" id="nav-user-avatar" alt="Profile" class="rounded-circle w-100 h-100 object-fit-cover border border-secondary profile-avatar">
                 
             </button>
@@ -31,18 +31,18 @@
                     <div class="small text-capitalize font-size-xs" id="nav-user-role"  style="color:#9ca3af !important;">role</div>
                 </li>
                 <li>
-                    <a class="dropdown-item rounded-3 py-2 small" href="#profile" id="nav-profile-link" style="color: #ffffff !important;">
+                    <a class="dropdown-item rounded-3 py-2 small navbar-route-link" href="#profile" id="nav-profile-link" style="color: #ffffff !important;">
                         <i class="fa-regular fa-user me-2" style="color: #a5b4fc;"></i>My Profile
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item rounded-3 py-2 small" href="#settings" id="nav-settings-link" style="color: #ffffff !important;">
+                    <a class="dropdown-item rounded-3 py-2 small navbar-route-link" href="#settings" id="nav-settings-link" style="color: #ffffff !important;">
                         <i class="fa-solid fa-sliders me-2" style="color: #a5b4fc;"></i>Settings
                     </a>
                 </li>
                 <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.12);"></li>
                 <li>
-                    <a class="dropdown-item rounded-3 py-2 text-danger small cursor-pointer logout-action" id="logout-btn">
+                    <a class="dropdown-item rounded-3 py-2 text-danger small cursor-pointer logout-action" href="#logout" id="logout-btn" aria-label="Sign out">
                         <i class="fa-solid fa-right-from-bracket me-2"></i>Sign Out
                     </a>
                 </li>

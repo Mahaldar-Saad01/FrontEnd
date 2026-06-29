@@ -23,13 +23,124 @@
             min-height: 100vh;
             overflow: hidden;
             background:
-                radial-gradient(circle at 12% 18%, rgba(98, 181, 255, 0.28), transparent 36%),
-                radial-gradient(circle at 88% 78%, rgba(125, 80, 244, 0.2), transparent 34%),
-                #f1f6ff !important;
+                radial-gradient(circle at 12% 18%, rgba(17, 53, 139, 0.32), transparent 28%),
+                radial-gradient(circle at 84% 15%, rgba(79, 70, 229, 0.32), transparent 30%),
+                radial-gradient(circle at 70% 92%, rgba(170, 62, 118, 0.24), transparent 32%),
+                linear-gradient(135deg, #eef7ff 0%, #f8f5ff 46%, #fff7ed 100%) !important;
             color: var(--auth-ink);
         }
 
+        .auth-bg-canvas,
+        .auth-bg-glow,
+        .auth-orbit-field {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .auth-bg-canvas {
+            z-index: 0;
+        }
+
+        .auth-bg-glow {
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .auth-bg-glow::before,
+        .auth-bg-glow::after {
+            content: "";
+            position: absolute;
+            width: 36rem;
+            height: 36rem;
+            border-radius: 999px;
+            filter: blur(22px);
+            opacity: 0.45;
+            animation: driftGlow 16s ease-in-out infinite alternate;
+        }
+
+        .auth-bg-glow::before {
+            left: -10rem;
+            top: -8rem;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.34), transparent 68%);
+        }
+
+        .auth-bg-glow::after {
+            right: -11rem;
+            bottom: -10rem;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.32), transparent 70%);
+            animation-delay: -6s;
+        }
+
+        .auth-orbit-field {
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .auth-orbit-field span {
+            position: absolute;
+            display: block;
+            width: 7rem;
+            aspect-ratio: 1;
+            border: 1px solid rgba(79, 70, 229, 0.14);
+            border-radius: 26px;
+            background:
+                linear-gradient(135deg, rgba(42, 6, 6, 0.28), rgba(255, 255, 255, 0.05)),
+                radial-gradient(circle at 30% 28%, rgba(17, 139, 123, 0.22), transparent 55%);
+            box-shadow: inset 0 1px 0 rgba(162, 60, 60, 0.42);
+            animation: floatTile 18s ease-in-out infinite;
+        }
+
+        .auth-orbit-field span:nth-child(1) {
+            left: 8%;
+            top: 14%;
+            transform: rotate(12deg);
+        }
+
+        .auth-orbit-field span:nth-child(2) {
+            right: 10%;
+            top: 16%;
+            width: 5.5rem;
+            border-radius: 999px;
+            animation-delay: -4s;
+        }
+
+        .auth-orbit-field span:nth-child(3) {
+            left: 11%;
+            bottom: 15%;
+            width: 6rem;
+            animation-delay: -8s;
+        }
+
+        .auth-orbit-field span:nth-child(4) {
+            right: 18%;
+            bottom: 10%;
+            width: 8.5rem;
+            border-radius: 34px;
+            animation-delay: -12s;
+        }
+
+        @keyframes driftGlow {
+            from {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+            to {
+                transform: translate3d(3rem, 2rem, 0) scale(1.08);
+            }
+        }
+
+        @keyframes floatTile {
+            0%, 100% {
+                transform: translate3d(0, 0, 0) rotate(10deg);
+            }
+            50% {
+                transform: translate3d(1.2rem, -1.4rem, 0) rotate(18deg);
+            }
+        }
+
         .login-wrapper {
+            position: relative;
+            z-index: 1;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -45,8 +156,11 @@
             grid-template-columns: minmax(320px, 0.44fr) minmax(480px, 0.56fr);
             overflow: hidden;
             border-radius: 22px;
-            background: #ffffff;
-            box-shadow: 0 28px 80px rgba(46, 53, 120, 0.22);
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 32px 90px rgba(46, 53, 120, 0.22), inset 0 1px 0 rgba(255,255,255,0.7);
         }
 
         .auth-form-panel {
@@ -55,6 +169,7 @@
             flex-direction: column;
             justify-content: flex-start;
             gap: 0.25rem;
+            margin-top: 50px;
         }
 
         .brand-lockup {
@@ -256,62 +371,15 @@
             margin-bottom: 0.35rem;
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: #85859a;
-            font-size: 0.7rem;
-            margin: 0.3rem 0 0.4rem;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-            height: 1px;
-            flex: 1;
-            background: var(--auth-line);
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.7rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .social-btn {
-            min-height: 36px;
-            border: 1.5px solid var(--auth-line);
-            border-radius: 10px;
-            background: #ffffff;
-            color: #26273d;
-            font-weight: 700;
-            font-size: 0.7rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.3rem;
-            padding: 0.4rem 0.6rem;
-            box-shadow: 0 2px 8px rgba(23, 23, 47, 0.03);
-            transition: all 0.2s ease;
-        }
-
-        .social-btn:hover {
-            border-color: var(--auth-purple);
-            box-shadow: 0 4px 12px rgba(109, 77, 242, 0.12);
-        }
-
-        .social-btn i {
-            font-size: 0.85rem;
-        }
-
         .terms-note {
             color: #85859a;
             font-size: 0.65rem;
-            margin-top: 0.2rem;
-            padding-top: 0.3rem;
+            margin-top: 0.8rem;
+            padding: 0.75rem 0.8rem;
             border-top: 1px solid var(--auth-line);
+            background: rgba(99, 102, 241, 0.06);
+            border: 1px solid rgba(99, 102, 241, 0.12);
+            border-radius: 12px;
             line-height: 1.25;
         }
 
@@ -320,7 +388,9 @@
             overflow: hidden;
             padding: 2.2rem 2.6rem;
             color: #ffffff;
-            background: #3b6ef5;
+            background:
+                radial-gradient(circle at 88% 18%, rgba(21, 71, 64, 0.32), transparent 24%),
+                linear-gradient(145deg, #1d4ed8 0%, #4f46e5 48%, #7c3aed 100%);
         }
         .auth-showcase::before {
             content: "";
@@ -704,8 +774,7 @@
                 margin-bottom: 1rem;
             }
 
-            .role-grid,
-            .social-grid {
+            .role-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -780,6 +849,14 @@
     </style>
 </head>
 <body>
+    <canvas class="auth-bg-canvas" id="authBgCanvas" aria-hidden="true"></canvas>
+    <div class="auth-bg-glow" aria-hidden="true"></div>
+    <div class="auth-orbit-field" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <main class="login-wrapper">
         <section class="auth-shell">
             <div class="auth-form-panel">
@@ -794,7 +871,9 @@
                 </div>
 
                 <h1 class="auth-heading">Welcome Back!</h1>
-                <p class="auth-copy">Please sign in to continue to your account</p>
+                <p class="auth-copy">Sign in to manage projects, tasks, and team updates.</p>
+
+                <div id="loginAlert"></div>
 
                 <form id="loginForm">
                     <div class="mb-3">
@@ -852,26 +931,9 @@
                     </button>
                 </form>
 
-                <div class="divider">or continue with</div>
-
-                <div class="social-grid">
-                    <button type="button" class="btn social-btn" aria-label="Continue with Google">
-                        <i class="fa-brands fa-google" style="color:#ea4335;"></i>
-                        <span>Continue with Google</span>
-                    </button>
-                    <button type="button" class="btn social-btn" aria-label="Continue with GitHub">
-                        <i class="fa-brands fa-github"></i>
-                        <span>Continue with GitHub</span>
-                    </button>
-                </div>
-
-                <p class="text-center mt-3 mb-0 small text-secondary-custom">
-                    Don't have an account? <a href="register.html" class="auth-link">Sign Up</a>
-                </p>
-
                 <p class="terms-note text-center mb-0">
                     <i class="fa-solid fa-shield-halved me-2" style="color:#6d4df2;"></i>
-                    By signing in, you agree to our <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a>
+                    Secure workspace access for verified WorkHub users.
                 </p>
             </div>
 
@@ -889,7 +951,7 @@
                         <div class="login-visual-slider">
                             <div class="login-visual-track">
                                 <div class="login-visual-slide">
-                                    <img class="boy-image" src="assets/images/login-boy-1.jpg" alt="Person working at desk" onerror="this.style.display='none'">
+                                    <img class="boy-image" src="assets/images/login-boy-4.jpg" alt="Person working at desk" onerror="this.style.display='none'">
                                     <div class="image-fallback" aria-hidden="true">
                                         <div class="person-visual">
                                             <div class="beanbag"></div>
@@ -903,7 +965,7 @@
                                     </div>
                                 </div>
                                 <div class="login-visual-slide">
-                                    <img class="boy-image" src="assets/images/login-boy-2.png" alt="Project dashboard with laptop user" onerror="this.style.display='none'">
+                                    <img class="boy-image" src="assets/images/s1-1.png" alt="Project dashboard with laptop user" onerror="this.style.display='none'">
                                     <div class="image-fallback" aria-hidden="true">
                                         <div class="person-visual">
                                             <div class="beanbag"></div>
@@ -917,7 +979,7 @@
                                     </div>
                                 </div>
                                 <div class="login-visual-slide">
-                                    <img class="boy-image" src="assets/images/login-boy-3.jpg" alt="Office support desk" onerror="this.style.display='none'">
+                                    <img class="boy-image" src="assets/images/login-boy-3.png" alt="Office support desk" onerror="this.style.display='none'">
                                     <div class="image-fallback" aria-hidden="true">
                                         <div class="person-visual">
                                             <div class="beanbag"></div>
@@ -964,6 +1026,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            const bgCanvas = document.getElementById("authBgCanvas");
+            const bgCtx = bgCanvas?.getContext("2d");
             const passwordInput = document.getElementById("password");
             const toggleButton = document.querySelector(".password-toggle");
             const toggleIcon = toggleButton.querySelector("i");
@@ -974,6 +1038,94 @@
             const nextButton = document.querySelector(".slide-arrow.next");
             const totalSlides = slideDots.length;
             let currentSlide = 0;
+
+            if (bgCanvas && bgCtx) {
+                const pointer = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
+                const particles = [];
+                const colors = ["#14b8a6", "#4f46e5", "#ec4899", "#0ea5e9"];
+                let canvasWidth = 0;
+                let canvasHeight = 0;
+
+                const resizeCanvas = () => {
+                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+                    canvasWidth = window.innerWidth;
+                    canvasHeight = window.innerHeight;
+                    bgCanvas.width = canvasWidth * ratio;
+                    bgCanvas.height = canvasHeight * ratio;
+                    bgCanvas.style.width = `${canvasWidth}px`;
+                    bgCanvas.style.height = `${canvasHeight}px`;
+                    bgCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+                    particles.length = 0;
+                    const particleCount = Math.min(76, Math.max(42, Math.floor(canvasWidth / 18)));
+                    for (let i = 0; i < particleCount; i += 1) {
+                        particles.push({
+                            x: Math.random() * canvasWidth,
+                            y: Math.random() * canvasHeight,
+                            vx: (Math.random() - 0.5) * 0.34,
+                            vy: (Math.random() - 0.5) * 0.34,
+                            radius: Math.random() * 2 + 1.2,
+                            color: colors[i % colors.length]
+                        });
+                    }
+                };
+
+                const drawBackground = () => {
+                    bgCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+                    particles.forEach((particle, index) => {
+                        const dx = pointer.x - particle.x;
+                        const dy = pointer.y - particle.y;
+                        const distance = Math.hypot(dx, dy);
+                        if (distance < 170) {
+                            particle.x -= dx * 0.0016;
+                            particle.y -= dy * 0.0016;
+                        }
+
+                        particle.x += particle.vx;
+                        particle.y += particle.vy;
+
+                        if (particle.x < -20) particle.x = canvasWidth + 20;
+                        if (particle.x > canvasWidth + 20) particle.x = -20;
+                        if (particle.y < -20) particle.y = canvasHeight + 20;
+                        if (particle.y > canvasHeight + 20) particle.y = -20;
+
+                        bgCtx.beginPath();
+                        bgCtx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                        bgCtx.fillStyle = `${particle.color}66`;
+                        bgCtx.fill();
+
+                        for (let next = index + 1; next < particles.length; next += 1) {
+                            const other = particles[next];
+                            const gap = Math.hypot(particle.x - other.x, particle.y - other.y);
+                            if (gap < 118) {
+                                bgCtx.beginPath();
+                                bgCtx.moveTo(particle.x, particle.y);
+                                bgCtx.lineTo(other.x, other.y);
+                                bgCtx.strokeStyle = `rgba(79, 70, 229, ${0.11 * (1 - gap / 118)})`;
+                                bgCtx.lineWidth = 1;
+                                bgCtx.stroke();
+                            }
+                        }
+                    });
+
+                    requestAnimationFrame(drawBackground);
+                };
+
+                window.addEventListener("resize", resizeCanvas);
+                window.addEventListener("mousemove", (event) => {
+                    pointer.x = event.clientX;
+                    pointer.y = event.clientY;
+                });
+                window.addEventListener("touchmove", (event) => {
+                    const touch = event.touches[0];
+                    if (!touch) return;
+                    pointer.x = touch.clientX;
+                    pointer.y = touch.clientY;
+                }, { passive: true });
+
+                resizeCanvas();
+                drawBackground();
+            }
 
             toggleButton.addEventListener("click", () => {
                 const isPassword = passwordInput.type === "password";
