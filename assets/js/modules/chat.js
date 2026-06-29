@@ -154,7 +154,7 @@ window.PageModules['chat'] = async function () {
     };
 
     const getWsBase = () => {
-        const apiUrl = new URL(window.API_BASE || 'http://localhost:8000/api');
+        const apiUrl = new URL(window.API_BASE || 'https://backend-257r.onrender.com/api');
         apiUrl.protocol = apiUrl.protocol === 'https:' ? 'wss:' : 'ws:';
         apiUrl.pathname = '';
         apiUrl.search = '';
