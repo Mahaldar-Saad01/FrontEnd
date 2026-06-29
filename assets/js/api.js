@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    const API_BASE = 'http://localhost:8000/api';
+    const API_BASE = 'https://backend-257r.onrender.com/api';
 
     const WorkHubAPI = {
 
