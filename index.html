@@ -4,100 +4,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorkHub - Project Management System</title>
+    <title>WorkHub - Smart Project Management System</title>
+    <meta name="description" content="WorkHub brings projects, tasks, teams, departments, reports, calendar, notifications, chat, and profile management into one role-based workspace.">
 
-    <!-- Inline Auth Check to prevent flash of unauthenticated page -->
-    <script>
-        if (!localStorage.getItem("currentUser")) {
-            window.location.href = "login.html";
-        }
-    </script>
-
-    <!-- Bootstrap & FontAwesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Common Styling System -->
     <link rel="stylesheet" href="assets/css/common/base.css">
     <link rel="stylesheet" href="assets/css/common/layout.css">
     <link rel="stylesheet" href="assets/css/common/components.css">
     <link rel="stylesheet" href="assets/css/common/forms.css">
     <link rel="stylesheet" href="assets/css/common/dashboard.css">
-
-    <!-- Page Specific Stylesheets -->
     <link rel="stylesheet" href="assets/css/pages/chat.css">
     <link rel="stylesheet" href="assets/css/pages/calendar.css">
     <link rel="stylesheet" href="assets/css/pages/kanban.css">
     <link rel="stylesheet" href="assets/css/pages/projects.css">
     <link rel="stylesheet" href="assets/css/pages/tasks.css">
     <link rel="stylesheet" href="assets/css/pages/employees.css">
-
-    <!-- Chart.js for dashboard widgets -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/pages/reports.css">
+    <link rel="stylesheet" href="assets/css/pages/landing.css">
 </head>
 
-<body class="m-0 p-0 text-white" style="background-color:#0b0f19; overflow:hidden;">
-    <div class="d-flex vh-100 vw-100 overflow-hidden">
-        <!-- Injected Sidebar -->
-        <div id="sidebar-container"></div>
+<body class="landing-body">
+    <header class="landing-nav">
+        <a class="landing-brand" href="#top" aria-label="WorkHub home">
+            <span class="landing-brand-mark"><i class="fa-solid fa-diagram-project"></i></span>
+            <span>
+                <strong style="color: black;">WorkHub</strong>
+                <small>Smart Project Management</small>
+            </span>
+        </a>
+        <nav class="landing-nav-links" aria-label="Landing page navigation">
+            <a href="#features">Features</a>
+            <a href="#details">Preview</a>
+            <a href="#gallery">Gallery</a>
+        </nav>
+        <a class="btn btn-primary-custom landing-login-btn" href="login.html">
+            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Login
+        </a>
+    </header>
 
-        <div class="d-flex flex-column flex-grow-1 min-vh-100 overflow-hidden">
-            <!-- Injected Navbar -->
-            <div id="navbar-container"></div>
+    <main id="top">
+        <section class="landing-hero">
+            <div class="landing-hero-copy">
+                <span class="landing-kicker"><i class="fa-solid fa-shield-halved"></i> Role-based workspace for real project teams</span>
+                <h1>WorkHub</h1>
+                <p>
+                    A deployed smart project management system for planning projects, assigning tasks, organizing departments,
+                    tracking reports, scheduling events, and keeping team communication in one place.
+                </p>
+                <div class="landing-actions">
+                    <a class="btn btn-primary-custom btn-lg" href="login.html">
+                        <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Login
+                    </a>
+                    <a class="btn btn-secondary-custom btn-lg" href="#features">
+                        <i class="fa-solid fa-layer-group me-2"></i>View Features
+                    </a>
+                </div>
+                <div class="landing-hero-metrics" aria-label="WorkHub feature areas">
+                    <span><strong>3</strong> Roles</span>
+                    <span><strong>12</strong> Core Pages</span>
+                    <span><strong>Live</strong> Collaboration</span>
+                </div>
+            </div>
 
-            <!-- Main Render Area -->
-            <main id="main-content" class="flex-grow-1 overflow-auto p-0">
-                <div class="d-flex h-100 align-items-center justify-content-center text-secondary">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            <div class="hero-preview-shell" aria-label="Dashboard preview">
+                <div class="preview-window large dashboard-preview">
+                    <div class="preview-topbar">
+                        <span></span><span></span><span></span>
+                        <strong>Admin Dashboard</strong>
+                    </div>
+                    <div class="dashboard-banner mini-banner">
+                        <div>
+                            <small>Performance Overview</small>
+                            <h3>87% Project Success Rate</h3>
+                            <p>Projects are progressing better than last month.</p>
+                        </div>
+                        <div class="banner-pill">+18% Growth</div>
+                    </div>
+                    <div class="mini-stat-grid">
+                        <div class="stat-card mini-stat">
+                            <div class="stat-card-top"><span>Active Projects</span><i class="fa-solid fa-folder-open text-primary"></i></div>
+                            <h3>5</h3><small class="trend-up">+12% vs last month</small>
+                        </div>
+                        <div class="stat-card mini-stat">
+                            <div class="stat-card-top"><span>Departments</span><i class="fa-solid fa-building text-info"></i></div>
+                            <h3>4</h3><small>Steady</small>
+                        </div>
+                        <div class="stat-card mini-stat">
+                            <div class="stat-card-top"><span>Employees</span><i class="fa-solid fa-users text-warning"></i></div>
+                            <h3>12</h3><small class="trend-up">+2 new hires</small>
+                        </div>
+                    </div>
+                    <div class="mini-chart-row">
+                        <div class="mini-donut"></div>
+                        <div class="mini-bars"><span></span><span></span><span></span><span></span></div>
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
+            </div>
+        </section>
 
-    <!-- Bootstrap Bundle -->
+        <section class="landing-section" id="features">
+            <div class="section-heading">
+                <span class="landing-kicker">Feature Preview Cards</span>
+                <h2>Built from the pages already inside WorkHub</h2>
+                <p>Each card mirrors a real WorkHub screen or component: dashboard stats, directories, kanban lanes, chat, calendar, notifications, reports, profile, and authentication.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-dashboard">
+                        <div class="mini-banner compact"><strong>87%</strong><span>Project Success Rate</span></div>
+                        <div class="mini-stat-grid compact"><span></span><span></span><span></span></div>
+                    </div>
+                    <h3>Dashboard</h3>
+                    <p>Role dashboards summarize active projects, approvals, departments, employees, charts, and unread messages.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-table">
+                        <div class="table-line head"></div><div class="table-line"></div><div class="table-line"></div><div class="table-line"></div>
+                    </div>
+                    <h3>Projects</h3>
+                    <p>Project directory tracks managers, departments, status, progress, and project PDF documents.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-filters">
+                        <div class="filter-pill"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <span class="badge-status-progress">In Progress</span>
+                        <span class="badge-priority-high">High</span>
+                    </div>
+                    <h3>Tasks</h3>
+                    <p>Task screens support search, priority filters, status filters, assignments, and status tracking.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-people">
+                        <span>JD</span><span>AM</span><span>SK</span>
+                        <div class="table-line"></div><div class="table-line short"></div>
+                    </div>
+                    <h3>Employees</h3>
+                    <p>Admin personnel tools manage employee records, roles, departments, status, and registration.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-team">
+                        <div class="workload-card"></div><div class="workload-card tall"></div><div class="workload-card"></div>
+                    </div>
+                    <h3>Teams</h3>
+                    <p>Manager team pages show workloads so work can be balanced across the department.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-depts">
+                        <div><i class="fa-solid fa-building"></i><span>Engineering</span></div>
+                        <div><i class="fa-solid fa-sitemap"></i><span>QA</span></div>
+                    </div>
+                    <h3>Departments</h3>
+                    <p>Department management organizes structures, leaders, headcounts, and member details.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-reports">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <h3>Reports</h3>
+                    <p>Reports help managers and admins review project activity, workload, and progress patterns.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-notifications">
+                        <div><i class="fa-solid fa-check-double"></i><span>Mark all read</span></div>
+                        <div><i class="fa-regular fa-bell"></i><span>Project milestone</span></div>
+                    </div>
+                    <h3>Notifications</h3>
+                    <p>Notifications track system activity and project milestones with read and clear actions.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-calendar">
+                        <div class="calendar-head">June 2026</div>
+                        <div class="calendar-dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                    </div>
+                    <h3>Calendar</h3>
+                    <p>User-scoped calendar events help teams schedule sprint meetings, client syncs, reviews, and plans.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-chat">
+                        <span class="bubble incoming"></span><span class="bubble outgoing"></span><span class="send-dot"><i class="fa-solid fa-paper-plane"></i></span>
+                    </div>
+                    <h3>Chat</h3>
+                    <p>Team chat and direct messages keep collaboration close to tasks, timeline, and day plans.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-profile">
+                        <div class="profile-orb"></div>
+                        <div class="locked-row"></div>
+                        <div class="locked-row short"></div>
+                    </div>
+                    <h3>Profile</h3>
+                    <p>Users can update personal identity details while role and department remain controlled by admins.</p>
+                </article>
+
+                <article class="feature-card reveal-card">
+                    <div class="feature-mini feature-auth">
+                        <span>Admin</span><span>Manager</span><span>Employee</span>
+                    </div>
+                    <h3>Login/Register</h3>
+                    <p>Secure auth supports role selection, employee registration, password recovery, and first-login password change.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="landing-section detail-section" id="details">
+            <div class="section-heading">
+                <span class="landing-kicker">Feature Detail Sections</span>
+                <h2>Important WorkHub screens, shown larger</h2>
+            </div>
+
+            <article class="detail-row">
+                <div class="detail-preview preview-window">
+                    <div class="preview-topbar"><span></span><span></span><span></span><strong>Project Directory</strong></div>
+                    <div class="mock-toolbar">
+                        <div><h4>Project Directory</h4><small>Monitor team progress, budgets, and managers</small></div>
+                        <button class="btn btn-primary-custom btn-sm"><i class="fa-solid fa-plus me-1"></i>Add Project</button>
+                    </div>
+                    <table class="mock-table">
+                        <thead><tr><th>Project Name</th><th>Lead Manager</th><th>Status</th><th>Progress</th></tr></thead>
+                        <tbody>
+                            <tr><td>WorkHub Platform</td><td>Manager</td><td><span class="badge-status-progress">Active</span></td><td><div class="progress-line w-75"></div></td></tr>
+                            <tr><td>Client Portal</td><td>Team Lead</td><td><span class="badge-status-review">Pending</span></td><td><div class="progress-line w-50"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="detail-copy">
+                    <span class="landing-kicker">Projects and documents</span>
+                    <h3>Control project ownership and documentation from one directory.</h3>
+                    <p>The Projects page exposes project name, manager, department, document previews, status, progress, and actions. It also uses your existing modal pattern for creating projects and previewing PDF documents.</p>
+                </div>
+            </article>
+
+            <article class="detail-row reverse">
+                <div class="detail-preview preview-window">
+                    <div class="preview-topbar"><span></span><span></span><span></span><strong>Sprint Kanban Board</strong></div>
+                    <div class="mock-kanban">
+                        <div><h5>To Do</h5><article>API cleanup<span>High</span></article></div>
+                        <div><h5>In Progress</h5><article>Dashboard charts<span>Medium</span></article></div>
+                        <div><h5>In Review</h5><article>PDF preview<span>Review</span></article></div>
+                        <div><h5>Completed</h5><article>Calendar scope<span>Done</span></article></div>
+                    </div>
+                </div>
+                <div class="detail-copy">
+                    <span class="landing-kicker">Tasks and kanban</span>
+                    <h3>Move work through the same statuses used by your task system.</h3>
+                    <p>WorkHub already supports task filtering, assignment views, and drag-and-drop kanban status updates across To Do, In Progress, In Review, and Completed.</p>
+                </div>
+            </article>
+
+            <article class="detail-row">
+                <div class="detail-preview preview-window chat-detail">
+                    <div class="preview-topbar"><span></span><span></span><span></span><strong>Team Chat</strong></div>
+                    <div class="mock-chat">
+                        <aside><h5>Messages</h5><div class="search-pill"></div><div class="chat-contact active">Team Chat</div><div class="chat-contact">Ava Manager</div></aside>
+                        <section><header>Team Chat <small>Everyone in the workspace</small></header><p class="message in">Sprint review is ready.</p><p class="message out">I will check the tasks now.</p><footer>Write a message... <i class="fa-solid fa-paper-plane"></i></footer></section>
+                        <aside><h5>Timeline</h5><div class="mini-calendar-card"></div><small>Plans for the day</small></aside>
+                    </div>
+                </div>
+                <div class="detail-copy">
+                    <span class="landing-kicker">Communication and schedule</span>
+                    <h3>Chat, timeline, and calendar context stay together.</h3>
+                    <p>The Chat page includes team/direct messaging, a message composer, online users, a timeline panel, and calendar day plans powered by the event system.</p>
+                </div>
+            </article>
+        </section>
+
+        <section class="landing-section gallery-section" id="gallery">
+            <div class="section-heading">
+                <span class="landing-kicker">Screenshots / Preview Gallery</span>
+                <h2>Scrollable previews of existing WorkHub pages</h2>
+            </div>
+            <div class="preview-gallery" aria-label="WorkHub page preview gallery">
+                <article><i class="fa-solid fa-chart-pie"></i><strong>Dashboard</strong><span>Stats, banners, charts</span></article>
+                <article><i class="fa-solid fa-folder-open"></i><strong>Projects</strong><span>Directory and docs</span></article>
+                <article><i class="fa-solid fa-list-check"></i><strong>Tasks</strong><span>Filters and status</span></article>
+                <article><i class="fa-solid fa-users"></i><strong>Employees</strong><span>Roles and departments</span></article>
+                <article><i class="fa-solid fa-people-group"></i><strong>Teams</strong><span>Manager workload view</span></article>
+                <article><i class="fa-solid fa-building"></i><strong>Departments</strong><span>Leads and members</span></article>
+                <article><i class="fa-solid fa-file-lines"></i><strong>Reports</strong><span>Progress review</span></article>
+                <article><i class="fa-regular fa-bell"></i><strong>Notifications</strong><span>Activity log</span></article>
+                <article><i class="fa-regular fa-calendar"></i><strong>Calendar</strong><span>Events and agenda</span></article>
+                <article><i class="fa-regular fa-comments"></i><strong>Chat</strong><span>Team messages</span></article>
+                <article><i class="fa-regular fa-user"></i><strong>Profile</strong><span>Account center</span></article>
+                <article><i class="fa-solid fa-arrow-right-to-bracket"></i><strong>Login/Register</strong><span>Secure entry</span></article>
+            </div>
+        </section>
+
+        <section class="landing-cta">
+            <div>
+                <span class="landing-kicker">Ready to continue?</span>
+                <h2>Open your WorkHub workspace.</h2>
+                <p>Login takes you to the role-based application shell. This landing page stays public until the Login button is clicked.</p>
+            </div>
+            <a class="btn btn-primary-custom btn-lg" href="login.html">
+                <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Go to Login
+            </a>
+        </section>
+    </main>
+
+    <footer class="landing-footer">
+        <span>WorkHub</span>
+        <span>Smart Project Management System</span>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Jitsi Meet — loaded globally for video calls -->
-    <script src="https://meet.jit.si/external_api.js"></script>
-
-    <!-- API Layer (must load first) -->
-    <script src="assets/js/api.js"></script>
-
-    <!-- App Controller & Registry -->
-    <script src="assets/js/app.js"></script>
-
-    <!-- Components and Utilities -->
-    <script src="assets/js/components/navbar.js"></script>
-    <script src="assets/js/components/sidebar.js"></script>
-    <script src="assets/js/components/charts.js"></script>
-    <script src="assets/js/components/modal.js"></script>
-
-    <!-- Auth Handling -->
-    <script src="assets/js/auth/logout.js"></script>
-
-    <!-- Common Page Modules -->
-    <script src="assets/js/modules/chat.js"></script>
-    <script src="assets/js/modules/calender.js"></script>
-    <script src="assets/js/modules/meetings.js"></script>
-    <script src="assets/js/modules/notifications.js"></script>
-
-    <!-- Role Page Dashboards -->
-    <script src="assets/js/dashboard/admin-dashboard.js"></script>
-    <script src="assets/js/dashboard/manager-dashboard.js"></script>
-    <script src="assets/js/dashboard/employee-dashboard.js"></script>
-
-    <!-- Page Specific Modules -->
-    <script src="assets/js/modules/projects.js"></script>
-    <script src="assets/js/modules/approvals.js"></script>
-    <script src="assets/js/modules/tasks.js"></script>
-    <script src="assets/js/modules/kanban.js"></script>
-    <script src="assets/js/modules/reviews.js"></script>
-    <script src="assets/js/modules/departments.js"></script>
-    <script src="assets/js/modules/employees.js"></script>
-    <script src="assets/js/modules/reports.js"></script>
-    <script src="assets/js/modules/files.js"></script>
-    <script src="assets/js/modules/settings.js"></script>
+    <script src="assets/js/modules/landing.js"></script>
 </body>
 
 </html>
