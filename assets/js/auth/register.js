@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // ── Show simulated email modal ─────────────────────────
+            // Show confirmation that the backend sent the email.
             const emailTo   = document.getElementById("email-to");
             const emailName = document.getElementById("email-name");
             const emailVal  = document.getElementById("email-val");
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (emailTo) emailTo.textContent = email;
             if (emailName) emailName.textContent = fullName;
             if (emailVal) emailVal.textContent = email;
-            if (emailPass) emailPass.textContent = '(sent via email — check terminal console)';
+            if (emailPass) emailPass.textContent = '(sent to employee email inbox)';
 
             const modal = new bootstrap.Modal(document.getElementById("emailSentModal"));
             modal.show();
