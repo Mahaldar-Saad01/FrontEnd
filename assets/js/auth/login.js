@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // ── Redirect to main app ──────────────────────────────
-            window.location.href = "index.html";
+            window.location.href = "app.html";
 
         } catch (err) {
             console.error('Login error:', err);
