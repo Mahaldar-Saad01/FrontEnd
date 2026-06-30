@@ -129,16 +129,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Show confirmation that the backend sent the email.
+            // Show confirmation. On Render, SMTP can be unavailable; the API returns
+            // the temporary password only to the authenticated admin in that fallback.
             const emailTo   = document.getElementById("email-to");
             const emailName = document.getElementById("email-name");
             const emailVal  = document.getElementById("email-val");
             const emailPass = document.getElementById("email-password");
+            const emailSent = data.credentials_email_sent !== false;
 
             if (emailTo) emailTo.textContent = email;
             if (emailName) emailName.textContent = fullName;
             if (emailVal) emailVal.textContent = email;
-            if (emailPass) emailPass.textContent = '(sent to employee email inbox)';
+            if (emailPass) {
+                emailPass.textContent = emailSent
+                    ? '(sent to employee email inbox)'
+                    : (data.temporary_password || 'Email failed. Check server logs.');
+            }
+
+            if (!emailSent && data.detail) {
+                alert(data.detail);
+            }
 
             const modal = new bootstrap.Modal(document.getElementById("emailSentModal"));
             modal.show();
